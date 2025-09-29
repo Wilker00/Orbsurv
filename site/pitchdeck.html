@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Orbsurv Pitch Deck</title>
+
+  <link rel="icon" type="image/x-icon" href="/Image/Group 213.png"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+  <!-- external CSS moved from the <style> block -->
+  <link rel="stylesheet" href="css/pitchdeck.css"/>
+</head>
+
+<body>
+  <header>
+    <div class="wrap nav-container">
+      <div class="logo">Orbsurv</div>
+
+      <div class="nav-actions">
+        <label class="theme-switch" for="theme-toggle" aria-label="Toggle theme">
+          <input type="checkbox" id="theme-toggle"/>
+          <div class="slider">
+            <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </div>
+        </label>
+
+        <a href="index.html" class="btn btn-secondary">Back to Landing</a>
+        <a href="demo.html" class="btn btn-primary">Go to Demo</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Slide 1: Title -->
+    <section class="slide" id="title-slide">
+      <div class="wrap center">
+        <img src="/Image/Group 213.png" alt="Orbsurv logo" style="height:100px;margin-bottom:24px">
+        <h1>Orbsurv</h1>
+        <p class="lead" style="font-size: 1.25rem; max-width: 60ch; margin: 0 auto; color: var(--ink);">
+          Smart, adaptive panoramic surveillance for homes, businesses, and cities.
+        </p>
+      </div>
+    </section>
+
+    <!-- Slide 2: The Problem -->
+    <section class="slide section-alt" id="problem-slide">
+      <div class="wrap grid-cols-2">
+        <div class="card">
+          <h2>The Problem</h2>
+          <p>Traditional fixed cameras are failing to provide adequate security in modern spaces.</p>
+          <ul style="color:var(--mute); margin-left:1rem; list-style-type: disc;">
+            <li><strong>Blind Spots:</strong> Static viewpoints mean large areas are left unmonitored.</li>
+            <li><strong>High Costs:</strong> Multiple cameras are needed for full coverage, increasing hardware and installation costs.</li>
+            <li><strong>Reactive, Not Proactive:</strong> Most systems only alert you after an event has already occurred.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <img src="https://placehold.co/600x400/E5E7EB/6B7280?text=Problem+Visualization" alt="Diagram showing multiple fixed cameras with gaps in coverage." style="width:100%; border-radius:var(--radius-xl);">
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 3: The Solution -->
+    <section class="slide" id="solution-slide">
+      <div class="wrap grid-cols-2">
+        <div class="card">
+          <img src="https://placehold.co/600x400/E5E7EB/6B7280?text=Orbsurv+in+Action" alt="Diagram showing a single Orbsurv camera covering an entire hallway." style="width:100%; border-radius:var(--radius-xl);">
+        </div>
+        <div class="card">
+          <h2>The Solution</h2>
+          <p>Orbsurv is a singular, intelligent system that actively monitors your entire space.</p>
+          <ul style="color:var(--mute); margin-left:1rem; list-style-type: disc;">
+            <li><strong>Panoramic Coverage:</strong> One camera moves to eliminate blind spots.</li>
+            <li><strong>Smart AI:</strong> On-device processing detects people, pets, and vehicles while ignoring "noise".</li>
+            <li><strong>Learning & Adapting:</strong> The system learns your space and patterns to improve over time.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4: Product Snapshot -->
+    <section class="slide section-alt" id="product-slide">
+      <div class="wrap grid-cols-2">
+        <div class="card" style="text-align: center;" role="figure" aria-label="Product Snapshot">
+          <img src="https://placehold.co/600x400/E5E7EB/6B7280?text=Product+Snapshot" alt="A sleek, white Orbsurv camera unit mounted on its rail." style="width:100%; border-radius:var(--radius-xl);">
+        </div>
+        <div class="card">
+          <h2>Product Snapshot</h2>
+          <p>A sleek, modular rail system with an autonomous AI camera unit.</p>
+          <ul style="color:var(--mute); margin-left:1rem; list-style-type: disc;">
+            <li><strong>What:</strong> A camera on a motorized rail.</li>
+            <li><strong>Who:</strong> Homeowners and small business owners.</li>
+            <li><strong>Why:</strong> To provide complete, intelligent, and affordable surveillance.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 5: Insight / Unfair Advantage -->
+    <section class="slide" id="advantage-slide">
+      <div class="wrap">
+        <div class="card center">
+          <h2>Our Unfair Advantage</h2>
+          <p style="font-size: 1.25rem;">We combine <span class="glowing-text">Mobility</span> with <span class="glowing-text">Intelligence</span>.</p>
+          <p>Our unique rail system and on-device AI create a new category of security that is both proactive and comprehensive, unlike any other solution on the market today.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 6: Market -->
+    <section class="slide section-alt" id="market-slide">
+      <div class="wrap center">
+        <h2>Global Surveillance Market</h2>
+        <h1 id="market-counter" style="margin-bottom: 24px;">0</h1>
+        <p style="max-width: 60ch; margin: 0 auto; color: var(--ink);">
+          We are entering a massive and growing market, targeting the underserved segment of consumers who need more than fixed cameras but find professional systems too costly and complex.
+        </p>
+        <ul style="display:flex; justify-content:center; gap: 48px; margin-top: 32px; list-style-type: none;">
+          <li><p><strong>Entry:</strong> Home security.</p></li>
+          <li><p><strong>Expansion:</strong> Small-to-medium businesses.</p></li>
+          <li><p><strong>Future:</strong> Smart city infrastructure.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Slide 7: Traction / Progress -->
+    <section class="slide" id="traction-slide">
+      <div class="wrap">
+        <h2>Traction & Roadmap</h2>
+        <div class="timeline">
+          <div class="timeline-item card">
+            <h3>Q1 2024</h3>
+            <p>Initial prototype and patent filings.</p>
+          </div>
+          <div class="timeline-item card">
+            <h3>Q3 2024</h3>
+            <p>Pilot program launch with 50 users.</p>
+          </div>
+          <div class="timeline-item card">
+            <h3>Q1 2025</h3>
+            <p>First production run and public sales launch.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 8: Business Model -->
+    <section class="slide section-alt" id="business-slide">
+      <div class="wrap">
+        <h2>Business Model</h2>
+        <p style="max-width: 60ch; margin: 0 auto; text-align: center;">A dual-stream revenue model ensures both upfront and recurring income.</p>
+        <div class="features-grid" style="margin-top: 32px;">
+          <div class="card">
+            <h3>Hardware</h3>
+            <p>Sell the Orbsurv camera and modular rail kits with high-margin pricing.</p>
+          </div>
+          <div class="card">
+            <h3>Subscription</h3>
+            <p>Monthly subscription for cloud storage, advanced AI features, and remote support.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 9: Competition -->
+    <section class="slide" id="competition-slide">
+      <div class="wrap">
+        <h2>Competition</h2>
+        <div class="table-container">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Fixed Cameras (Ring/Nest)</th>
+                <th>Traditional PTZ</th>
+                <th style="background-color: var(--accent-color); color: var(--bg);">Orbsurv</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Coverage</td>
+                <td>Blind spots</td>
+                <td>Limited fixed arcs</td>
+                <td style="background-color: var(--card-bg);"><strong>Panoramic, adaptive</strong></td>
+              </tr>
+              <tr>
+                <td>Intelligence</td>
+                <td>Basic motion</td>
+                <td>Basic motion</td>
+                <td style="background-color: var(--card-bg);"><strong>Advanced on-device AI</strong></td>
+              </tr>
+              <tr>
+                <td>Installation</td>
+                <td>Easy</td>
+                <td>Complex, professional</td>
+                <td style="background-color: var(--card-bg);"><strong>Modular, simple DIY</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 10: Team -->
+    <section class="slide section-alt" id="team-slide">
+      <div class="wrap center">
+        <h2>Team</h2>
+        <div class="features-grid" style="justify-items:center" role="list">
+          <div class="card" style="text-align:center">
+            <img src="https://placehold.co/100x100/E5E7EB/6B7280?text=K" alt="Kiff Simon avatar" class="avatar">
+            <h3>Kiff Simon</h3>
+            <p>Founder — engineer, builder, operator</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Slide 11: Ask -->
+    <section class="slide" id="ask-slide">
+      <div class="wrap center">
+        <div class="card glowing-border">
+          <h2 style="color: var(--ink);">Raising $X pre-seed</h2>
+          <p style="font-size: 1.25rem;">Join us on our journey to redefine home and business security.</p>
+          <ul style="color:var(--mute); margin-left:1rem; list-style-type: disc; text-align: left; display: inline-block;">
+            <li><strong>50%</strong> - R&D for next-gen sensors.</li>
+            <li><strong>30%</strong> - Manufacturing and supply chain.</li>
+            <li><strong>20%</strong> - Sales and marketing.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 12: Vision -->
+    <section class="slide section-alt" id="vision-slide">
+      <div class="wrap center">
+        <h2>Our Vision</h2>
+        <div style="display:flex; justify-content:center; align-items: center; gap: 24px; margin-top: 32px; flex-wrap:wrap;" role="list">
+          <div class="card" style="text-align: center; width: 250px;">
+            <h3>Today</h3>
+            <p>Home Security Pilot</p>
+          </div>
+          <i class="fa-solid fa-arrow-right" style="font-size: 2rem; color: var(--mute);" aria-hidden="true"></i>
+          <div class="card" style="text-align: center; width: 250px;">
+            <h3>Next</h3>
+            <p>Enterprise & B2B Solutions</p>
+          </div>
+          <i class="fa-solid fa-arrow-right" style="font-size: 2rem; color: var(--mute);" aria-hidden="true"></i>
+          <div class="card" style="text-align: center; width: 250px;">
+            <h3>Future</h3>
+            <p>Smart City Integration</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="section-alt" role="contentinfo">
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+      <div class="logo">Orbsurv</div>
+      <nav aria-label="Footer" style="display:flex;gap:16px">
+        <a href="mailto:hello@orbsurv.com" style="color:var(--mute)">Contact</a>
+        <a href="/privacy.html" style="color:var(--mute)">Privacy</a>
+        <a href="/terms.html" style="color:var(--mute)">Terms</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- external JS that combines both original script blocks -->
+  <script src="js/pitchdeck.js" defer></script>
+</body>
+</html>

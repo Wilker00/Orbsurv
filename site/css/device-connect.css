@@ -1,0 +1,134 @@
+﻿@import url('./shared-vars.css');
+
+:root {
+  --status-ok: #22c55e;
+  --status-pending: #f59e0b;
+  --status-warn: #f97316;
+}
+
+.hero {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-6) 0;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+  align-items: start;
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 4vw, 2.8rem);
+  margin-bottom: 16px;
+}
+
+.hero .lead {
+  max-width: 60ch;
+  color: var(--mute);
+}
+
+.panel {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--line);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-md);
+  color: var(--mute);
+}
+
+.panel h2 {
+  margin: 0 0 12px;
+}
+
+.panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+  display: grid;
+  gap: 8px;
+}
+
+.panel .dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.panel .dot.ok {
+  background: var(--status-ok);
+}
+
+.panel .dot.pending {
+  background: var(--status-pending);
+}
+
+.panel .dot.warn {
+  background: var(--status-warn);
+}
+
+.steps-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-bottom: var(--space-6);
+}
+
+.steps-grid article {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--line);
+  padding: var(--space-4);
+  color: var(--mute);
+  display: grid;
+  gap: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.steps-grid h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.steps-grid ol {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  font-size: 0.95rem;
+}
+
+.resources {
+  margin-bottom: var(--space-7);
+}
+
+.resources h2 {
+  margin-bottom: 16px;
+}
+
+.resource-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.resource-grid pre {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px;
+  color: var(--ink);
+  font-size: 0.9rem;
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    order: -1;
+  }
+}

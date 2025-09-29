@@ -1,0 +1,33 @@
+:root {
+  /* Light Theme */
+  --bg: #FAFAF9;
+  --card-bg: #F5F5F5;
+  --ink: #111827;
+  --mute: #6B7280;
+  --line: #E5E7EB;
+  --accent-gradient: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+  --accent-color: #0d6efd;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 6px 14px -2px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 18px 35px -10px rgba(0, 0, 0, 0.16);
+  --radius-xl: 24px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --space-7: 72px;
+  --container: 1200px;
+}
+
+body.dark-mode {
+  --bg: #222222;
+  --card-bg: #333333;
+  --ink: #f0f0f0;
+  --mute: #aaaaaa;
+  --line: #444444;
+  --accent-gradient: linear-gradient(135deg, #f0f0f0 0%, #ffffff 100%);
+  --accent-color: #ffffff;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 6px 14px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 18px 35px -10px rgba(0, 0, 0, 0.35);
+}

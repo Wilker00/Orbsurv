@@ -1,0 +1,86 @@
+﻿@import url('./shared-vars.css');
+
+#hero .wrap {
+  display: grid;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+#hero h1 {
+  margin-bottom: var(--space-4);
+}
+
+#hero .btn + .btn {
+  margin-left: 0;
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-4);
+  align-items: stretch;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.card h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.card i {
+  color: var(--accent-color);
+}
+
+.card p {
+  color: var(--mute);
+  margin-bottom: 0;
+}
+
+#toast {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-lg);
+  color: var(--ink);
+}
+
+#toast.is-visible {
+  display: flex;
+}
+
+#toast.success {
+  border-color: var(--accent-color);
+}
+
+#toast.error {
+  border-color: rgba(185, 28, 28, 0.4);
+}
+
+#compliance em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+@media (max-width: 900px) {
+  #hero .wrap {
+    text-align: center;
+  }
+
+  #hero .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

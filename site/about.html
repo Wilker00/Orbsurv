@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About, Contact & FAQ – Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="/Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+      <link rel="stylesheet" href="css/global.css">
+<link rel="stylesheet" href="css/shared-vars.css">
+<link rel="stylesheet" href="css/privacy.css">
+<link rel="stylesheet" href="css/about.css">
+</head>
+<body>
+<header>
+  <div class="wrap nav-container">
+    <div class="logo"><a href="index.html" style="text-decoration:none;color:inherit">Orbsurv</a></div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <nav class="nav-links">
+        <a href="index.html#product-showcase-section">Product</a>
+        <a href="demo.html">Demo</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="#about">About</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <label class="theme-switch" for="theme-toggle" aria-label="Toggle theme">
+        <input type="checkbox" id="theme-toggle" />
+        <div class="slider">
+          <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </div>
+      </label>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- About -->
+  <section id="about">
+    <div class="wrap">
+      <h1>About Orbsurv</h1>
+      <p>We’re building rail-mounted, AI-assisted surveillance that patrols your space, eliminates blind spots, and alerts you only when it matters. Reduce cameras, reduce noise, increase signal.</p>
+      <div class="grid grid-2" style="margin-top:40px">
+        <div class="card">
+          <h2>Our Mission</h2>
+          <p>Provide a smarter, privacy-first way to keep spaces safe. Orbsurv learns daily patterns, combining motion and thermal data to highlight anomalies.</p>
+        </div>
+        <div class="card">
+          <h2>How it Works</h2>
+          <ol style="color:var(--mute);padding-left:1.25rem">
+            <li>Rail robot patrols configurable routes.</li>
+            <li>On-device AI builds baseline activity.</li>
+            <li>Sensor fusion reduces false positives.</li>
+            <li>Events route to mobile/web in real-time.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="wrap">
+      <h1>Contact Us</h1>
+      <div class="grid grid-2" style="align-items:start">
+        <div class="card">
+          <h2>Reach Out</h2>
+          <form id="contact-form" aria-label="Contact form"
+            data-endpoint="/api/contact"
+            data-success-message="Thanks! Message received."
+            data-message-target="contact-msg">
+            <label for="contact-name" class="sr-only">Full name</label>
+            <input id="contact-name" name="name" placeholder="Full name" required aria-label="Full name" />
+            <label for="contact-email" class="sr-only">Email address</label>
+            <input id="contact-email" name="email" type="email" placeholder="you@example.com" required style="margin-top:12px" aria-label="Email address"/>
+            <label for="contact-message" class="sr-only">Your message</label>
+            <textarea id="contact-message" name="message" placeholder="Your message" required style="margin-top:12px" aria-label="Your message"></textarea>
+            <button class="btn btn-primary" type="submit" style="margin-top:12px"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send</button>
+          </form>
+          <div id="contact-msg" class="form-message" aria-live="polite"></div>
+        </div>
+        <div class="card">
+          <h2>Other ways</h2>
+          <ul style="list-style:none;color:var(--mute);display:grid;gap:10px">
+            <li><i class="fa-solid fa-envelope"></i> hello@orbsurv.example</li>
+            <li><i class="fa-solid fa-phone"></i> +1 (555) 000-0000</li>
+            <li><i class="fa-solid fa-location-dot"></i> Remote-first • Worldwide</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <h1>Frequently Asked Questions</h1>
+      <div class="faq">
+        <details><summary>How is Orbsurv different from static cameras?</summary><p>It patrols on a rail, removes blind spots, and learns your space.</p></details>
+        <details><summary>Does Orbsurv work in low light?</summary><p>Yes. We combine video with thermal sensing for reliable detection.</p></details>
+        <details><summary>Where is my data processed?</summary><p>Events are analyzed on-device first. Cloud syncing is optional. See <a href="privacy.html">Privacy</a>.</p></details>
+        <details><summary>Does the mobile app run on iOS and Android?</summary><p>Yes, built with Flutter and available on both stores.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <span class="footer-brand">Orbsurv</span>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="index.html">Home</a>
+        <a href="product.html">Product</a>
+        <a href="demo.html">Demo</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+      <span class="footer-copy">&copy; <span data-year></span> Orbsurv. All rights reserved.</span>
+    </div>
+  </footer>
+
+<script src="js/global.js"></script>
+
+<script src="js/forms.js"></script>
+
+    <script src="js/about.js"></script>
+</body>
+</html>

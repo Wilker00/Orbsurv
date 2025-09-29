@@ -1,0 +1,96 @@
+﻿{
+  "timezone": "America/Los_Angeles",
+  "weeks": [
+    {
+      "weekOf": "2025-09-22",
+      "days": [
+        {"date": "2025-09-22", "clipCount": 4, "motionCount": 3},
+        {"date": "2025-09-23", "clipCount": 6, "motionCount": 4},
+        {"date": "2025-09-24", "clipCount": 8, "motionCount": 6},
+        {"date": "2025-09-25", "clipCount": 5, "motionCount": 4},
+        {"date": "2025-09-26", "clipCount": 3, "motionCount": 2},
+        {"date": "2025-09-27", "clipCount": 2, "motionCount": 1},
+        {"date": "2025-09-28", "clipCount": 3, "motionCount": 2}
+      ]
+    }
+  ],
+  "days": [
+    {
+      "date": "2025-09-24",
+      "clipCount": 8,
+      "detectedLabels": {"Person": 3, "Vehicle": 2, "Pet": 1},
+      "clips": [
+        {
+          "id": "clip-20250924-01",
+          "label": "Person",
+          "start": "2025-09-24T06:18:24Z",
+          "duration": 18,
+          "confidence": 0.94,
+          "thumbnail": "img/placeholders/clip-01.svg"
+        },
+        {
+          "id": "clip-20250924-02",
+          "label": "Vehicle",
+          "start": "2025-09-24T06:05:10Z",
+          "duration": 32,
+          "confidence": 0.88,
+          "thumbnail": "img/placeholders/clip-02.svg"
+        },
+        {
+          "id": "clip-20250924-03",
+          "label": "Pet",
+          "start": "2025-09-24T05:54:01Z",
+          "duration": 14,
+          "confidence": 0.72,
+          "thumbnail": "img/placeholders/clip-03.svg"
+        },
+        {
+          "id": "clip-20250924-04",
+          "label": "Person",
+          "start": "2025-09-24T04:41:23Z",
+          "duration": 26,
+          "confidence": 0.89,
+          "thumbnail": "img/placeholders/clip-04.svg"
+        }
+      ]
+    },
+    {
+      "date": "2025-09-23",
+      "clipCount": 6,
+      "detectedLabels": {"Person": 4, "Vehicle": 1, "Unknown": 1},
+      "clips": [
+        {
+          "id": "clip-20250923-02",
+          "label": "Person",
+          "start": "2025-09-23T23:42:11Z",
+          "duration": 22,
+          "confidence": 0.86,
+          "thumbnail": "img/placeholders/clip-05.svg"
+        },
+        {
+          "id": "clip-20250923-05",
+          "label": "Unknown",
+          "start": "2025-09-23T19:18:46Z",
+          "duration": 12,
+          "confidence": 0.54,
+          "thumbnail": "img/placeholders/clip-06.svg"
+        }
+      ]
+    },
+    {
+      "date": "2025-09-22",
+      "clipCount": 4,
+      "detectedLabels": {"Person": 2, "Vehicle": 1, "Pet": 1},
+      "clips": [
+        {
+          "id": "clip-20250922-01",
+          "label": "Vehicle",
+          "start": "2025-09-22T14:32:10Z",
+          "duration": 40,
+          "confidence": 0.91,
+          "thumbnail": "img/placeholders/clip-07.svg"
+        }
+      ]
+    }
+  ]
+}

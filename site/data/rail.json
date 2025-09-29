@@ -1,0 +1,26 @@
+﻿{
+  "loopDuration": 42,
+  "positions": [
+    {"time": 0, "position": 0.12, "fov": 190, "label": "Home"},
+    {"time": 6, "position": 0.36, "fov": 204, "label": "Driveway"},
+    {"time": 12, "position": 0.58, "fov": 212, "label": "Porch"},
+    {"time": 18, "position": 0.82, "fov": 220, "label": "Perimeter"},
+    {"time": 24, "position": 0.64, "fov": 200, "label": "Garden"},
+    {"time": 30, "position": 0.44, "fov": 186, "label": "Return"},
+    {"time": 36, "position": 0.18, "fov": 198, "label": "Dock"},
+    {"time": 42, "position": 0.12, "fov": 190, "label": "Home"}
+  ],
+  "scene": {
+    "panels": [
+      {"id": "panel-front", "label": "Front Walk", "range": [0.08, 0.28], "color": "#38bdf8"},
+      {"id": "panel-drive", "label": "Driveway", "range": [0.28, 0.48], "color": "#34d399"},
+      {"id": "panel-porch", "label": "Porch", "range": [0.48, 0.68], "color": "#f97316"},
+      {"id": "panel-yard", "label": "Garden", "range": [0.68, 0.88], "color": "#a855f7"}
+    ],
+    "markers": [
+      {"id": "marker-01", "title": "Bike rack", "position": 0.32},
+      {"id": "marker-02", "title": "Mailbox", "position": 0.52},
+      {"id": "marker-03", "title": "Porch steps", "position": 0.66}
+    ]
+  }
+}
