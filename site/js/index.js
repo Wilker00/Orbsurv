@@ -1,29 +1,48 @@
 document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('form[data-endpoint]').forEach(function(form) {
+                if (form.dataset.orbsurvBound === 'true') {
+                    return;
+                }
                 form.addEventListener('submit', function(event) {
                     handleFormSubmit(event, form);
                 });
+                form.dataset.orbsurvBound = 'true';
             });
             // Theme Toggle
-            const toggle = document.getElementById('theme-toggle');
             const body = document.body;
-            function applyTheme(theme) {
-                if (theme === 'dark') {
-                    body.classList.add('dark-mode');
-                    toggle.checked = true;
-                } else {
-                    body.classList.remove('dark-mode');
-                    toggle.checked = false;
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            let currentTheme = localStorage.getItem('theme') || (prefersDark ? 'dark' : 'light');
+
+            function applyTheme(theme, toggleEl) {
+                body.classList.toggle('dark-mode', theme === 'dark');
+                if (toggleEl) {
+                    toggleEl.checked = theme === 'dark';
                 }
             }
-            toggle.addEventListener('change', () => {
-                const theme = toggle.checked ? 'dark' : 'light';
-                localStorage.setItem('theme', theme);
-                applyTheme(theme);
-            });
-            const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-            applyTheme(savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light'));
+
+            function bindThemeToggle(toggleEl) {
+                if (!toggleEl || toggleEl.dataset.orbsurvThemeBound === 'true') {
+                    return;
+                }
+                applyTheme(currentTheme, toggleEl);
+                toggleEl.addEventListener('change', () => {
+                    currentTheme = toggleEl.checked ? 'dark' : 'light';
+                    localStorage.setItem('theme', currentTheme);
+                    applyTheme(currentTheme, toggleEl);
+                });
+                toggleEl.dataset.orbsurvThemeBound = 'true';
+            }
+
+            const initialToggle = document.getElementById('theme-toggle');
+            if (initialToggle) {
+                bindThemeToggle(initialToggle);
+            } else {
+                document.addEventListener('orbsurv:partials-loaded', () => {
+                    bindThemeToggle(document.getElementById('theme-toggle'));
+                }, { once: true });
+            }
+
+            applyTheme(currentTheme, initialToggle);
 
             // Scroll animations
             const observer = new IntersectionObserver((entries) => {

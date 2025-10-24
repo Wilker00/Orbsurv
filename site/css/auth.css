@@ -1,0 +1,141 @@
+/* Shared layout for authentication flows */
+.auth-page {
+  background: var(--bg);
+}
+
+.auth-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(40px, 12vh, 80px) 0 clamp(32px, 8vh, 48px);
+}
+
+.auth-card {
+  width: min(480px, 92vw);
+  display: grid;
+  gap: clamp(20px, 3vw, 24px);
+  padding: clamp(28px, 4vw, 36px);
+}
+
+.auth-header {
+  display: grid;
+  gap: 12px;
+}
+
+.auth-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(13, 110, 253, 0.12);
+  color: var(--accent-color);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.auth-form {
+  display: grid;
+  gap: clamp(14px, 2.5vw, 18px);
+}
+
+.auth-form label {
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+.auth-card input,
+.auth-card textarea,
+.auth-card select {
+  width: 100%;
+  padding: clamp(12px, 2vh, 14px) clamp(14px, 4vw, 16px);
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-card input:focus-visible,
+.auth-card textarea:focus-visible,
+.auth-card select:focus-visible {
+  outline: 2px solid rgba(13, 110, 253, 0.4);
+  border-color: rgba(13, 110, 253, 0.6);
+}
+
+.auth-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(10px, 2vw, 12px);
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+  color: var(--mute);
+}
+
+.auth-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--mute);
+}
+
+.auth-checkbox input {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  accent-color: var(--accent-color);
+}
+
+.auth-row a {
+  color: var(--accent-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-row a:hover,
+.auth-row a:focus-visible {
+  text-decoration: underline;
+}
+
+.auth-card .btn {
+  justify-content: center;
+  gap: 10px;
+}
+
+.auth-meta {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--mute);
+}
+
+.auth-meta a {
+  color: var(--accent-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-meta a:hover,
+.auth-meta a:focus-visible {
+  text-decoration: underline;
+}
+
+@media (max-width: 520px) {
+  .auth-main {
+    padding: clamp(24px, 8vh, 36px) 0;
+  }
+
+  .auth-card {
+    padding: clamp(24px, 6vw, 32px);
+  }
+
+  .auth-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

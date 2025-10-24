@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbsurv — Product</title>
+    <!-- Google Fonts: Sora (Headers) and Inter (Body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (Solid and Brands) for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/shared-vars.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/product.css">
+        <style>
+        .product {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product section {
+            padding: var(--space-7) 0;
+        }
+
+        @media (max-width: 768px) {
+            .product section {
+                padding: var(--space-5) 0;
+            }
+        }
+
+        #overview,
+        #media,
+        #capabilities,
+        #specs,
+        #contact {
+            scroll-margin-top: var(--space-7);
+        }
+
+        .section-header {
+            margin-bottom: var(--space-4);
+        }
+
+        .hero-panel {
+            display: grid;
+            gap: var(--space-6);
+            align-items: center;
+        }
+
+        @media (min-width: 992px) {
+            .hero-panel {
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            }
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: var(--space-3);
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            background: color-mix(in srgb, var(--card-bg) 85%, transparent);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .hero-lead {
+            font-size: 1.125rem;
+            color: var(--mute);
+            max-width: 58ch;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: var(--space-3);
+            flex-wrap: wrap;
+        }
+
+        .hero-buttons .btn {
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        .variant-switcher {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 8px;
+            box-shadow: var(--shadow-sm);
+            flex-wrap: wrap;
+        }
+
+        .variant-pill {
+            padding: 10px 18px;
+            border-radius: 999px;
+            border: none;
+            background: transparent;
+            color: var(--mute);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .variant-pill[aria-checked="true"] {
+            background: var(--accent-color);
+            color: var(--bg);
+            box-shadow: var(--shadow-sm);
+            font-weight: 600;
+        }
+
+        .variant-pill:hover:not([aria-checked="true"]) {
+            color: var(--accent-color);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-artwork {
+            width: 100%;
+            max-width: 620px;
+            position: relative;
+            border-radius: var(--radius-xl);
+            background: var(--bg);
+            padding: var(--space-4);
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-md);
+        }
+
+        .hero-artwork::after {
+            content: '';
+            position: absolute;
+            inset: 14%;
+            border-radius: 48px;
+            background: rgba(13, 110, 253, 0.12);
+            filter: blur(48px);
+            z-index: 0;
+        }
+
+        .hero-svg {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: calc(var(--radius-xl) - 12px);
+        }
+
+        .product-media .section-header,
+        .product-media .media-grid,
+        .product-media .gallery-grid {
+            gap: var(--space-5);
+        }
+
+        .media-grid {
+            display: grid;
+            gap: var(--space-5);
+        }
+
+        @media (min-width: 1024px) {
+            .media-grid {
+                grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .media-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .media-viewer.card,
+        .media-summary.card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .stl-canvas {
+            min-height: 320px;
+            border-radius: calc(var(--radius-xl) - 12px);
+            background: var(--bg);
+            border: 1px dashed color-mix(in srgb, var(--line) 85%, transparent);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stl-canvas canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .stl-canvas-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--mute);
+            font-weight: 500;
+            text-align: center;
+            padding: var(--space-4);
+        }
+
+        .product-fallback {
+            width: 100%;
+            border-radius: calc(var(--radius-xl) - 12px);
+            display: block;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .fallback-message {
+            font-size: 0.95rem;
+            color: var(--mute);
+        }
+
+        .media-summary img {
+            width: 100%;
+            border-radius: calc(var(--radius-xl) - 12px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .gallery-grid {
+            display: grid;
+            gap: var(--space-4);
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+        }
+
+        .media-tile {
+            position: relative;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--line);
+            background: var(--card-bg);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            min-height: 240px;
+        }
+
+        .media-tile:hover,
+        .media-tile:focus-visible {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-color);
+        }
+
+        .media-tile img,
+        .media-tile video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .media-tile:hover img,
+        .media-tile:hover video {
+            transform: scale(1.05);
+        }
+
+        .sticker {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 0.5rem 0.85rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.8);
+            color: #fff;
+            box-shadow: var(--shadow-sm);
+            z-index: 2;
+        }
+
+        .tile-span-8 { grid-column: span 8; }
+        .tile-span-6 { grid-column: span 6; }
+        .tile-span-4 { grid-column: span 4; }
+
+        @media (max-width: 1024px) {
+            .tile-span-8,
+            .tile-span-6,
+            .tile-span-4 {
+                grid-column: span 6;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+            }
+
+            .tile-span-8,
+            .tile-span-6,
+            .tile-span-4 {
+                grid-column: span 6;
+            }
+        }
+
+        #lightbox-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            backdrop-filter: blur(6px);
+        }
+
+        #lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            background: var(--bg);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        #lightbox-content img,
+        #lightbox-content video {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            object-fit: contain;
+            display: block;
+        }
+
+        #lightbox-close {
+            position: absolute;
+            top: var(--space-3);
+            right: var(--space-3);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg);
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+        }
+
+        #lightbox-close:hover {
+            transform: scale(1.1);
+            background: var(--accent-color);
+            color: var(--bg);
+        }
+
+        .features-grid {
+            display: grid;
+            gap: var(--space-5);
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .feature-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+            height: 100%;
+        }
+
+        .feature-card i {
+            font-size: 2rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .specs-layout {
+            display: grid;
+            gap: var(--space-4);
+        }
+
+        @media (min-width: 992px) {
+            .specs-layout {
+                grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+            }
+        }
+
+        .specs-list,
+        .specs-note {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .specs-list dl {
+            display: grid;
+            gap: var(--space-3);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .specs-list dt {
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .specs-list dd {
+            margin: 0;
+            text-align: right;
+            color: var(--mute);
+        }
+
+        .cta-card.card {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .waitlist-form {
+            display: grid;
+            gap: var(--space-3);
+            max-width: 420px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .waitlist-form input[type="email"] {
+            padding: var(--space-3) var(--space-4);
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: var(--bg);
+            color: var(--ink);
+            font-size: 1rem;
+        }
+
+        .waitlist-form button {
+            justify-content: center;
+        }
+
+        .form-status {
+            min-height: 1.5rem;
+            font-size: 0.95rem;
+            color: var(--mute);
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .is-hidden {
+            display: none !important;
+        }
+
+        .artwork-container {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .artwork-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* SVG palette */
+        .fill-090909 { fill: #090909; }
+        .fill-5C5B58 { fill: #5C5B58; }
+        .fill-5F5E5B { fill: #5F5E5B; }
+        .fill-5D5C5A { fill: #5D5C5A; }
+        .fill-111111 { fill: #111111; }
+        .fill-1396F2 { fill: #1396F2; }
+        .fill-131313 { fill: #131313; }
+        .fill-161616 { fill: #161616; }
+        .fill-020202 { fill: #020202; }
+        .fill-545454 { fill: #545454; }
+        .fill-181818 { fill: #181818; }
+        .fill-D2D0CC { fill: #D2D0CC; }
+        .fill-171717 { fill: #171717; }
+        .fill-121212 { fill: #121212; }
+        .fill-141414 { fill: #141414; }
+        .fill-010101 { fill: #010101; }
+        .fill-1E1E1E { fill: #1E1E1E; }
+        .fill-0E1215 { fill: #0E1215; }
+        .fill-58554F { fill: #58554F; }
+        .fill-595752 { fill: #595752; }
+        .fill-76BAEB { fill: #76BAEB; }
+        .fill-666666 { fill: #666666; }
+        .fill-686868 { fill: #686868; }
+        .fill-696969 { fill: #696969; }
+        .fill-6A6A6A { fill: #6A6A6A; }
+        .fill-595855 { fill: #595855; }
+        .fill-101010 { fill: #101010; }
+        .fill-1B1B1B { fill: #1B1B1B; }
+        .fill-676767 { fill: #676767; }
+        .fill-4C4B49 { fill: #4C4B49; }
+        .fill-141313 { fill: #141313; }
+        .fill-C58328 { fill: #C58328; }
+        .fill-131212 { fill: #131212; }
+        .fill-CB8526 { fill: #CB8526; }
+        .fill-AFAEAB { fill: #AFAEAB; }
+        .fill-EDEDEC { fill: #EDEDEC; }
+        .fill-EFEEEE { fill: #EFEEEE; }
+        .fill-B2B1AE { fill: #B2B1AE; }
+        .fill-AEACA9 { fill: #AEACA9; }
+        .fill-DEDEDD { fill: #DEDEDD; }
+        .fill-0E0E0E { fill: #0E0E0E; }
+        .fill-636363 { fill: #636363; }
+        .fill-646464 { fill: #646464; }
+        .fill-626262 { fill: #626262; }
+        .fill-91908E { fill: #91908E; }
+        .fill-656565 { fill: #656565; }
+        .fill-6A6A67 { fill: #6A6A67; }
+        .fill-BAB9B5 { fill: #BAB9B5; }
+        .fill-BCBBB8 { fill: #BCBBB8; }
+        .fill-1D1D1C { fill: #1D1D1C; }
+        .fill-6B6B6B { fill: #6B6B6B; }
+        .fill-6C6C6C { fill: #6C6C6C; }
+        .fill-1F1E1E { fill: #1F1E1E; }
+        .fill-ACABA8 { fill: #ACABA8; }
+        .fill-B9B7B4 { fill: #B9B7B4; }
+
+        @media (max-width: 900px) {
+            .hero-panel {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-content {
+                align-items: center;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .variant-switcher {
+                justify-content: center;
+                width: 100%;
+                max-width: 420px;
+            }
+            .hero-visual {
+                order: -1;
+            }
+            .hero-artwork::after {
+                inset: 18%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-buttons .btn {
+                width: 100%;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .animate-on-scroll {
+                transition: none;
+            }
+            .hero-artwork::after {
+                filter: blur(20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="wrap nav-container">
+            <div class="logo">Orbsurv</div>
+            <div class="nav-right">
+                <nav class="nav-links">
+                    <a href="product.html" aria-current="page">Product</a>
+                    <a href="#details">Details</a>
+                    <a href="demo.html">Demo</a>
+                    <a href="pitchdeck.html">Pitch Deck</a>
+                    <a href="account.html">Account</a>
+                </nav>
+                <a class="btn btn-outline nav-admin-link" href="login.html"><i class="fa-solid fa-shield-halved"></i> Admin login</a>
+                <div class="theme-switch-wrapper">
+                    <label class="theme-switch" for="theme-toggle">
+                        <input type="checkbox" id="theme-toggle" />
+                        <div class="slider">
+                            <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                            <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="product">
+        <!-- Hero Section -->
+        <section id="overview" class="product-hero">
+            <div class="wrap">
+                <div class="hero card hero-panel">
+                    <div class="hero-content animate-on-scroll">
+                        <div class="hero-badges">
+                            <span class="badge card"><i class="fas fa-barcode"></i> Rail-Ready</span>
+                            <span class="badge card"><i class="fab fa-ethereum"></i> AI-Powered</span>
+                        </div>
+                        <h1>The Panoramic Vision System for Modern Security.</h1>
+                        <p class="hero-lead">Orbsurv is a rail-mounted, sensor-fused camera system, combining high-resolution optics with heat and motion sensing. Its onboard AI intelligently prioritizes and logs critical events, giving you proactive, focused intelligence without relying on cloud processing.</p>
+                        <div class="hero-buttons">
+                            <a href="#media" class="btn btn-secondary">
+                                <i class="fas fa-play"></i> Explore the system
+                            </a>
+                            <a href="#contact" class="btn btn-primary">
+                                <i class="fas fa-users"></i> Join early access
+                            </a>
+                        </div>
+                        <div class="variant-switcher" id="variant-switcher" role="radiogroup" aria-label="Finish">
+                            <button class="variant-pill" role="radio" aria-checked="false" tabindex="-1" data-variant="white">Matte White</button>
+                            <button class="variant-pill" role="radio" aria-checked="false" tabindex="-1" data-variant="black">Matte Black</button>
+                            <button class="variant-pill" role="radio" aria-checked="true" tabindex="0" data-variant="darkgray">Dark Gray</button>
+                        </div>
+                    </div>
+                                        <div class="hero-visual animate-on-scroll" style="--delay: 200ms;">
+                        <div class="hero-artwork artwork-container" aria-hidden="true">
+<!-- KEEP THE EXISTING SVG EXACTLY AS-IS -->
+                <!-- ↓↓↓ Paste your current SVG between these markers ↓↓↓ -->
+                <img src="img/mount-assembly.svg" alt="Orbsurv rail camera module" class="hero-svg" loading="eager" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Media Section -->
+        <section id="media" class="section-alt">
+            <div class="wrap product-media">
+                <div class="section-header animate-on-scroll">
+                    <h2 class="section-title">Capture, Clip, and Analyze.</h2>
+                    <p class="section-description">Glide through the 3D model, browse production stills, and review motion clips that showcase Orbsurv in the field.</p>
+                </div>
+                <div class="media-grid">
+                    <div class="media-viewer card animate-on-scroll" data-role="stl-viewer" data-src="">
+                        <div class="stl-canvas" id="stl-canvas" aria-live="polite">
+                            <div class="stl-canvas-status" id="stl-status">Preparing 3D preview...</div>
+                        </div>
+                        <img id="stlFallback" class="product-fallback is-hidden" src="img/placeholders/fgfnbm.png" alt="Static render of the Orbsurv platform" loading="lazy">
+                        <p id="stlFallbackMessage" class="fallback-message is-hidden">3D model preview unavailable. Displaying a static render instead.</p>
+                    </div>
+                    <aside class="media-summary card animate-on-scroll" style="--delay: 150ms;">
+                        <img src="img/placeholders/unnamed.jpg" alt="Orbsurv camera carriage mounted along a perimeter rail" loading="lazy">
+                        <p>The rolling carriage glides quietly along custom rails, holds position in high winds, and keeps optics out of reach. Use the interactive model to confirm clearances before crews mobilize.</p>
+                    </aside>
+                </div>
+                <div class="gallery-grid">
+                    <div class="media-tile tile-span-8 animate-on-scroll" data-media-type="image" data-media-src="img/placeholders/unnamed.jpg" tabindex="0">
+                        <span class="sticker"><i class="fas fa-image"></i> Overview</span>
+                        <img src="img/placeholders/unnamed.jpg" alt="Dark Gray Orbsurv mounted on rail" loading="lazy">
+                    </div>
+                    <div class="media-tile tile-span-4 animate-on-scroll" data-media-type="video" data-media-src="../Image/matte-white.mp4" style="--delay: 80ms;" tabindex="0">
+                        <span class="sticker"><i class="fas fa-video"></i> Clip: White</span>
+                        <video autoplay loop muted playsinline preload="metadata" poster="img/placeholders/unnamed.jpg">
+                            <source src="../Image/matte-white.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="media-tile tile-span-6 animate-on-scroll" data-media-type="image" data-media-src="img/placeholders/unnamed.jpg" style="--delay: 160ms;" tabindex="0">
+                        <span class="sticker"><i class="fas fa-location-dot"></i> Outdoor Use</span>
+                        <img src="img/placeholders/unnamed.jpg" alt="Matte Black Orbsurv for outdoor use" loading="lazy">
+                    </div>
+                    <div class="media-tile tile-span-6 animate-on-scroll" data-media-type="video" data-media-src="../Image/matte-gray.mp4" style="--delay: 240ms;" tabindex="0">
+                        <span class="sticker"><i class="fas fa-video"></i> Clip: Gray</span>
+                        <video autoplay loop muted playsinline preload="metadata" poster="img/placeholders/unnamed.jpg">
+                            <source src="../Image/matte-gray.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Capabilities Section -->
+        <section id="capabilities" class="section-alt">
+            <div class="wrap">
+                <div class="section-header animate-on-scroll">
+                    <h2 class="section-title">Core Capabilities</h2>
+                    <p class="section-description">Rail-mounted mechanics, fused sensing, and onboard AI keep operators ahead of critical events.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card card animate-on-scroll">
+                        <i class="fas fa-route"></i>
+                        <h3>Rail Intelligence</h3>
+                        <p>The motorized mounting system executes pre-programmed sweep patterns and adapts its speed and focus dynamically based on monitored events.</p>
+                    </div>
+                    <div class="feature-card card animate-on-scroll" style="--delay: 100ms;">
+                        <i class="fab fa-ethereum"></i>
+                        <h3>Sensor Fusion</h3>
+                        <p>Combines high-definition visual imagery with thermal and high-frequency motion sensing data streams for comprehensive awareness, day or night.</p>
+                    </div>
+                    <div class="feature-card card animate-on-scroll" style="--delay: 200ms;">
+                        <i class="fas fa-microchip"></i>
+                        <h3>Onboard Learning</h3>
+                        <p>Edge computing runs proprietary AI models to learn baseline behavior, dramatically reducing false alarms and only alerting on anomalous movement.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Specifications -->
+        <section id="specs">
+            <div class="wrap">
+                <div class="section-header animate-on-scroll">
+                    <h2 class="section-title">Technical Specifications</h2>
+                </div>
+                <div class="specs-layout">
+                    <div class="specs-list card animate-on-scroll">
+                        <h3>Performance Overview</h3>
+                        <dl>
+                            <dt>Max Rail Length</dt>
+                            <dd>50 meters (extendable)</dd>
+                            <dt>Optic Resolution</dt>
+                            <dd>4K @ 60 FPS (Visual)</dd>
+                            <dt>Sensing Suite</dt>
+                            <dd>Thermal, Motion (PIR), Audio</dd>
+                            <dt>Compute</dt>
+                            <dd>Edge AI (Dedicated NPU)</dd>
+                            <dt>Connectivity</dt>
+                            <dd>5G/Wi-Fi 6E/Ethernet</dd>
+                            <dt>Ingress Rating</dt>
+                            <dd>IP67 (Dust and Water Immersion)</dd>
+                        </dl>
+                    </div>
+                    <div class="specs-note card animate-on-scroll" style="--delay: 200ms;">
+                        <h3>Prototype Caveats</h3>
+                        <p>The current specification reflects the production release candidate. Final environmental testing for temperatures below &minus;20&deg;C is ongoing. Custom rail lengths are available on request, subject to site survey and engineering sign-off.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Waitlist Form -->
+        <section id="contact">
+            <div class="wrap">
+                <div class="cta-card card animate-on-scroll">
+                    <h2>Ready for Proactive Site Monitoring?</h2>
+                    <p>Join our early access program for exclusive installer training and priority shipment windows.</p>
+                    <form id="waitlist-form" class="waitlist-form" data-endpoint="/waitlist" data-message-target="form-status" data-success-message="Success! You are on the waitlist.">
+                        <input type="email" id="email" placeholder="Enter your business email address" required>
+                        <button type="submit" class="btn btn-primary">Request invite</button>
+                        <span id="form-status" class="form-status"></span>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Improved Lightbox Overlay -->
+    <div id="lightbox-overlay">
+        <div id="lightbox-content">
+            <button id="lightbox-close" aria-label="Close lightbox">
+                <i class="fas fa-times"></i>
+            </button>
+            <!-- Media content (image/video) will be inserted here -->
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="wrap footer-inner">
+            <span class="footer-brand">Orbsurv</span>
+            <nav class="footer-links" aria-label="Footer">
+                <a href="index.html">Home</a>
+                <a href="product.html">Product</a>
+                <a href="demo.html">Demo</a>
+                <a href="about.html">About</a>
+                <a href="privacy.html">Privacy</a>
+            </nav>
+            <span class="footer-copy">&copy; <span data-year></span> Orbsurv. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script src="js/global.js"></script>
+    <script>
+        // --- 1. Fix: THREE.js CDN Dependencies (Must be global, sequential, non-module) ---
+        const cdnUrls = [
+            'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',
+            'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js',
+            'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js'
+        ];
+
+        function loadScript(url) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = url;
+                script.onload = () => resolve(); 
+                script.onerror = () => reject(new Error(`Failed to load script: ${url}`));
+                document.head.appendChild(script);
+            });
+        }
+
+        async function loadAllDependencies(statusDiv) {
+            if (typeof THREE !== 'undefined' && typeof THREE.OrbitControls !== 'undefined' && typeof THREE.STLLoader !== 'undefined') {
+                return Promise.resolve();
+            }
+
+            try {
+                for (const url of cdnUrls) {
+                    statusDiv.textContent = `Loading 3D library: ${url.split('/').pop()}...`;
+                    await loadScript(url);
+                }
+                
+                if (typeof THREE === 'undefined' || typeof THREE.OrbitControls === 'undefined' || typeof THREE.STLLoader === 'undefined') {
+                    throw new Error("THREE.js components failed to initialize after loading.");
+                }
+                
+                statusDiv.textContent = 'Dependencies loaded. Initializing viewer...';
+                return Promise.resolve();
+
+            } catch (error) {
+                statusDiv.textContent = `Error loading 3D viewer: ${error.message}.`;
+                return Promise.reject(error);
+            }
+        }
+        
+        // --- 2. Application Logic ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const heroVideo = document.getElementById('hero-video');
+            const heroVideoSource = document.getElementById('hero-video-source');
+            const variantPills = document.querySelectorAll('.variant-pill');
+            const LIGHTBOX_OVERLAY = document.getElementById('lightbox-overlay');
+            const LIGHTBOX_CONTENT = document.getElementById('lightbox-content');
+            const LIGHTBOX_CLOSE = document.getElementById('lightbox-close');
+            const yearSpan = document.querySelector('[data-year]');
+
+            if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
+
+            // Variant Data (kept local)
+            const variantData = {
+                white: { video: 'placeholders/variant-white.mp4', poster: 'placeholders/variant-white.jpg' },
+                black: { video: 'placeholders/variant-black.mp4', poster: 'placeholders/variant-black.jpg' },
+                darkgray: { video: 'placeholders/variant-darkgray.mp4', poster: 'placeholders/variant-darkgray.jpg' }
+            };
+            // Preload posters (simple)
+            Object.keys(variantData).forEach(key => { new Image().src = variantData[key].poster; });
+
+            // --- 2.2 Theme (Dark/Light Mode) Switcher ---
+            function applyTheme(isDark) {
+                if (isDark) {
+                    document.body.classList.add('dark-mode');
+                    localStorage.setItem('orbsurv-theme', 'dark');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    localStorage.setItem('orbsurv-theme', 'light');
+                }
+                if (themeToggle) themeToggle.checked = isDark;
+                
+                // Update STL model color on theme change
+                if (typeof THREE !== 'undefined' && window.mesh) {
+                    updateSTLColor();
+                }
+            }
+
+            function updateSTLColor() {
+                // Get the computed accent color
+                const accentColorCSS = getComputedStyle(document.body).getPropertyValue('--accent-color').trim();
+                const threeColor = new THREE.Color();
+                
+                try {
+                    threeColor.set(accentColorCSS);
+                } catch (e) {
+                    // Fallback in case CSS variable is a complex gradient or invalid color for THREE.js
+                    threeColor.set(document.body.classList.contains('dark-mode') ? 0xffffff : 0x0d6efd);
+                }
+                window.mesh.material.color.set(threeColor);
+            }
+
+            const savedTheme = localStorage.getItem('orbsurv-theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+            if (savedTheme === 'dark') {
+                applyTheme(true);
+            } else if (savedTheme === 'light') {
+                applyTheme(false);
+            } else {
+                applyTheme(prefersDark.matches);
+            }
+
+            if (themeToggle) {
+                themeToggle.addEventListener('change', (e) => {
+                    applyTheme(e.target.checked);
+                });
+            }
+
+            // --- 2.3 Animate on Scroll (IntersectionObserver) ---
+            const scrollObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = parseInt(entry.target.style.getPropertyValue('--delay') || '0', 10);
+                        setTimeout(() => {
+                            entry.target.classList.add('is-visible');
+                        }, delay);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                scrollObserver.observe(el);
+            });
+
+            // --- 2.4 Color Variant Switcher Logic ---
+            function switchVariant(variant) {
+                const data = variantData[variant];
+                
+                if (heroVideo && heroVideoSource && data) {
+                    heroVideo.setAttribute('poster', data.poster);
+                    heroVideoSource.setAttribute('src', data.video);
+                    heroVideo.load();
+                    heroVideo.play();
+                }
+
+                variantPills.forEach(pill => {
+                    const isSelected = pill.dataset.variant === variant;
+                    pill.setAttribute('aria-checked', isSelected);
+                    if (isSelected) {
+                        pill.tabIndex = 0; // Make selected element focusable
+                    } else {
+                        pill.tabIndex = -1; // Make unselected elements unfocusable
+                    }
+                });
+            }
+            
+            // Set initial variant state and tab index
+            let initialVariant = document.querySelector('.variant-pill[aria-checked="true"]');
+            if (initialVariant) {
+                switchVariant(initialVariant.dataset.variant);
+            }
+
+            variantPills.forEach((pill, index) => {
+                pill.addEventListener('click', (e) => switchVariant(e.target.dataset.variant));
+                
+                // Keyboard navigation for radiogroup
+                pill.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        switchVariant(e.target.dataset.variant);
+                    } else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        const len = variantPills.length;
+                        let nextIndex = index;
+
+                        if (e.key === 'ArrowRight') {
+                            nextIndex = (index + 1) % len;
+                        } else if (e.key === 'ArrowLeft') {
+                            nextIndex = (index - 1 + len) % len;
+                        }
+
+                        const nextPill = variantPills[nextIndex];
+                        switchVariant(nextPill.dataset.variant);
+                        nextPill.focus();
+                    }
+                });
+            });
+
+
+            // --- 2.5 Improved Media Gallery Lightbox ---
+            document.querySelectorAll('.media-tile').forEach(tile => {
+                // Click handler
+                tile.addEventListener('click', () => openLightbox(tile));
+                
+                // Keyboard handler (Enter/Space)
+                tile.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openLightbox(tile);
+                    }
+                });
+            });
+
+            function openLightbox(tile) {
+                const type = tile.dataset.mediaType;
+                const src = (type === 'video') ? tile.querySelector('source').getAttribute('src') : tile.dataset.mediaSrc;
+                
+                LIGHTBOX_CONTENT.innerHTML = ''; 
+
+                if (type === 'image') {
+                    const img = document.createElement('img');
+                    img.src = src;
+                    img.alt = 'Media Gallery Image';
+                    LIGHTBOX_CONTENT.appendChild(img);
+                } else if (type === 'video') {
+                    const video = document.createElement('video');
+                    video.src = src;
+                    video.controls = true;
+                    video.autoplay = true;
+                    video.loop = true;
+                    video.muted = false;
+                    video.playsInline = true;
+                    LIGHTBOX_CONTENT.appendChild(video);
+                }
+
+                LIGHTBOX_OVERLAY.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            }
+
+            // Lightbox closing logic
+            function closeLightbox() {
+                LIGHTBOX_OVERLAY.style.display = 'none';
+                document.body.style.overflow = ''; // Restore scrolling
+                
+                const videoElement = LIGHTBOX_CONTENT.querySelector('video');
+                if (videoElement) {
+                    videoElement.pause();
+                    videoElement.currentTime = 0;
+                }
+                LIGHTBOX_CONTENT.innerHTML = ''; // Clear content
+            }
+
+            LIGHTBOX_CLOSE.addEventListener('click', closeLightbox);
+            
+            // Close lightbox when clicking on overlay (outside content)
+            LIGHTBOX_OVERLAY.addEventListener('click', (e) => {
+                if (e.target === LIGHTBOX_OVERLAY) {
+                    closeLightbox();
+                }
+            });
+            
+            // Close lightbox with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && LIGHTBOX_OVERLAY.style.display === 'flex') {
+                    closeLightbox();
+                }
+            });
+
+            // --- 2.6 Waitlist Form Submission ---
+            const waitlistForm = document.getElementById('waitlist-form');
+            if (waitlistForm) {
+                waitlistForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const form = e.target;
+                    const emailInput = form.querySelector('#email');
+                    const submitButton = form.querySelector('button[type="submit"]');
+                    const messageTarget = document.getElementById(form.dataset.messageTarget);
+                    
+                    if (!messageTarget || !submitButton || !emailInput.value) return;
+
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Requesting...';
+                    messageTarget.className = 'form-status';
+                    messageTarget.style.color = 'var(--ink)';
+
+                    try {
+                        // --- MOCKED API CALL STRUCTURE ---
+                        
+                        // Simulate network call
+                        const response = await new Promise(resolve => {
+                            setTimeout(() => {
+                                // 90% chance of success
+                                if (Math.random() > 0.1) {
+                                    resolve({ ok: true, status: 200, json: () => ({ status: 'success' }) });
+                                } else {
+                                    resolve({ ok: false, status: 500, json: () => ({ error: 'Server temporarily unavailable.' }) });
+                                }
+                            }, 1500); // 1.5s delay
+                        });
+
+                        // Simulate real fetch handling
+                        if (!response.ok) {
+                            const errorBody = await response.json();
+                            throw new Error(errorBody.error || `HTTP error! Status: ${response.status}`);
+                        }
+
+                        // Success
+                        messageTarget.textContent = form.dataset.successMessage || 'Success! Your request has been logged.';
+                        messageTarget.style.color = '#28a745'; // Green
+                        submitButton.innerHTML = '<i class="fa-solid fa-check"></i> Confirmed';
+                        submitButton.disabled = true; 
+                        emailInput.value = ''; // Clear input on success
+
+                    } catch (error) {
+                        // Error
+                        messageTarget.textContent = error.message;
+                        messageTarget.style.color = '#dc3545'; // Red
+                        submitButton.innerHTML = '<i class="fa-solid fa-envelope-open-text"></i> Request invite';
+                        submitButton.disabled = false;
+                    } 
+                    
+                    // Clear message after 5 seconds
+                    setTimeout(() => {
+                        messageTarget.textContent = '';
+                    }, 5000);
+                });
+            }
+
+            // --- 2.7 STL Viewer Setup ---
+            function setupSTLViewer() {
+                const mediaSection = document.getElementById('media');
+                const viewerShell = document.querySelector('[data-role="stl-viewer"]');
+                const canvasContainer = document.getElementById('stl-canvas');
+                const statusDiv = document.getElementById('stl-status');
+                const fallbackImage = document.getElementById('stlFallback');
+                const fallbackMessage = document.getElementById('stlFallbackMessage');
+
+                if (!mediaSection || !viewerShell || !canvasContainer) return;
+
+                const modelPath = viewerShell.dataset.src;
+
+                const showFallback = (message) => {
+                    if (statusDiv) {
+                        statusDiv.textContent = '';
+                        statusDiv.classList.add('is-hidden');
+                    }
+                    canvasContainer.classList.add('is-hidden');
+                    if (fallbackImage) {
+                        fallbackImage.classList.remove('is-hidden');
+                    }
+                    if (fallbackMessage) {
+                        fallbackMessage.textContent = message;
+                        fallbackMessage.classList.remove('is-hidden');
+                    }
+                };
+
+                const loadViewer = async () => {
+                    if (viewerShell.dataset.loaded === 'true') return;
+                    viewerShell.dataset.loaded = 'true';
+
+                    if (window.location.protocol === 'file:') {
+                        showFallback('3D viewer disabled in local file mode. Run through a local server.');
+                        return;
+                    }
+
+                    if (!modelPath) {
+                        showFallback('3D model path missing.');
+                        return;
+                    }
+
+                    canvasContainer.classList.remove('is-hidden');
+                    if (fallbackImage) fallbackImage.classList.add('is-hidden');
+                    if (fallbackMessage) fallbackMessage.classList.add('is-hidden');
+                    if (statusDiv) {
+                        statusDiv.textContent = 'Loading 3D viewer...';
+                        statusDiv.classList.remove('is-hidden');
+                    }
+
+                    try {
+                        await loadAllDependencies(statusDiv || { textContent: '' });
+                        window.initViewer(canvasContainer, modelPath, statusDiv, fallbackImage, fallbackMessage, showFallback);
+                    } catch (error) {
+                        console.error('STL viewer setup failed', error);
+                        showFallback('We could not load the 3D model right now. Static render displayed.');
+                    }
+                };
+
+                const observer = new IntersectionObserver(([entry], observer) => {
+                    if (entry.isIntersecting) {
+                        loadViewer();
+                        observer.disconnect();
+                    }
+                }, { threshold: 0.4 });
+
+                observer.observe(mediaSection);
+            }
+
+            // Global init function exposed to access THREE objects
+            window.initViewer = function(canvasContainer, modelPath, statusDiv, fallbackImage, fallbackMessage, onFailure) {
+                const width = canvasContainer.clientWidth;
+                const height = canvasContainer.clientHeight;
+
+                // 1. Scene Setup
+                const scene = new THREE.Scene();
+                // Set background color based on theme
+                scene.background = new THREE.Color(getComputedStyle(document.body).getPropertyValue('--card-bg').trim());
+
+                // 2. Camera Setup
+                const camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 1000);
+
+                // 3. Renderer Setup
+                const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                renderer.setPixelRatio(window.devicePixelRatio);
+                renderer.setSize(width, height);
+                canvasContainer.appendChild(renderer.domElement);
+
+                let isActive = true;
+
+                const fail = (message, error) => {
+                    if (error) console.error('STL load failed', error);
+                    isActive = false;
+                    if (renderer && renderer.domElement && renderer.domElement.parentNode) {
+                        renderer.domElement.remove();
+                    }
+                    if (renderer && typeof renderer.dispose === 'function') {
+                        renderer.dispose();
+                    }
+                    if (typeof onFailure === 'function') {
+                        onFailure(message);
+                        return;
+                    }
+                    if (statusDiv) {
+                        statusDiv.textContent = message;
+                        statusDiv.classList.remove('is-hidden');
+                    }
+                    canvasContainer.classList.add('is-hidden');
+                    if (fallbackImage) fallbackImage.classList.remove('is-hidden');
+                    if (fallbackMessage) {
+                        fallbackMessage.textContent = message;
+                        fallbackMessage.classList.remove('is-hidden');
+                    }
+                };
+
+                // 4. Lighting
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+                scene.add(ambientLight);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+                directionalLight.position.set(5, 5, 5).normalize();
+                scene.add(directionalLight);
+                
+                window.mesh = null; 
+
+                // 5. Controls
+                const controls = new THREE.OrbitControls(camera, renderer.domElement);
+                controls.enableDamping = true;
+                controls.dampingFactor = 0.05;
+                controls.screenSpacePanning = false;
+                controls.minDistance = 50;
+                controls.maxDistance = 200;
+                controls.autoRotate = true;
+                controls.autoRotateSpeed = 1.0;
+
+                // 6. Load STL Model
+                const loader = new THREE.STLLoader();
+                loader.load(modelPath, function (geometry) {
+                    
+                    geometry.computeBoundingBox();
+                    const center = new THREE.Vector3();
+                    geometry.boundingBox.getCenter(center);
+                    geometry.translate(-center.x, -center.y, -center.z);
+                    
+                    const size = geometry.boundingBox.getSize(new THREE.Vector3());
+                    const maxDim = Math.max(size.x, size.y, size.z);
+                    const cameraDistance = maxDim * 2.5;
+                    
+                    camera.position.set(cameraDistance, cameraDistance/4, cameraDistance);
+                    camera.near = cameraDistance / 100;
+                    camera.far = cameraDistance * 10;
+                    camera.updateProjectionMatrix();
+
+                    // Get mesh color based on current theme's accent color
+                    const accentColorCSS = getComputedStyle(document.body).getPropertyValue('--accent-color').trim();
+                    const threeColor = new THREE.Color();
+                    try { threeColor.set(accentColorCSS); } catch (e) { threeColor.set(0x0d6efd); }
+                    
+                    const material = new THREE.MeshPhongMaterial({ 
+                        color: threeColor, 
+                        specular: 0x444444, 
+                        shininess: 200 
+                    });
+
+                    window.mesh = new THREE.Mesh(geometry, material);
+                    scene.add(window.mesh);
+                    
+                    controls.target.copy(window.mesh.position);
+                    controls.update();
+
+                    if (statusDiv) {
+                        statusDiv.textContent = '';
+                        statusDiv.classList.add('is-hidden');
+                    }
+                    if (fallbackImage) fallbackImage.classList.add('is-hidden');
+                    if (fallbackMessage) fallbackMessage.classList.add('is-hidden');
+
+                }, (xhr) => {
+                    // Progress
+                }, (error) => {
+                    fail('We could not load the 3D model right now. Static render displayed.', error);
+                });
+
+                // 7. Animation Loop
+                function animate() {
+                    if (!isActive) return;
+                    requestAnimationFrame(animate);
+                    controls.update();
+                    renderer.render(scene, camera);
+                }
+                animate();
+
+                // 8. Handle Window Resize
+                function onWindowResize() {
+                    const newWidth = canvasContainer.clientWidth;
+                    const newHeight = canvasContainer.clientHeight;
+                    camera.aspect = newWidth / newHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(newWidth, newHeight);
+                }
+                window.addEventListener('resize', onWindowResize);
+            }
+
+            // Start the STL setup when the DOM is ready
+            setupSTLViewer(); 
+        });
+    </script>
+</body>
+</html>
+
+
+

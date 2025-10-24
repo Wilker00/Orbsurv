@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="/Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/global.css">
+<link rel="stylesheet" href="css/shared-vars.css">
+<link rel="stylesheet" href="css/privacy.css">
+<link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+  <header class="site-header" data-include="_header.html"></header>
+
+  <main>
+    <section class="contact-hero">
+      <div class="wrap">
+        <h1>Talk with the Orbsurv team</h1>
+        <p>Have a pilot site in mind, need support, or want to explore partnerships? Send a message and we'll get back to you quickly.</p>
+      </div>
+    </section>
+
+    <section class="wrap contact-grid">
+      <div class="card">
+        <h2>General inquiry</h2>
+        <form id="contact-page-form"
+              data-endpoint="/contact"
+              data-success-message="Thanks for reaching out! A team member will respond soon."
+              data-error-message="We could not submit your request. Please try again."
+              data-message-target="contact-page-message">
+          <div class="form-field">
+            <label for="contact-name">Name</label>
+            <input id="contact-name" name="name" type="text" placeholder="Maya Chen" required autocomplete="name">
+          </div>
+          <div class="form-field">
+            <label for="contact-email">Email</label>
+            <input id="contact-email" name="email" type="email" placeholder="you@example.com" required autocomplete="email">
+          </div>
+          <div class="form-field">
+            <label for="contact-message">How can we help?</label>
+            <textarea id="contact-message" name="message" rows="5" placeholder="Tell us about your site, use case, or question." required></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit"><i class="fa-solid fa-paper-plane"></i> Send message</button>
+          <div id="contact-page-message" class="form-message" aria-live="polite"></div>
+        </form>
+      </div>
+
+      <aside class="card contact-side">
+        <h2>Other ways to connect</h2>
+        <ul class="contact-list">
+          <li><i class="fa-solid fa-envelope"></i> <a href="mailto:hello@orbsurv.com">hello@orbsurv.com</a></li>
+          <li><i class="fa-solid fa-phone"></i> +1 (555) 012-4700</li>
+          <li><i class="fa-solid fa-location-dot"></i> Remote-first &mdash; hardware lab in Austin, TX</li>
+          <li><i class="fa-solid fa-headset"></i> Pilot support: <a href="mailto:support@orbsurv.com">support@orbsurv.com</a></li>
+        </ul>
+        <div class="contact-links">
+          <a class="btn btn-secondary btn-compact" href="pricing.html"><i class="fa-solid fa-tags"></i> View pricing</a>
+          <a class="btn btn-outline btn-compact" href="status.html"><i class="fa-solid fa-signal"></i> System status</a>
+        </div>
+      </aside>
+    </section>
+
+    <section class="wrap contact-faq">
+      <h2>Frequently asked questions</h2>
+      <div class="faq">
+        <details>
+          <summary>How long does a pilot deployment take?</summary>
+          <p>Most pilot sites are live within two weeks, including hardware shipment, install, and calibration.</p>
+        </details>
+        <details>
+          <summary>Can we self-install?</summary>
+          <p>Yes. We provide rail layout guidance, remote calibration assistance, and on-demand video walkthroughs.</p>
+        </details>
+        <details>
+          <summary>Do you integrate with existing VMS platforms?</summary>
+          <p>Enterprise plans include REST and webhook integrations for popular VMS, SIEM, and SOC tooling.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="_footer.html"></footer>
+
+  <script src="js/global.js"></script>
+  <script src="js/forms.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>
+

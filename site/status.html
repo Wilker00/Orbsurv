@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Status - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="/Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/shared-vars.css">
+  <link rel="stylesheet" href="css/privacy.css">
+  <link rel="stylesheet" href="css/index.css">
+  <style>
+    .status-dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:8px; background: var(--mute); }
+    .status-dot.status-ok { background:#22c55e; }
+    .status-dot.status-warning { background:#f59e0b; }
+    .status-dot.status-down { background:#ef4444; }
+    .status-dot.status-loading { background:#94a3b8; animation:pulse 1s infinite alternate; }
+    @keyframes pulse { from { opacity:0.5; } to { opacity:1; } }
+    .status-summary { display:flex; flex-direction:column; gap:8px; }
+    .status-indicator { display:flex; align-items:center; gap:12px; font-weight:600; }
+    .status-updated { color:var(--mute); }
+    .status-details { display:grid; gap:var(--space-4); grid-template-columns:minmax(0,2fr) minmax(0,1fr); align-items:start; margin-top:var(--space-4); }
+    .status-table { width:100%; border-collapse:collapse; }
+    .status-table th, .status-table td { padding:12px; text-align:left; border-bottom:1px solid var(--line); }
+    .status-cell { display:flex; align-items:center; gap:8px; }
+    .maintenance-panel { align-self:flex-start; }
+    @media (max-width: 900px) { .status-details { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-include="_header.html"></header>
+
+  <main>
+    <section class="status-hero">
+      <div class="wrap">
+        <h1>System status</h1>
+        <p>Live view of Orbsurv API health, database connectivity, and scheduled maintenance windows.</p>
+      </div>
+    </section>
+
+    <section class="wrap status-summary card">
+      <div class="status-indicator" data-status-summary>
+        <span class="status-dot status-ok"></span>
+        <p>Checking systems&hellip;</p>
+      </div>
+      <p class="status-updated">Last updated <span data-status-updated>never</span></p>
+    </section>
+
+    <section class="wrap status-details">
+      <div class="card">
+        <h2>Components</h2>
+        <table class="status-table">
+          <thead>
+            <tr>
+              <th scope="col">Component</th>
+              <th scope="col">Status</th>
+              <th scope="col">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-component="api">
+              <td>Public API</td>
+              <td class="status-cell"><span class="status-dot status-loading"></span><span>Loading</span></td>
+              <td data-note>Verifying /healthz</td>
+            </tr>
+            <tr data-component="database">
+              <td>Database connectivity</td>
+              <td class="status-cell"><span class="status-dot status-loading"></span><span>Loading</span></td>
+              <td data-note>Verifying /readyz</td>
+            </tr>
+            <tr data-component="frontend">
+              <td>Static site</td>
+              <td class="status-cell"><span class="status-dot status-ok"></span><span>Operational</span></td>
+              <td data-note>Hosted on global CDN</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <aside class="card maintenance-panel">
+        <h2>Maintenance window</h2>
+        <p>No maintenance is currently scheduled.</p>
+        <p>Subscribe for updates: <a href="mailto:status@orbsurv.com">status@orbsurv.com</a></p>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="_footer.html"></footer>
+
+  <script src="js/global.js"></script>
+  <script src="js/forms.js"></script>
+  <script src="js/index.js"></script>
+  <script src="js/status.js"></script>
+</body>
+</html>
+

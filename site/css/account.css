@@ -1,0 +1,203 @@
+.account-hero {
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-4);
+}
+
+.account-hero h1 {
+  margin-bottom: 16px;
+}
+
+.account-subtitle {
+  max-width: 60ch;
+  font-size: 1.125rem;
+  color: var(--mute);
+}
+
+.account-content {
+  padding-top: 0;
+}
+
+.account-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  align-items: start;
+}
+
+.profile-card {
+  grid-column: 1 / -1;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: var(--space-3);
+}
+
+.profile-header {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.profile-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: var(--shadow-md);
+}
+
+.profile-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.profile-email {
+  margin-bottom: 4px;
+  color: var(--mute);
+}
+
+.profile-joined {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--mute);
+}
+
+.data-list {
+  list-style: none;
+  display: grid;
+  gap: 16px;
+  padding: 0;
+  margin: 0;
+}
+
+.data-item {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  padding: 16px;
+  background: var(--bg);
+  display: grid;
+  gap: 8px;
+}
+
+.item-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.item-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.item-meta {
+  font-size: 0.95rem;
+  color: var(--mute);
+}
+
+.item-actions {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(13, 110, 253, 0.12);
+  color: var(--accent-color);
+}
+
+.status-pending {
+  background: rgba(253, 186, 116, 0.18);
+  color: #d97706;
+}
+
+.status-approved {
+  background: rgba(34, 197, 94, 0.18);
+  color: #15803d;
+}
+
+.empty-state {
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  text-align: center;
+  color: var(--mute);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.settings-card form {
+  display: grid;
+  gap: 16px;
+}
+
+.form-field {
+  display: grid;
+  gap: 8px;
+}
+
+.form-field label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.form-field input {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.form-field input:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+.action-feedback {
+  min-height: 1.25em;
+  font-size: 0.95rem;
+  color: var(--accent-color);
+}
+
+.action-feedback.error {
+  color: #dc2626;
+}
+
+@media (max-width: 720px) {
+  .account-hero {
+    padding-top: var(--space-5);
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .item-actions {
+    justify-content: flex-start;
+  }
+}

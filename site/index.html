@@ -17,43 +17,7 @@
 </head>
 
 <body>
-    <header>
-        <div class="wrap nav-container">
-            <div class="logo">Orbsurv</div>
-            <div class="nav-right">
-                <nav class="nav-links">
-                    <a href="product.html">Product</a>
-                    <a href="#details">Details</a>
-                    <a href="demo.html">Demo</a>
-                    <a href="pitchdeck.html" >Pitch Deck</a>
-                </nav>
-                <a class="btn btn-outline nav-admin-link" href="login.html"><i class="fa-solid fa-shield-halved"></i> Admin login</a>
-                <div class="theme-switch-wrapper">
-                    <label class="theme-switch" for="theme-toggle">
-                        <input type="checkbox" id="theme-toggle" />
-                        <div class="slider">
-                            <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="5"></circle>
-                                <line x1="12" y1="1" x2="12" y2="3"></line>
-                                <line x1="12" y1="21" x2="12" y2="23"></line>
-                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                                <line x1="1" y1="12" x2="3" y2="12"></line>
-                                <line x1="21" y1="12" x2="23" y2="12"></line>
-                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                            </svg>
-                            <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
-                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                            </svg>
-                        </div>
-                    </label>
-                </div>
-            </div>
-        </div>
-    </header>
+    <header class="site-header" data-include="_header.html"></header>
 
     <main>
         <section id="hero-section">
@@ -99,7 +63,7 @@
               <h2>Join Early Interest</h2>
               <p>Sign up to hear about our pilot program and updates.</p>
               <form id="early-interest-form"
-              data-endpoint="/api/interest"
+              data-endpoint="/waitlist"
               data-success-message="Thanks for joining our early interest list!"
               aria-label="Early interest signup form">
                 <label for="early-interest-email" class="sr-only">Email</label>
@@ -366,7 +330,7 @@
                 <h2>Pilot units start December</h2>
                 <p>Home and small-business kits with modular rail lengths. Pilot includes install guidance and remote calibration.</p>
                 <form id="pilot-form"
-                      data-endpoint="/api/pilot"
+                      data-endpoint="/pilot_request"
                       data-success-message="Thanks! You're on the pilot list."
                       aria-label="Pilot signup form">
                   <label for="pilot-email" class="sr-only">Email</label>
@@ -426,19 +390,7 @@
     <p>FastAPI + YOLOv8 backend is online. Use the Analyzer to view tracks or Device Setup to add another phone.</p>
   </div>
 
-  <footer class="site-footer">
-    <div class="wrap footer-inner">
-      <span class="footer-brand">Orbsurv</span>
-      <nav class="footer-links" aria-label="Footer">
-        <a href="index.html">Home</a>
-        <a href="product.html">Product</a>
-        <a href="demo.html">Demo</a>
-        <a href="about.html">About</a>
-        <a href="privacy.html">Privacy</a>
-      </nav>
-      <span class="footer-copy">&copy; <span data-year></span> Orbsurv. All rights reserved.</span>
-    </div>
-  </footer>
+  <footer class="site-footer" data-include="_footer.html"></footer>
 
 <script src="js/global.js"></script>
 

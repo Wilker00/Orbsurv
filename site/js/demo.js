@@ -1,19 +1,39 @@
 document.addEventListener('DOMContentLoaded', function() {
             // Theme Toggle
-            const toggle = document.getElementById('theme-toggle');
             const body = document.body;
-            function applyTheme(theme) {
-                if (theme === 'dark') { body.classList.add('dark-mode'); toggle.checked = true; } 
-                else { body.classList.remove('dark-mode'); toggle.checked = false; }
-            }
-            toggle.addEventListener('change', () => {
-                const theme = toggle.checked ? 'dark' : 'light';
-                localStorage.setItem('theme', theme);
-                applyTheme(theme);
-            });
-            const savedTheme = localStorage.getItem('theme');
             const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-            applyTheme(savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light'));
+            let currentTheme = localStorage.getItem('theme') || (prefersDark ? 'dark' : 'light');
+
+            function applyTheme(theme, toggleEl) {
+                body.classList.toggle('dark-mode', theme === 'dark');
+                if (toggleEl) {
+                    toggleEl.checked = theme === 'dark';
+                }
+            }
+
+            function bindThemeToggle(toggleEl) {
+                if (!toggleEl || toggleEl.dataset.orbsurvThemeBound === 'true') {
+                    return;
+                }
+                applyTheme(currentTheme, toggleEl);
+                toggleEl.addEventListener('change', () => {
+                    currentTheme = toggleEl.checked ? 'dark' : 'light';
+                    localStorage.setItem('theme', currentTheme);
+                    applyTheme(currentTheme, toggleEl);
+                });
+                toggleEl.dataset.orbsurvThemeBound = 'true';
+            }
+
+            const initialToggle = document.getElementById('theme-toggle');
+            if (initialToggle) {
+                bindThemeToggle(initialToggle);
+            } else {
+                document.addEventListener('orbsurv:partials-loaded', () => {
+                    bindThemeToggle(document.getElementById('theme-toggle'));
+                }, { once: true });
+            }
+
+            applyTheme(currentTheme, initialToggle);
 
             // Animation Logic
             const mount = document.getElementById('mount-assembly');
@@ -25,6 +45,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const modeDisplay = document.getElementById('mode-display');
             const tabs = document.querySelectorAll('.tab');
             
+            if (!mount || !toggleCameraBtn || !demoBtn || !autoBtn || !resetBtn || !modeDisplay) {
+                console.warn('Demo page is missing required interactive elements.');
+                return;
+            }
+
             let isAutoMode = false;
             let autoModeInterval = null;
 

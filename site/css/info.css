@@ -1,5 +1,5 @@
-﻿.page-intro {
-  padding: 64px 0 40px;
+.page-intro {
+  padding: clamp(40px, 12vw, 64px) 0 clamp(28px, 8vw, 40px);
   display: grid;
   gap: 16px;
   max-width: 760px;
@@ -15,7 +15,7 @@
   background: rgba(12, 18, 34, 0.92);
   border: 1px solid var(--border);
   border-radius: 20px;
-  padding: 24px;
+  padding: clamp(18px, 4vw, 24px);
   display: grid;
   gap: 12px;
   box-shadow: 0 18px 44px rgba(15, 23, 42, 0.25);
@@ -48,7 +48,7 @@
 }
 
 .callouts {
-  margin: 48px 0 72px;
+  margin: clamp(32px, 10vw, 48px) 0 clamp(48px, 12vw, 72px);
   display: grid;
   gap: 24px;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -58,7 +58,7 @@
   background: rgba(7, 12, 24, 0.9);
   border: 1px solid var(--border);
   border-radius: 20px;
-  padding: 24px;
+  padding: clamp(18px, 4vw, 24px);
   color: var(--muted);
 }
 
@@ -71,7 +71,7 @@
 pre {
   background: rgba(4, 8, 16, 0.95);
   border-radius: 14px;
-  padding: 16px;
+  padding: clamp(12px, 3vw, 16px);
   color: var(--accent);
   font-size: 0.9rem;
   overflow-x: auto;

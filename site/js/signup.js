@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('form[data-endpoint]').forEach((form) => {
+    if (form.dataset.orbsurvBound === 'true') {
+      return;
+    }
     form.addEventListener('submit', (event) => handleFormSubmit(event, form));
+    form.dataset.orbsurvBound = 'true';
   });
 
   const signupForm = document.getElementById('signup-form');
@@ -8,12 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
     signupForm.addEventListener('orbsurv:form-success', (event) => {
       const detail = event.detail || {};
       const payload = detail.payload || {};
-      const email = typeof payload.email === 'string' ? payload.email : '';
+      const response = detail.response || {};
+      if (response && typeof response === 'object' && window.OrbsurvAuth && typeof window.OrbsurvAuth.storeTokens === 'function') {
+        window.OrbsurvAuth.storeTokens(response);
+      }
+      const email =
+        (response && response.user && response.user.email) ||
+        (typeof payload.email === 'string' ? payload.email : '');
       if (email) {
         sessionStorage.setItem('orbsurv:lastSignupEmail', email);
       }
       setTimeout(() => {
-        window.location.href = 'login.html';
+        window.location.href = 'account.html';
       }, 900);
     });
   }

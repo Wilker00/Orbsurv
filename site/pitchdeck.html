@@ -11,41 +11,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
 
-  <!-- external CSS moved from the <style> block -->
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/shared-vars.css">
+  <link rel="stylesheet" href="css/privacy.css">
+  <link rel="stylesheet" href="css/index.css">
   <link rel="stylesheet" href="css/pitchdeck.css"/>
 </head>
 
 <body>
-  <header>
-    <div class="wrap nav-container">
-      <div class="logo">Orbsurv</div>
-
-      <div class="nav-actions">
-        <label class="theme-switch" for="theme-toggle" aria-label="Toggle theme">
-          <input type="checkbox" id="theme-toggle"/>
-          <div class="slider">
-            <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="5"></circle>
-              <line x1="12" y1="1" x2="12" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="23"></line>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-              <line x1="1" y1="12" x2="3" y2="12"></line>
-              <line x1="21" y1="12" x2="23" y2="12"></line>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-            <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-          </div>
-        </label>
-
-        <a href="index.html" class="btn btn-secondary">Back to Landing</a>
-        <a href="demo.html" class="btn btn-primary">Go to Demo</a>
-      </div>
-    </div>
-  </header>
+  <header class="site-header" data-include="_header.html"></header>
 
   <main>
     <!-- Slide 1: Title -->
@@ -271,19 +245,13 @@
     </section>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="section-alt" role="contentinfo">
-    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
-      <div class="logo">Orbsurv</div>
-      <nav aria-label="Footer" style="display:flex;gap:16px">
-        <a href="mailto:hello@orbsurv.com" style="color:var(--mute)">Contact</a>
-        <a href="/privacy.html" style="color:var(--mute)">Privacy</a>
-        <a href="/terms.html" style="color:var(--mute)">Terms</a>
-      </nav>
-    </div>
-  </footer>
+  <footer class="site-footer" data-include="_footer.html"></footer>
 
   <!-- external JS that combines both original script blocks -->
+  <script src="js/global.js"></script>
+  <script src="js/forms.js"></script>
+  <script src="js/index.js"></script>
   <script src="js/pitchdeck.js" defer></script>
 </body>
 </html>
+

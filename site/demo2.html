@@ -1,174 +1,1155 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+
+
+
+
+
+
+
 <html lang="en">
+
+
+
+
+
+
+
 <head>
+
+
+
+
+
+
+
   <meta charset="UTF-8"/>
+
+
+
+
+
+
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Orbsurv Rail Cam — Modernized SPA</title>
+
+
+
+
+
+
+
+  <title>Orbsurv Rail Cam â€” Modernized SPA</title>
+
+
+
+
+
+
   <link rel="icon" type="image/x-icon" href="/Image/Group 213.png">
+
+
+
+
+
+
+
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
+
+
+
+
+
+
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+
+
+
+
+
+
+
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 
   
       <link rel="stylesheet" href="css/global.css">
+
+
+
+
+
+
+
 <link rel="stylesheet" href="css/shared-vars.css">
+
+
+
+
+
+
+
 <link rel="stylesheet" href="css/privacy.css">
+
+
+
+
+
+
+
 <link rel="stylesheet" href="css/demo2.css">
+
+
+
+
+
+
+
 </head> 
+
+
+
+
+
+
+
 <body>
-  <header>
-    <div class="wrap nav-container">
-      <div class="logo">Orbsurv</div>
-      <div class="nav-right">
-        <nav class="nav-links">
-          <a href="demo.html">mount + rail </a>
-          <a href="#about">About</a>
-        </nav>
-        <label class="theme-switch" for="theme-toggle" style="margin-left:8px">
-          <input type="checkbox" id="theme-toggle"/>
-          <div class="slider" aria-hidden="true">
-            <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-          </div>
-        </label>
-      </div>
-    </div>
-  </header>
+
+
+
+
+
+
+
+  <header class="site-header" data-include="_header.html"></header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   <main class="wrap">
+
+
+
+
+
+
+
     <section class="section" id="demo">
+
+
+
+
+
+
+
       <h1>See what Orbsurv sees</h1>
+
+
+
+
+
+
+
       <p class="lead">Modernized SPA with a tiny state store, config-driven tuning, improved error handling, and shared glass UI.</p>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <div class="card pad">
+
+
+
+
+
+
+
         <div class="row" style="margin-bottom:16px;justify-content:space-between;align-items:center">
+
+
+
+
+
+
+
           <div class="btnbar" role="toolbar" aria-label="mode">
+
+
+
+
+
+
+
             <button class="btn" id="btnScan" aria-pressed="true" title="Scan end to end">Scan</button>
+
+
+
+
+
+
+
             <button class="btn" id="btnPatrol" aria-pressed="false" title="Patrol waypoints">Patrol</button>
+
+
+
+
+
+
+
             <button class="btn" id="btnFocus" aria-pressed="false" title="Hold focus">Focus</button>
+
+
+
+
+
+
+
             <button class="btn" id="btnReset" aria-pressed="false" title="Reset">Reset</button>
+
+
+
+
+
+
+
             <button class="btn" id="btnAi" aria-pressed="false" title="Start AI mode">Start AI Mode</button>
+
+
+
+
+
+
+
             <button class="btn" id="btnNN" aria-pressed="false" title="Toggle neural network policy">NN</button>
+
+
+
+
+
+
+
             <button class="btn" id="btnSummary" aria-pressed="false" title="Show day summary">Summarize Day</button>
+
+
+
+
+
+
+
           </div>
+
+
+
+
+
+
+
           <div class="row" style="gap:16px;align-items:center">
+
+
+
+
+
+
+
             <label class="mini" for="speed">speed</label>
+
+
+
+
+
+
+
             <input class="range" type="range" min="0.4" max="3" step="0.1" value="1" id="speed" aria-label="Rail speed"/>
+
+
+
+
+
+
+
             <span class="mini" id="modeLabel">mode: scan</span>
+
+
+
+
+
+
+
           </div>
+
+
+
+
+
+
+
         </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <div class="railStage" id="railStage" aria-label="Rail demo stage">
+
+
+
+
+
+
+
           <div class="rail" id="rail"></div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           <div class="car" id="car" aria-label="Camera carriage">
+
+
+
+
+
+
+
             <div class="eye"></div>
+
+
+
+
+
+
+
             <div class="beam" id="beam"></div>
+
+
+
+
+
+
+
             <div class="beamGlow" id="beamGlow"></div>
+
+
+
+
+
+
+
           </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           <div class="floorWash" id="floorWash"></div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           <!-- Live feed panel -->
+
+
+
+
+
+
+
           <div class="feed glass" id="feed" aria-live="polite">
+
+
+
+
+
+
+
             <div class="feedHead">
+
+
+
+
+
+
+
               <span class="feedTitle">Live Feed</span>
+
+
+
+
+
+
+
               <div class="btnbar" style="padding:4px">
+
+
+
+
+
+
+
                 <button class="btn" id="btnPkgMini">Drop Box</button>
+
+
+
+
+
+
+
                 <button class="btn" id="btnMasks" aria-pressed="false" title="Edit privacy masks">Masks</button>
+
+
+
+
+
+
+
               </div>
+
+
+
+
+
+
+
             </div>
+
+
+
+
+
+
+
             <div style="position:relative">
+
+
+
+
+
+
+
               <canvas id="feedCanvas" width="520" height="320" aria-label="Feed canvas"></canvas>
+
+
+
+
+
+
+
               <div class="feedNoise" aria-hidden="true"></div>
+
+
+
+
+
+
+
               <div class="feedHUD" id="feedHUD">00:00 | idle</div>
+
+
+
+
+
+
+
             </div>
+
+
+
+
+
+
+
           </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           <!-- HUD toggles -->
+
+
+
+
+
+
+
           <div class="hud" id="hud">
+
+
+
+
+
+
+
             <div class="btnbar" role="toolbar" aria-label="toggles">
+
+
+
+
+
+
+
               <button class="btn" id="btnHeat" aria-pressed="true">Heat</button>
+
+
+
+
+
+
+
               <button class="btn" id="btnMotion" aria-pressed="true">Motion</button>
+
+
+
+
+
+
+
               <button class="btn" id="btnZones" aria-pressed="true" title="Toggle rules engine">Zones</button>
+
+
+
+
+
+
+
             </div>
+
+
+
+
+
+
+
           </div>
+
+
+
+
+
+
+
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <div class="row" style="margin-top:12px;justify-content:space-between">
+
+
+
+
+
+
+
           <div class="btnbar">
+
+
+
+
+
+
+
             <button class="btn badge" id="scnQuiet">Scenario: Quiet Night</button>
+
+
+
+
+
+
+
             <button class="btn badge" id="scnPackage">Scenario: Package Drop</button>
+
+
+
+
+
+
+
             <button class="btn badge" id="scnPet">Scenario: Pet Roam</button>
+
+
+
+
+
+
+
           </div>
+
+
+
+
+
+
+
           <span class="mini">Scenarios orchestrate events and modes for lifelike behavior</span>
+
+
+
+
+
+
+
         </div>
+
+
+
+
+
+
+
       </div>
+
+
+
+
+
+
+
     </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <section class="section" id="about">
+
+
+
+
+
+
+
       <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+
+
+
+
+
+
+
         <div class="card pad"><div class="mini">Rail length</div><div style="font-weight:700">900 mm</div></div>
-        <div class="card pad"><div class="mini">Sweep FOV</div><div style="font-weight:700">dynamic 90–120° virtual</div></div>
-        <div class="card pad"><div class="mini">Events</div><div style="font-weight:700">Heat · Motion · Packages</div></div>
+
+
+
+
+
+
+
+        <div class="card pad"><div class="mini">Sweep FOV</div><div style="font-weight:700">dynamic 90â€“120Â° virtual</div></div>
+
+
+
+
+
+
+
+        <div class="card pad"><div class="mini">Events</div><div style="font-weight:700">Heat Â· Motion Â· Packages</div></div>
+
+
+
+
+
+
+
       </div>
+
+
+
+
+
+
+
     </section>
+
+
+
+
+
+
+
   </main>
-  <footer class="site-footer">
-    <div class="wrap footer-inner">
-      <span class="footer-brand">Orbsurv</span>
-      <nav class="footer-links" aria-label="Footer">
-        <a href="index.html">Home</a>
-        <a href="product.html">Product</a>
-        <a href="demo.html">Demo</a>
-        <a href="about.html">About</a>
-        <a href="privacy.html">Privacy</a>
-      </nav>
-      <span class="footer-copy">&copy; <span data-year></span> Orbsurv. All rights reserved.</span>
-    </div>
-  </footer>
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!-- OPS PANEL -->
+
+
+
+
+
+
+
   <aside class="ops glass" id="opsPanel" aria-live="polite">
+
+
+
+
+
+
+
     <h3>Ops Panel</h3>
+
+
+
+
+
+
+
     <div class="kv">
+
+
+
+
+
+
+
       <div>Mode</div><div><b id="opMode">scan</b></div>
+
+
+
+
+
+
+
       <div>AI</div><div><b id="opAI">off</b></div>
+
+
+
+
+
+
+
       <div>NN</div><div><b id="opNN">off</b></div>
+
+
+
+
+
+
+
       <div>Chaos</div>
+
+
+
+
+
+
+
       <div class="row">
+
+
+
+
+
+
+
         <input class="range" id="chaos" type="range" min="0" max="1" step="0.02" value="0"/>
+
+
+
+
+
+
+
         <span class="mini" id="chaosVal">0.00</span>
+
+
+
+
+
+
+
       </div>
-      <div>FPS</div><div><b id="opFPS">–</b></div>
-      <div>Pos → Target</div><div><b id="opPos">0.00 → 0.00</b></div>
-      <div>Zone</div><div><b id="opZone">–</b></div>
+
+
+
+
+
+
+
+      <div>FPS</div><div><b id="opFPS">â€“</b></div>
+
+
+
+
+
+
+
+      <div>Pos â†’ Target</div><div><b id="opPos">0.00 â†’ 0.00</b></div>
+
+
+
+
+
+
+
+      <div>Zone</div><div><b id="opZone">â€“</b></div>
+
+
+
+
+
+
+
       <div>Fault</div><div><b id="opFault">none</b></div>
+
+
+
+
+
+
+
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <h3 style="margin-top:12px">Candidates</h3>
+
+
+
+
+
+
+
     <div id="candList"></div>
+
+
+
+
+
+
+
     <div class="hint">Press <b>?</b> to hide/show this panel. N toggles NN.</div>
+
+
+
+
+
+
+
   </aside>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <!-- Day summary modal -->
+
+
+
+
+
+
+
   <dialog id="summaryDialog" aria-label="Day summary">
+
+
+
+
+
+
+
     <div class="modalHead">
+
+
+
+
+
+
+
       <strong>Day summary</strong>
+
+
+
+
+
+
+
       <div class="row">
+
+
+
+
+
+
+
         <button class="btn" id="exportLog">Export JSON</button>
+
+
+
+
+
+
+
         <button class="btn" id="closeSummary">Close</button>
+
+
+
+
+
+
+
       </div>
+
+
+
+
+
+
+
     </div>
+
+
+
+
+
+
+
     <div class="modalBody" id="logBody"></div>
+
+
+
+
+
+
+
   </dialog>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <!-- Error overlay -->
+
+
+
+
+
+
+
   <div id="err" class="errOverlay hidden"></div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
+
+
+
+
+
+
+
+  <footer class="site-footer" data-include="_footer.html"></footer>
+
     <script src="js/global.js"></script>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script src="js/demo2.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
+
+
+
+
+
+
+
 </html>

@@ -1,145 +1,78 @@
-"""FastAPI backend for Orbsurv prototypes."""
-import os
-import hashlib
-import hmac
-import secrets
-from typing import Optional
+from __future__ import annotations
 
-from fastapi import FastAPI, HTTPException, status
+import logging
+import uuid
+from typing import Awaitable, Callable
+
+from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, EmailStr, Field
 
-from storage import JsonStore
+from .api import admin_router, app_router, auth_router, health_router, public_router
+from .settings import settings
 
-# --- Configuration & Setup ---
+logger = logging.getLogger("orbsurv.api")
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_ROOT = os.environ.get("ORBSURV_DATA_DIR", os.path.join(BASE_DIR, "data"))
 
-app = FastAPI(title="Orbsurv API")
+def create_application() -> FastAPI:
+    app = FastAPI(
+        title=settings.project_name,
+        version="1.0.0",
+        docs_url=settings.docs_url,
+        redoc_url=settings.redoc_url,
+        openapi_url=f"{settings.api_prefix}/openapi.json",
+    )
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[os.environ.get("ORBSURV_ALLOWED_ORIGIN", "*")],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.cors_allow_origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
-# --- Data Stores ---
+    @app.middleware("http")
+    async def add_request_context(
+        request: Request,
+        call_next: Callable[[Request], Awaitable[Response]],
+    ) -> Response:  # type: ignore[override]
+        request_id = str(uuid.uuid4())
+        request.state.request_id = request_id
+        response = await call_next(request)
+        response.headers["X-Request-ID"] = request_id
+        return response
 
-stores = {
-    "interest": JsonStore(os.path.join(DATA_ROOT, "early_interest.json")),
-    "pilot": JsonStore(os.path.join(DATA_ROOT, "pilot_signups.json")),
-    "waitlist": JsonStore(os.path.join(DATA_ROOT, "waitlist.json")),
-    "contact": JsonStore(os.path.join(DATA_ROOT, "contact_messages.json")),
-    "users": JsonStore(os.path.join(DATA_ROOT, "users.json")),
-}
-
-# --- Pydantic Models for Request Validation ---
-
-class EmailSubmission(BaseModel):
-    email: EmailStr
-
-class ContactSubmission(BaseModel):
-    name: str = Field(..., min_length=2)
-    email: EmailStr
-    message: str = Field(..., min_length=10)
-
-class UserRegistration(BaseModel):
-    name: Optional[str] = None
-    email: EmailStr
-    password: str = Field(..., min_length=8)
-
-class UserLogin(BaseModel):
-    email: EmailStr
-    password: str
-
-# --- Security (Copied from server.py) ---
-
-PBKDF2_ITERATIONS = 120_000
-
-def normalize_email(email: str) -> str:
-    return email.strip().lower()
-
-def hash_password(password: str) -> str:
-    salt = secrets.token_bytes(16)
-    derived = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, PBKDF2_ITERATIONS)
-    return f"{salt.hex()}${derived.hex()}"
-
-def verify_password(password: str, stored: str) -> bool:
-    try:
-        salt_hex, hash_hex = stored.split("$", 1)
-    except ValueError:
-        return False
-    salt = bytes.fromhex(salt_hex)
-    expected = bytes.fromhex(hash_hex)
-    derived = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, PBKDF2_ITERATIONS)
-    return hmac.compare_digest(derived, expected)
-
-# --- API Endpoints ---
-
-@app.get("/health")
-def health_check():
-    return {"status": "ok"}
-
-@app.post("/api/waitlist", status_code=status.HTTP_201_CREATED)
-async def add_to_waitlist(submission: EmailSubmission):
-    stores["waitlist"].append({"email": submission.email})
-    return {"status": "ok", "message": "Successfully added to waitlist."}
-
-@app.post("/api/interest", status_code=status.HTTP_201_CREATED)
-async def add_to_interest_list(submission: EmailSubmission):
-    stores["interest"].append({"email": submission.email})
-    return {"status": "ok", "message": "Successfully added to interest list."}
-
-@app.post("/api/pilot", status_code=status.HTTP_201_CREATED)
-async def add_to_pilot_list(submission: EmailSubmission):
-    stores["pilot"].append({"email": submission.email})
-    return {"status": "ok", "message": "Successfully added to pilot list."}
-
-@app.post("/api/contact", status_code=status.HTTP_201_CREATED)
-async def handle_contact_form(submission: ContactSubmission):
-    stores["contact"].append(submission.model_dump())
-    return {"status": "ok", "message": "Contact form submitted."}
-
-@app.post("/api/auth/register", status_code=status.HTTP_201_CREATED)
-async def register_user(user: UserRegistration):
-    email = normalize_email(user.email)
-    if any(u.get("email") == email for u in stores["users"].all()):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="An account with that email already exists",
+    @app.middleware("http")
+    async def log_requests(
+        request: Request,
+        call_next: Callable[[Request], Awaitable[Response]],
+    ) -> Response:  # type: ignore[override]
+        logger.info(
+            "request.start",
+            extra={
+                "path": request.url.path,
+                "method": request.method,
+                "request_id": getattr(request.state, "request_id", "n/a"),
+            },
         )
-    
-    password_hash = hash_password(user.password)
-    stores["users"].append({
-        "email": email,
-        "name": user.name,
-        "password_hash": password_hash,
-    })
-    return {"status": "ok", "stored": {"email": email}}
-
-@app.post("/api/auth/login")
-async def login_user(user_login: UserLogin):
-    email = normalize_email(user_login.email)
-    user_record = next((u for u in stores["users"].all() if u.get("email") == email), None)
-
-    if not user_record or not verify_password(user_login.password, user_record.get("password_hash", "")):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid email or password",
+        response = await call_next(request)
+        logger.info(
+            "request.end",
+            extra={
+                "status_code": response.status_code,
+                "path": request.url.path,
+                "request_id": getattr(request.state, "request_id", "n/a"),
+            },
         )
-    
-    profile = {"email": email}
-    if user_record.get("name"):
-        profile["name"] = user_record["name"]
-        
-    return {"status": "ok", "profile": profile}
+        return response
 
-# --- New GET Endpoints for Admin Dashboard ---
+    prefix = settings.api_prefix
+    app.include_router(health_router, prefix=prefix)
+    app.include_router(public_router, prefix=prefix)
+    app.include_router(auth_router, prefix=prefix)
+    app.include_router(app_router, prefix=prefix)
+    app.include_router(admin_router, prefix=prefix)
 
-@app.get("/api/data/counts")
-async def get_all_counts():
-    """Returns the counts for all datasets."""
-    return {key: len(store.all()) for key, store in stores.items()}
+    return app
+
+
+app = create_application()

@@ -12,27 +12,21 @@
   
       <link rel="stylesheet" href="css/global.css">
 <link rel="stylesheet" href="css/shared-vars.css">
-<link rel="stylesheet" href="css/privacy.css">
-<link rel="stylesheet" href="css/login.css">
+<link rel="stylesheet" href="css/auth.css">
 </head>
-<body>
-  <header>
-    <div class="wrap nav">
-      <a class="logo" href="index.html">Orbsurv</a>
-      <a href="signup.html">Sign up</a>
-    </div>
-  </header>
+<body class="auth-page">
+  <header class="site-header" data-include="_header.html"></header>
 
-  <main>
-    <div class="card" role="form">
-      <div>
-        <span class="pill" style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:rgba(13,110,253,0.12);color:var(--accent-color);font-weight:600;font-size:0.85rem;"><i class="fa-solid fa-right-to-bracket"></i> Welcome back</span>
+  <main class="auth-main">
+    <div class="card auth-card" role="form">
+      <div class="auth-header">
+        <span class="auth-tag"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Welcome back</span>
         <h1>Log into Orbsurv</h1>
         <p>Access your rail layouts, event history, and pilot updates securely.</p>
       </div>
 
-      <form id="login-form"
-            data-endpoint="/api/auth/login"
+      <form class="auth-form" id="login-form"
+            data-endpoint="/auth/login"
             data-success-message="Welcome back! Redirecting to the admin dashboard..."
             data-error-message="Invalid email or password. Please try again."
             data-message-target="login-message">
@@ -44,40 +38,30 @@
           <label for="login-password">Password</label>
           <input id="login-password" name="password" type="password" placeholder="Your password" autocomplete="current-password" required>
         </div>
-        <div class="row">
-          <label style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-weight:500;color:var(--mute);">
-            <input type="checkbox" style="width:16px;height:16px;" id="remember-toggle" />
+        <div class="auth-row">
+          <label class="auth-checkbox" for="remember-toggle">
+            <input type="checkbox" id="remember-toggle" />
             Remember me
           </label>
-          <a href="#" aria-disabled="true" style="opacity:0.5;cursor:not-allowed;">Forgot password?</a>
+          <a href="forgot-password.html">Forgot password?</a>
         </div>
         <button class="btn btn-primary" type="submit"><i class="fa-solid fa-arrow-right-to-bracket"></i> Log in</button>
         <div id="login-message" class="form-message" aria-live="polite"></div>
       </form>
 
-      <div class="meta">
+      <div class="auth-meta">
         New to Orbsurv? <a href="signup.html">Create an account</a>.
       </div>
     </div>
   </main>
-  <footer class="site-footer">
-    <div class="wrap nav-container">
-      <span class="logo">Orbsurv</span>
-      <nav class="nav-links" aria-label="Footer">
-        <a href="index.html">Home</a>
-        <a href="product.html">Product</a>
-        <a href="demo.html">Demo</a>
-        <a href="about.html">About</a>
-        <a href="privacy.html">Privacy</a>
-      </nav>
-      <span class="footer-copy">&copy; <span data-year></span> Orbsurv. All rights reserved.</span>
-    </div>
-  </footer>
+  <footer class="site-footer" data-include="_footer.html"></footer>
 
 <script src="js/global.js"></script>
 
 <script src="js/forms.js"></script>
   
+    <script src="js/index.js"></script>
     <script src="js/login.js"></script>
 </body>
 </html>
+

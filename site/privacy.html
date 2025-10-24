@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Orbsurv – Privacy & Protection</title>
+  <title>Orbsurv â€“ Privacy & Protection</title>
   <link rel="icon" type="image/x-icon" href="/Image/Group 213.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,30 +11,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   
       <link rel="stylesheet" href="css/global.css">
+<link rel="stylesheet" href="css/shared-vars.css">
 <link rel="stylesheet" href="css/privacy.css">
+<link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-  <header>
-    <div class="wrap nav-container">
-      <div class="logo">Orbsurv</div>
-      <div class="nav-right">
-        <nav class="nav-links">
-          <a href="index.html">Home</a>
-          <a href="index.html#product-showcase-section">Product</a>
-          <a href="index.html#details">Details</a>
-          <a href="index.html#availability">Pilot</a>
-          <a href="#compliance">Compliance</a>
-        </nav>
-        <label class="theme-switch" for="theme-toggle" aria-label="Toggle theme">
-          <input type="checkbox" id="theme-toggle" />
-          <div class="slider">
-            <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-          </div>
-        </label>
-      </div>
-    </div>
-  </header>
+  <header class="site-header" data-include="_header.html"></header>
 
   <main>
     <!-- HERO -->
@@ -43,7 +25,7 @@
         <div class="animate-on-scroll">
           <p style="font-size:1rem;color:var(--accent-color);font-weight:600;">Privacy & Protection</p>
           <h1>Your data, under your control.</h1>
-          <p style="max-width:60ch">Orbsurv is built for safety, not surveillance. We minimize what we collect, encrypt everything, and give you clear controls to export or delete your data. This page explains exactly what we collect, what we don’t, and your rights under GDPR/CCPA.</p>
+          <p style="max-width:60ch">Orbsurv is built for safety, not surveillance. We minimize what we collect, encrypt everything, and give you clear controls to export or delete your data. This page explains exactly what we collect, what we donâ€™t, and your rights under GDPR/CCPA.</p>
           <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
             <a href="#controls" class="btn btn-primary"><i class="fa-solid fa-user-shield"></i> See your controls</a>
             <a href="#compliance" class="btn btn-secondary"><i class="fa-solid fa-scale-balanced"></i> Read compliance</a>
@@ -63,7 +45,7 @@
           </div>
           <div class="card">
             <h3><i class="fa-solid fa-burst" aria-hidden="true"></i> Event metadata</h3>
-            <p>Timestamps, rail zone, motion/heat scores, and non-PII descriptors like clothing color/patterns for re-identification when faces aren’t used.</p>
+            <p>Timestamps, rail zone, motion/heat scores, and non-PII descriptors like clothing color/patterns for re-identification when faces arenâ€™t used.</p>
           </div>
           <div class="card">
             <h3><i class="fa-solid fa-microchip" aria-hidden="true"></i> Device health</h3>
@@ -76,10 +58,10 @@
     <!-- WHAT WE DON'T DO -->
     <section id="dont">
       <div class="wrap">
-        <h2 class="animate-on-scroll">What we don’t do</h2>
+        <h2 class="animate-on-scroll">What we donâ€™t do</h2>
         <div class="grid grid-3 animate-on-scroll" style="margin-top:var(--space-4)">
           <div class="card"><h3><i class="fa-solid fa-ban"></i> No selling data</h3><p>We never sell your data to advertisers or brokers. Full stop.</p></div>
-          <div class="card"><h3><i class="fa-solid fa-user-lock"></i> No sharing without consent</h3><p>We don’t share outside your account unless you explicitly authorize it (e.g., share a clip).</p></div>
+          <div class="card"><h3><i class="fa-solid fa-user-lock"></i> No sharing without consent</h3><p>We donâ€™t share outside your account unless you explicitly authorize it (e.g., share a clip).</p></div>
           <div class="card"><h3><i class="fa-solid fa-eye-slash"></i> No private-zone capture</h3><p>Areas you mask (windows, neighbor yards, bathrooms) are not recorded or processed.</p></div>
         </div>
       </div>
@@ -106,7 +88,7 @@
           </div>
           <div class="card">
             <h3><i class="fa-solid fa-lock"></i> Encryption & access</h3>
-            <p>End‑to‑end encryption in transit and at rest. Role‑based access, device-bound sessions, and signed URLs for shared clips.</p>
+            <p>Endâ€‘toâ€‘end encryption in transit and at rest. Roleâ€‘based access, device-bound sessions, and signed URLs for shared clips.</p>
           </div>
         </div>
         <div id="toast" class="card animate-on-scroll" style="margin-top:var(--space-4);display:none"></div>
@@ -120,19 +102,19 @@
         <div class="grid grid-3 animate-on-scroll" style="margin-top:var(--space-4)">
           <div class="card">
             <h3><i class="fa-solid fa-flag"></i> GDPR (EU)</h3>
-            <p>We honor data subject rights (access, rectification, deletion, portability, restriction, objection). EU data can be region‑pinned.</p>
+            <p>We honor data subject rights (access, rectification, deletion, portability, restriction, objection). EU data can be regionâ€‘pinned.</p>
           </div>
           <div class="card">
             <h3><i class="fa-solid fa-landmark"></i> CCPA/CPRA (California)</h3>
-            <p>Right to know, delete, and opt‑out of sale/share. We provide a simple portal to submit requests and view status.</p>
+            <p>Right to know, delete, and optâ€‘out of sale/share. We provide a simple portal to submit requests and view status.</p>
           </div>
           <div class="card">
             <h3><i class="fa-solid fa-shield-halved"></i> Security posture</h3>
-            <p>Least‑privilege keys, rotating secrets, audit logs, and regular third‑party penetration tests. SOC‑2 is on our roadmap.</p>
+            <p>Leastâ€‘privilege keys, rotating secrets, audit logs, and regular thirdâ€‘party penetration tests. SOCâ€‘2 is on our roadmap.</p>
           </div>
         </div>
         <div class="card animate-on-scroll" style="margin-top:var(--space-4)">
-          <p>Questions or requests? Email <a href="mailto:privacy@orbsurv.com">privacy@orbsurv.com</a>. For urgent matters, see the in‑app <em>Privacy</em> tab → <em>Help</em>.</p>
+          <p>Questions or requests? Email <a href="mailto:privacy@orbsurv.com">privacy@orbsurv.com</a>. For urgent matters, see the inâ€‘app <em>Privacy</em> tab â†’ <em>Help</em>.</p>
           <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
             <a href="index.html" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
             <a href="index.html#product-showcase-section" class="btn btn-secondary"><i class="fa-solid fa-cube"></i> Product</a>
@@ -143,22 +125,12 @@
       </div>
     </section>
   </main>
-  <footer class="site-footer">
-    <div class="wrap footer-inner">
-      <span class="footer-brand">Orbsurv</span>
-      <nav class="footer-links" aria-label="Footer">
-        <a href="index.html">Home</a>
-        <a href="product.html">Product</a>
-        <a href="demo.html">Demo</a>
-        <a href="about.html">About</a>
-        <a href="privacy.html">Privacy</a>
-      </nav>
-      <span class="footer-copy">&copy; <span data-year></span> Orbsurv. All rights reserved.</span>
-    </div>
-  </footer>
+  <footer class="site-footer" data-include="_footer.html"></footer>
 
 <script src="js/global.js"></script>
-
+<script src="js/forms.js"></script>
+<script src="js/index.js"></script>
 <script src="js/privacy.js"></script>
 </body>
 </html>
+

@@ -1,5 +1,3 @@
-﻿@import url('./shared-vars.css');
-
 #hero .wrap {
   display: grid;
   gap: var(--space-4);
@@ -42,6 +40,46 @@
 .card p {
   color: var(--mute);
   margin-bottom: 0;
+}
+
+.faq {
+  display: grid;
+  gap: 12px;
+}
+
+.faq details {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--bg);
+  padding: clamp(14px, 2vw, 18px);
+}
+
+.faq summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.faq p {
+  margin-top: 8px;
+  color: var(--mute);
+}
+
+form input,
+form select,
+form textarea {
+  width: 100%;
+  padding: clamp(12px, 2vh, 14px) clamp(14px, 4vw, 16px);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+}
+
+form textarea {
+  min-height: 140px;
+  resize: vertical;
 }
 
 #toast {
