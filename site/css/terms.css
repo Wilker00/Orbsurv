@@ -10,15 +10,13 @@
 }
 
 .legal-hero {
-  padding: var(--space-7) 0 var(--space-5);
-  border-bottom: 1px solid var(--line);
-  background: var(--card-bg);
+  padding: var(--space-7) 0 var(--space-6);
 }
 
 .legal-hero-grid {
   display: grid;
   gap: var(--space-4);
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
   align-items: start;
 }
 
@@ -28,27 +26,27 @@
 }
 
 .legal-eyebrow {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   color: var(--accent-color);
 }
 
 .legal-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
 }
 
 .legal-meta .legal-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 14px;
+  padding: 6px 12px;
   border-radius: 999px;
   border: 1px solid var(--line);
-  background: var(--bg);
-  font-size: 0.9rem;
+  background: transparent;
+  font-size: 0.85rem;
   color: var(--mute);
 }
 
@@ -64,12 +62,17 @@
 
 .legal-hero-card {
   display: grid;
-  gap: 12px;
+  gap: 10px;
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background: var(--card-bg);
 }
 
 .legal-hero-card h2 {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
+  color: var(--ink);
 }
 
 .legal-hero-card ul {
@@ -135,6 +138,10 @@
 .legal-article {
   display: grid;
   gap: 14px;
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background: var(--card-bg);
 }
 
 .legal-section-header {
@@ -144,16 +151,9 @@
 }
 
 .legal-section-number {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: var(--bg);
-  border: 1px solid var(--line);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--accent-color);
+  font-size: 0.9rem;
 }
 
 .legal-article h2 {
@@ -197,7 +197,7 @@
     flex-direction: column;
   }
 
-  .legal-actions .btn {
+  .legal actions .btn {
     width: 100%;
   }
 
