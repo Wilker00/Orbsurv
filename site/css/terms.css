@@ -67,6 +67,7 @@
   border: 1px solid var(--line);
   background: var(--card-bg);
   box-shadow: var(--shadow-md);
+  height: auto;
 }
 
 .legal-hero-card h2 {
@@ -172,6 +173,7 @@
   border: 1px solid var(--line);
   background: var(--card-bg);
   box-shadow: var(--shadow-sm);
+  height: auto;
 }
 
 .legal-section-header {
@@ -213,6 +215,18 @@
 .legal-section a {
   color: var(--accent-color);
   font-weight: 600;
+}
+
+.legal-hero-card.card:hover,
+.legal-section.card:hover {
+  transform: none;
+  box-shadow: var(--shadow-sm);
+  border-color: var(--line);
+}
+
+.legal-hero-card.card::before,
+.legal-section.card::before {
+  display: none;
 }
 
 @media (max-width: 1100px) {
