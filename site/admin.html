@@ -26,6 +26,20 @@
 
   <header class="site-header" data-include="_header.html"></header>
 
+  <section class="passcode-backdrop" data-passcode-modal hidden>
+    <div class="card passcode-dialog" role="dialog" aria-modal="true" aria-labelledby="admin-passcode-title">
+      <span class="passcode-eyebrow">Access required</span>
+      <h1 id="admin-passcode-title">Enter Dev Mode passcode</h1>
+      <p>Unlock the admin dashboard to review submissions, password activity, and audits.</p>
+      <form data-passcode-form>
+        <label class="sr-only" for="admin-passcode">Dev Mode passcode</label>
+        <input id="admin-passcode" name="passcode" type="password" placeholder="Enter passcode" autocomplete="current-password" required>
+        <p class="action-feedback" data-passcode-feedback aria-live="polite"></p>
+        <button type="submit" class="btn btn-primary btn-compact">Unlock dashboard</button>
+      </form>
+    </div>
+  </section>
+
   <main class="admin-main" data-admin-content hidden>
     <section class="admin-hero">
       <div class="wrap">
