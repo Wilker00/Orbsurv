@@ -90,10 +90,12 @@
 }
 
 .legal-hero-card li::before {
-  content: '•';
+  content: '\2022';
   color: var(--accent-color);
   font-size: 1.1rem;
   line-height: 1;
+  position: relative;
+  top: 2px;
 }
 
 .legal-content {
@@ -138,7 +140,7 @@
 }
 
 .legal-nav nav a::before {
-  content: '↘';
+  content: '\2198';
   font-size: 0.9rem;
   color: var(--accent-color);
   transition: transform 0.2s ease;
