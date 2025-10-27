@@ -16,11 +16,12 @@
   <link rel="stylesheet" href="../css/privacy.css">
   <link rel="stylesheet" href="../css/index.css">
   <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="../css/admin-logs.css">
 </head>
 <body class="admin-body">
   <header class="site-header" data-include="../_header.html"></header>
 
-  <main class="admin-main">
+  <main class="admin-main logs-main">
     <section class="admin-hero">
       <div class="wrap">
         <p class="hero-eyebrow">Developer Console</p>
@@ -29,40 +30,94 @@
       </div>
     </section>
 
-    <section class="wrap card">
-      <header class="section-header">
-        <h2>Recent errors</h2>
-        <p class="section-subtitle">Ordered by newest first. Export in JSON or CSV from the main admin console.</p>
-      </header>
-      <div class="table-scroll">
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th scope="col">Timestamp</th>
-              <th scope="col">Path</th>
-              <th scope="col">Status</th>
-              <th scope="col">Message</th>
-              <th scope="col">Request ID</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td colspan="5" class="empty-state">Log ingestion will stream here after launch.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <section class="wrap logs-summary" aria-label="Error log summary metrics">
+      <article class="log-metric">
+        <span class="log-metric__label">Last critical</span>
+        <span class="log-metric__value">No incidents</span>
+        <span class="log-metric__meta">Live since 08:00 UTC</span>
+      </article>
+      <article class="log-metric">
+        <span class="log-metric__label">5xx (24h)</span>
+        <span class="log-metric__value">0</span>
+        <span class="log-metric__meta">Auto-refresh every 60s</span>
+      </article>
+      <article class="log-metric">
+        <span class="log-metric__label">APM status</span>
+        <span class="log-metric__value log-metric__value--ok"><i class="fa-solid fa-signal"></i> Stable</span>
+        <span class="log-metric__meta"><a href="../status.html">View uptime dashboard</a></span>
+      </article>
     </section>
 
-    <section class="wrap card">
-      <header class="section-header">
-        <h2>Alerting checklist</h2>
-      </header>
-      <ul style="list-style:none;padding-left:0;display:grid;gap:8px;">
-        <li><i class="fa-solid fa-circle-check"></i> 5xx alerts route to #orbsurv-ops Slack channel</li>
-        <li><i class="fa-solid fa-circle-check"></i> Pager rotation synced with command center</li>
-        <li><i class="fa-solid fa-circle-check"></i> Client-side errors stored under <code>client.error</code> audit actions</li>
-      </ul>
+    <section class="wrap logs-layout">
+      <article class="log-panel log-panel--table">
+        <header class="log-panel__header">
+          <div>
+            <h2>Recent errors</h2>
+            <p>Ordered newest first. Export JSON or CSV from the main admin console.</p>
+          </div>
+          <div class="log-panel__chips" aria-label="Error status">
+            <span class="log-pill log-pill--live"><i class="fa-solid fa-circle"></i> Live ingest</span>
+            <span class="log-pill">0 open incidents</span>
+          </div>
+        </header>
+        <div class="table-scroll">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th scope="col">Timestamp</th>
+                <th scope="col">Path</th>
+                <th scope="col">Status</th>
+                <th scope="col">Message</th>
+                <th scope="col">Request ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="5" class="empty-state">Log ingestion will stream here after launch.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="log-panel log-panel--checklist">
+        <header class="log-panel__header">
+          <div>
+            <h2>Alerting checklist</h2>
+            <p>Run through before marking an incident resolved.</p>
+          </div>
+          <div class="log-panel__chips">
+            <span class="log-pill"><i class="fa-regular fa-clock"></i> Review weekly</span>
+          </div>
+        </header>
+        <ul class="log-checklist">
+          <li class="is-ready">
+            <span class="log-checklist__icon"><i class="fa-solid fa-circle-check"></i></span>
+            <div>
+              <strong>Slack routing</strong>
+              <p>5xx alerts sent to <code>#orbsurv-ops</code> via webhook.</p>
+            </div>
+          </li>
+          <li class="is-ready">
+            <span class="log-checklist__icon"><i class="fa-solid fa-circle-check"></i></span>
+            <div>
+              <strong>Pager rotation</strong>
+              <p>Schedule synced with command center rotation.</p>
+            </div>
+          </li>
+          <li>
+            <span class="log-checklist__icon"><i class="fa-solid fa-circle-dot"></i></span>
+            <div>
+              <strong>Client telemetry</strong>
+              <p>Client-side errors stored under <code>client.error</code> audit actions.</p>
+            </div>
+          </li>
+        </ul>
+        <footer class="log-panel__footer">
+          <a class="btn btn-secondary btn-compact" href="../admin.html"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open admin console</a>
+          <a class="log-link" href="analytics.html">View analytics &rarr;</a>
+        </footer>
+      </article>
     </section>
   </main>
 
