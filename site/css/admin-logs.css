@@ -103,7 +103,6 @@
 
 .log-checklist__item.is-ready {
   border-color: rgba(34, 197, 94, 0.35);
-  background: rgba(34, 197, 94, 0.12);
 }
 
 .log-panel__footer {
