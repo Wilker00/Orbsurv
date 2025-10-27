@@ -60,13 +60,15 @@
 }
 
 .legal-panel {
-  background: color-mix(in srgb, var(--card-bg) 75%, transparent);
-  border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
-  border-radius: calc(var(--radius-xl) - 4px);
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
   padding: var(--space-4);
-  box-shadow: 0 12px 30px -18px rgba(15, 23, 42, 0.35);
+  box-shadow: var(--shadow-sm);
   display: grid;
   gap: 14px;
+  overflow: hidden;
 }
 
 .legal-panel h2 {
@@ -83,7 +85,7 @@
 }
 
 .legal-panel--support {
-  background: linear-gradient(145deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.08));
+  background: linear-gradient(145deg, rgba(13, 110, 253, 0.12), rgba(13, 202, 240, 0.08)), var(--card-bg);
   border-color: rgba(13, 110, 253, 0.18);
 }
 
@@ -91,10 +93,22 @@
   display: grid;
   gap: 16px;
   padding: var(--space-4);
-  border-radius: calc(var(--radius-xl) - 4px);
-  border: 1px solid rgba(13, 110, 253, 0.18);
-  background: linear-gradient(165deg, rgba(15, 23, 42, 0.06), transparent), var(--card-bg);
-  box-shadow: 0 18px 40px -20px rgba(15, 23, 42, 0.45);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(13, 110, 253, 0.2);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.legal-hero-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(13, 110, 253, 0.16), transparent 70%);
+  opacity: 0.7;
+  pointer-events: none;
 }
 
 .legal-hero-card ul {
@@ -189,10 +203,10 @@
 
 .legal-tile {
   padding: clamp(24px, 4vw, 32px);
-  border-radius: calc(var(--radius-xl) - 6px);
-  border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
-  background: color-mix(in srgb, var(--bg) 88%, rgba(15, 23, 42, 0.03));
-  box-shadow: 0 16px 45px -28px rgba(15, 23, 42, 0.6);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--line);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-sm);
   display: grid;
   gap: 16px;
   position: relative;
@@ -212,6 +226,22 @@
 
 .legal-tile:focus-within::after,
 .legal-tile:hover::after {
+  opacity: 1;
+}
+
+.legal-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(140deg, rgba(13, 110, 253, 0.14), transparent 65%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.legal-panel:focus-within::after,
+.legal-panel:hover::after {
   opacity: 1;
 }
 
