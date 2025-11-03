@@ -21,3 +21,8 @@ async def create_interest(session: AsyncSession, payload: schemas.InvestorIntere
 async def count_interest(session: AsyncSession) -> int:
     result = await session.execute(select(func.count(models.InvestorInterest.id)))
     return result.scalar_one()
+
+
+async def list_all(session: AsyncSession) -> list[models.InvestorInterest]:
+    result = await session.execute(select(models.InvestorInterest).order_by(models.InvestorInterest.created_at.desc()))
+    return result.scalars().all()

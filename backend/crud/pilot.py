@@ -21,3 +21,8 @@ async def create_pilot_request(session: AsyncSession, payload: schemas.PilotRequ
 async def count_pilot_requests(session: AsyncSession) -> int:
     result = await session.execute(select(func.count(models.PilotRequest.id)))
     return result.scalar_one()
+
+
+async def list_all(session: AsyncSession) -> list[models.PilotRequest]:
+    result = await session.execute(select(models.PilotRequest).order_by(models.PilotRequest.created_at.desc()))
+    return result.scalars().all()

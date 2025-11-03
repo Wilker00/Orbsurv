@@ -196,6 +196,52 @@ class AdminUserListResponse(BaseModel):
     total: int
 
 
+class AdminWaitlistItem(BaseModel):
+    id: int
+    name: Optional[str]
+    email: EmailStr
+    source: Optional[str]
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class AdminContactItem(BaseModel):
+    id: int
+    name: str
+    email: EmailStr
+    message: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class AdminPilotItem(BaseModel):
+    id: int
+    name: str
+    org: str
+    email: EmailStr
+    use_case: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class AdminInvestorItem(BaseModel):
+    id: int
+    name: str
+    email: EmailStr
+    amount: Optional[str]
+    note: Optional[str]
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
 class EmailSchema(BaseModel):
     to: EmailStr
     subject: str
@@ -205,4 +251,23 @@ class EmailSchema(BaseModel):
 class AdminUserRoleUpdate(BaseModel):
     role: UserRole
 
+
+class AdminWaitlistResponse(BaseModel):
+    items: list[AdminWaitlistItem]
+    total: int
+
+
+class AdminContactResponse(BaseModel):
+    items: list[AdminContactItem]
+    total: int
+
+
+class AdminPilotResponse(BaseModel):
+    items: list[AdminPilotItem]
+    total: int
+
+
+class AdminInvestorResponse(BaseModel):
+    items: list[AdminInvestorItem]
+    total: int
 

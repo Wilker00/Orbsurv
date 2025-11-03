@@ -3,33 +3,62 @@
  * Normalises API endpoints, persists auth tokens, and wraps fetch with sane defaults.
  */
 (function () {
-  const DEFAULT_BASE = "http://localhost:8000";
+  const LOCAL_DEFAULT_BASE = "http://localhost:8000";
   const TOKEN_STORAGE_KEY = "orbsurv:authTokens";
   let memoryTokenRecord = null;
+
+  function resolveDefaultBase() {
+    try {
+      if (typeof window === "undefined" || typeof window.location === "undefined") {
+        return LOCAL_DEFAULT_BASE;
+      }
+      const { protocol, hostname, port } = window.location;
+      const isLoopback =
+        !hostname ||
+        hostname === "localhost" ||
+        hostname === "127.0.0.1" ||
+        hostname.startsWith("127.") ||
+        hostname === "[::1]" ||
+        hostname.startsWith("::1");
+      if (isLoopback) {
+        return LOCAL_DEFAULT_BASE;
+      }
+      return `${protocol}//${hostname}${port ? `:${port}` : ""}`;
+    } catch (error) {
+      console.warn("Unable to infer API base, using local fallback.", error);
+      return LOCAL_DEFAULT_BASE;
+    }
+  }
 
   const metaElement =
     typeof document !== "undefined"
       ? document.querySelector('meta[name="orbsurv-api-base"]')
       : null;
-  const configuredBase = [window.ORBSURV_API_BASE, metaElement && metaElement.getAttribute("content"), DEFAULT_BASE]
+  const configuredBase = [
+    typeof window !== "undefined" ? window.ORBSURV_API_BASE : null,
+    metaElement && metaElement.getAttribute("content"),
+    resolveDefaultBase(),
+    LOCAL_DEFAULT_BASE,
+  ]
     .find((value) => typeof value === "string" && value.trim().length > 0);
-  const API_BASE = normalizeBase(configuredBase || DEFAULT_BASE);
+  const API_BASE = normalizeBase(configuredBase || resolveDefaultBase());
   window.ORBSURV_API_BASE = API_BASE;
 
   function normalizeBase(value) {
     try {
+      const fallback = resolveDefaultBase();
       if (!value) {
-        return DEFAULT_BASE;
+        return fallback;
       }
       const trimmed = value.trim();
       if (!trimmed) {
-        return DEFAULT_BASE;
+        return fallback;
       }
-      const url = new URL(trimmed, window.location.origin);
+      const url = new URL(trimmed, fallback);
       return url.toString().replace(/\/+$/, "");
     } catch (error) {
-      console.warn("Unable to normalise API base, using default.", error);
-      return DEFAULT_BASE;
+      console.warn("Unable to normalise API base, using fallback.", error);
+      return resolveDefaultBase();
     }
   }
 

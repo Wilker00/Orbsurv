@@ -22,9 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (email) {
         sessionStorage.setItem('orbsurv:adminUser', email);
       }
+      const nextRoute = sessionStorage.getItem('orbsurv:returnToAdmin') || 'admin.html';
+      sessionStorage.removeItem('orbsurv:returnToAdmin');
       sessionStorage.removeItem('orbsurv:lastSignupEmail');
       setTimeout(() => {
-        window.location.href = 'admin.html';
+        window.location.href = nextRoute;
       }, 700);
     });
 

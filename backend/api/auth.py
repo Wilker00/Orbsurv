@@ -35,9 +35,12 @@ async def register_user(
     user = await crud.users.create_user(session, payload=payload)
     access_token = create_access_token(user)
     refresh_token = create_refresh_token(user)
+    await record_audit_log(session, actor=user, action="auth.register", request=request)
+    await session.commit()
     return schemas.TokenPair(
         access_token=access_token,
         refresh_token=refresh_token,
+        role=user.role,
         user=schemas.UserOut.model_validate(user),
     )
 

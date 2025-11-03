@@ -16,3 +16,8 @@ async def create_waitlist(session: AsyncSession, payload: schemas.WaitlistCreate
 async def count_waitlist(session: AsyncSession) -> int:
     result = await session.execute(select(func.count(models.Waitlist.id)))
     return result.scalar_one()
+
+
+async def list_all(session: AsyncSession) -> list[models.Waitlist]:
+    result = await session.execute(select(models.Waitlist).order_by(models.Waitlist.created_at.desc()))
+    return result.scalars().all()

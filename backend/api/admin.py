@@ -47,3 +47,27 @@ async def send_admin_email(payload: schemas.EmailSchema, session: AsyncSession =
 async def get_admin_users(session: AsyncSession = Depends(get_session)) -> schemas.AdminUserListResponse:
     users = await crud.users.list_users(session)
     return schemas.AdminUserListResponse(items=users, total=len(users))
+
+
+@router.get("/waitlist", response_model=schemas.AdminWaitlistResponse)
+async def get_admin_waitlist(session: AsyncSession = Depends(get_session)) -> schemas.AdminWaitlistResponse:
+    waitlist = await crud.waitlist.list_all(session)
+    return schemas.AdminWaitlistResponse(items=waitlist, total=len(waitlist))
+
+
+@router.get("/contacts", response_model=schemas.AdminContactResponse)
+async def get_admin_contacts(session: AsyncSession = Depends(get_session)) -> schemas.AdminContactResponse:
+    contacts = await crud.contact.list_all(session)
+    return schemas.AdminContactResponse(items=contacts, total=len(contacts))
+
+
+@router.get("/pilot-requests", response_model=schemas.AdminPilotResponse)
+async def get_admin_pilot_requests(session: AsyncSession = Depends(get_session)) -> schemas.AdminPilotResponse:
+    pilots = await crud.pilot.list_all(session)
+    return schemas.AdminPilotResponse(items=pilots, total=len(pilots))
+
+
+@router.get("/investor-interest", response_model=schemas.AdminInvestorResponse)
+async def get_admin_investor_interest(session: AsyncSession = Depends(get_session)) -> schemas.AdminInvestorResponse:
+    investors = await crud.investor.list_all(session)
+    return schemas.AdminInvestorResponse(items=investors, total=len(investors))

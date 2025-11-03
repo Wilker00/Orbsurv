@@ -1,53 +1,29 @@
 const ADMIN_PASS = 'ORBSURV-DEV-2025';
+const DEV_CREDENTIALS = {
+  email: 'admin@orbsurv.com',
+  password: 'admin123',
+  otp: '000000',
+  scope: 'dev'
+};
+
 const STORAGE_KEYS = {
   unlocked: 'orbsurv_admin_unlocked',
   data: 'orbsurv_admin_data'
 };
 const THEME_KEY = 'orbsurv-theme';
 
-const SEED_DATA = {
-  submissions: [
-    {
-      id: 'u-1001',
-      name: 'Jordan Rivers',
-      email: 'jordan@example.com',
-      source: 'index.html form',
-      createdAt: '2025-10-10T18:10:00Z'
-    },
-    {
-      id: 'u-1002',
-      name: 'Lena Brooks',
-      email: 'lena@example.com',
-      source: 'demo.html waitlist',
-      createdAt: '2025-10-12T14:55:00Z'
-    }
-  ],
-  passwordEvents: [
-    {
-      id: 'p-2001',
-      userId: 'u-1001',
-      event: 'set',
-      newLen: 10,
-      at: '2025-10-10T18:12:00Z'
-    },
-    {
-      id: 'p-2002',
-      userId: 'u-1002',
-      event: 'reset',
-      newLen: 15,
-      at: '2025-10-12T14:57:00Z'
-    }
-  ],
-  audit: [
-    {
-      id: 'a-1',
-      text: 'Seeded admin data',
-      at: '2025-10-10T18:00:00Z'
-    }
-  ]
+const INITIAL_STATE = {
+  submissions: [],
+  passwordEvents: [],
+  audit: [],
+  summary: null,
+  users: []
 };
 
-let state = clone(SEED_DATA);
+let state = clone(INITIAL_STATE);
+let backendLoadPromise = null;
+let hasLoadedBackendData = false;
+let isUsingBackendData = false;
 
 document.addEventListener('DOMContentLoaded', () => {
   init().catch((error) => console.error('Admin init failed', error));
@@ -59,18 +35,27 @@ async function init() {
   initThemeSwitch();
   revealDevBadge();
 
-  state = loadData();
-
-  const unlocked = readUnlocked();
-  console.log('Unlocked state:', unlocked); // Debug log
-  
   bindUI();
 
+  const unlocked = readUnlocked();
+
   if (unlocked) {
-    unlockDashboard({ skipAudit: true });
-  } else {
-    showPasscodeModal();
+    try {
+      const hasAccess = await ensureDevAccess({ interactive: false });
+      if (hasAccess) {
+        await unlockDashboard({ skipAudit: true });
+        return;
+      }
+    } catch (error) {
+      console.warn('Unable to restore dev session automatically', error);
+    }
   }
+
+  writeUnlocked(false);
+  if (unlocked) {
+    showToast('Sign in again to continue.', 'info');
+  }
+  showPasscodeModal();
 }
 
 function bindUI() {
@@ -98,6 +83,82 @@ function bindUI() {
   const importInput = document.querySelector('[data-import-input]');
   if (importInput) {
     importInput.addEventListener('change', handleImportChange);
+  }
+}
+
+function readTokenRecord() {
+  const orbsurvAuth = window.OrbsurvAuth;
+  if (orbsurvAuth && typeof orbsurvAuth.getTokens === 'function') {
+    return orbsurvAuth.getTokens();
+  }
+  try {
+    const raw = localStorage.getItem('orbsurv:authTokens');
+    if (!raw) {
+      return null;
+    }
+    return JSON.parse(raw);
+  } catch (_) {
+    return null;
+  }
+}
+
+async function ensureDevAccess({ interactive = false } = {}) {
+  const tokenRecord = readTokenRecord();
+  const orbsurvAuth = window.OrbsurvAuth;
+
+  try {
+    const token = await getAuthToken();
+    if (token && tokenRecord && tokenRecord.role === 'dev') {
+      return true;
+    }
+  } catch (error) {
+    console.error('Unable to resolve auth token for admin access', error);
+  }
+
+  if (!interactive) {
+    return false;
+  }
+
+  await authenticateWithBackend();
+
+  const refreshed = readTokenRecord();
+  const nextToken = await getAuthToken().catch(() => null);
+  if (nextToken && refreshed && refreshed.role === 'dev') {
+    return true;
+  }
+
+  return false;
+}
+
+function redirectToLogin() {
+  try {
+    sessionStorage.setItem('orbsurv:returnToAdmin', window.location.pathname);
+  } catch (_) {
+    /* ignore storage errors */
+  }
+  window.location.href = 'login.html';
+}
+
+async function ensureBackendData() {
+  if (hasLoadedBackendData) {
+    return;
+  }
+  if (!backendLoadPromise) {
+    backendLoadPromise = loadBackendData()
+      .then(() => {
+        hasLoadedBackendData = true;
+      })
+      .catch((error) => {
+        hasLoadedBackendData = false;
+        throw error;
+      });
+  }
+  try {
+    await backendLoadPromise;
+  } finally {
+    if (!hasLoadedBackendData) {
+      backendLoadPromise = null;
+    }
   }
 }
 
@@ -182,7 +243,7 @@ function initThemeSwitch() {
   }
 }
 
-function handlePasscodeSubmit(event) {
+async function handlePasscodeSubmit(event) {
   event.preventDefault();
   const form = event.currentTarget;
   const input = form.querySelector('#admin-passcode');
@@ -196,42 +257,121 @@ function handlePasscodeSubmit(event) {
   }
 
   if (value === ADMIN_PASS) {
+    let hasAccess = false;
+    try {
+      hasAccess = await ensureDevAccess({ interactive: true });
+    } catch (error) {
+      console.error('Dev authentication failed during unlock', error);
+    }
+
     writeUnlocked(true);
-    unlockDashboard();
-    input.value = '';
-    setFeedback(feedback, '');
-    showToast('Dev Mode unlocked.', 'success');
+
+    try {
+      await unlockDashboard();
+      input.value = '';
+      setFeedback(feedback, '');
+      showToast(hasAccess ? 'Dev Mode unlocked.' : 'Dev Mode unlocked (limited data).', 'success');
+    } catch (error) {
+      console.error('Unable to unlock Dev Mode', error);
+      setFeedback(feedback, 'Unable to load admin data. Try again.', true);
+      return;
+    }
+
+    if (!hasAccess) {
+      showToast('Sign in with a developer account to see live data.', 'info');
+    }
   } else {
     setFeedback(feedback, 'Incorrect passcode. Try again.', true);
     input.focus();
   }
 }
 
-function unlockDashboard({ skipAudit = false } = {}) {
-  console.log('Unlocking dashboard, skipAudit:', skipAudit);
+async function authenticateWithBackend() {
+  try {
+    const response = await fetch('/api/v1/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: DEV_CREDENTIALS.email,
+        password: DEV_CREDENTIALS.password,
+        scope: DEV_CREDENTIALS.scope,
+        otp: DEV_CREDENTIALS.otp
+      })
+    });
+
+    if (!response.ok) {
+      let detail = '';
+      try {
+        const failure = await response.json();
+        detail = failure?.detail || failure?.message || failure?.error || '';
+      } catch (_) {
+        detail = await response.text();
+      }
+      throw new Error(detail || `Login failed (${response.status})`);
+    }
+
+    const data = await response.json();
+
+    if (window.OrbsurvAuth && typeof window.OrbsurvAuth.storeTokens === 'function') {
+      window.OrbsurvAuth.storeTokens(data);
+    } else {
+      const record = {
+        accessToken: data.access_token,
+        refreshToken: data.refresh_token,
+        role: data.role,
+        user: data.user,
+        tokenType: data.token_type,
+        storedAt: Date.now()
+      };
+      try {
+        localStorage.setItem('orbsurv:authTokens', JSON.stringify(record));
+      } catch (error) {
+        console.warn('Unable to persist auth tokens to storage', error);
+      }
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Backend authentication failed:', error);
+    throw error;
+  }
+}
+
+async function unlockDashboard({ skipAudit = false } = {}) {
   const modal = document.querySelector('[data-passcode-modal]');
   const content = document.querySelector('[data-admin-content]');
-  
-  console.log('Modal element:', modal);
-  console.log('Content element:', content);
-  
-  // Always hide modal and show content regardless of skipAudit
+
   if (modal) {
     modal.style.display = 'none';
     modal.setAttribute('hidden', 'hidden');
-    console.log('Modal hidden');
+    modal.setAttribute('aria-hidden', 'true');
+    modal.classList.add('is-hidden');
+    requestAnimationFrame(() => {
+      if (modal && modal.parentElement) {
+        modal.parentElement.removeChild(modal);
+      }
+    });
   }
   if (content) {
     content.style.display = 'block';
     content.removeAttribute('hidden');
-    console.log('Content shown, hidden attribute removed');
+  }
+  document.body.classList.add('admin-unlocked');
+  document.body.classList.remove('admin-locked');
+
+  try {
+    await ensureBackendData();
+  } catch (error) {
+    console.error('Unable to ensure backend data while unlocking dashboard', error);
+    showToast('Unable to load admin data. Refresh and try again.', 'error');
+    return;
   }
   
   if (skipAudit) {
-    console.log('Skipping audit, calling render directly');
     render();
   } else {
-    console.log('Calling commit with audit');
     commit({ audit: 'Unlocked Dev Mode' });
   }
 }
@@ -244,6 +384,8 @@ function showPasscodeModal() {
   if (modal) {
     modal.style.display = 'grid';
     modal.removeAttribute('hidden');
+    modal.removeAttribute('aria-hidden');
+    modal.classList.remove('is-hidden');
   }
   if (content) {
     content.style.display = 'none';
@@ -252,6 +394,8 @@ function showPasscodeModal() {
   if (input) {
     setTimeout(() => input.focus(), 100);
   }
+  document.body.classList.add('admin-locked');
+  document.body.classList.remove('admin-unlocked');
 }
 
 function handleSubmissionAction(event) {
@@ -265,23 +409,17 @@ function handleSubmissionAction(event) {
   if (!submission) return;
 
   switch (button.dataset.action) {
-    case 'view': {
-      console.info('Viewing submission', submission);
-      showToast(
-        `${submission.name} &lt;${submission.email}&gt; · ${submission.source}`,
-        'info'
-      );
-      commit({ audit: `Viewed submission ${id}`, render: false });
-      renderAudit();
-      break;
-    }
-    case 'email': {
+    case 'view': {\n      console.info('Viewing submission', submission);\n      showToast(`${submission.name} <${submission.email}> - ${submission.source}`, 'info');\n      commit({ audit: `Viewed submission ${id}`, render: false });\n      renderAudit();\n      break;\n    }\n    case 'email': {
       console.info('Emailing submission', submission);
       openMailClient(submission.email, `Follow-up from Orbsurv`, '');
       commit({ audit: `Opened mail client for ${submission.email}` });
       break;
     }
     case 'delete': {
+      if (isUsingBackendData) {
+        showToast('Use backend tools to remove live submissions.', 'info');
+        return;
+      }
       const confirmed = window.confirm(`Delete submission ${id}?`);
       if (!confirmed) return;
       state.submissions = state.submissions.filter((item) => item.id !== id);
@@ -294,10 +432,11 @@ function handleSubmissionAction(event) {
   }
 }
 
-function handleEmailSubmit(event) {
+async function handleEmailSubmit(event) {
   event.preventDefault();
   const form = event.currentTarget;
   const feedback = form.querySelector('[data-email-feedback]');
+  const submitButton = form.querySelector('[type="submit"]');
   const formData = new FormData(form);
   const to = (formData.get('to') || '').toString().trim();
   const subject = (formData.get('subject') || '').toString().trim();
@@ -308,10 +447,51 @@ function handleEmailSubmit(event) {
     return;
   }
 
-  console.info('Simulated email send', { to, subject, body });
-  setFeedback(feedback, 'Email sent and logged.');
-  commit({ audit: `Sent simulated email to ${to}` });
-  showToast(`Simulated email sent to ${to}`, 'success');
+  if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.dataset.originalText = submitButton.dataset.originalText || submitButton.innerHTML;
+    submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending';
+  }
+
+  try {
+    const token = await requireAuthToken();
+    const response = await fetch('/api/v1/admin/send-email', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({ to, subject, body })
+    });
+
+    if (!response.ok) {
+      let detail = '';
+      try {
+        const data = await response.json();
+        detail = data?.detail || data?.message || data?.error || '';
+      } catch (_) {
+        detail = await response.text();
+      }
+      throw new Error(detail || `Request failed (${response.status})`);
+    }
+
+    setFeedback(feedback, 'Email sent and logged.');
+    commit({ audit: `Sent email to ${to}` });
+    showToast(`Email sent to ${to}`, 'success');
+    form.reset();
+  } catch (error) {
+    console.error('Email send failed', error);
+    setFeedback(feedback, error && error.message ? error.message : 'Unable to send email.', true);
+    showToast('Email delivery failed.', 'error');
+  } finally {
+    if (submitButton) {
+      submitButton.disabled = false;
+      if (submitButton.dataset.originalText) {
+        submitButton.innerHTML = submitButton.dataset.originalText;
+      }
+    }
+  }
 }
 
 function handleEmailAux(event) {
@@ -389,6 +569,12 @@ function handleImportChange(event) {
   const file = event.target.files && event.target.files[0];
   if (!file) return;
 
+  if (isUsingBackendData) {
+    showToast('Import is disabled while viewing live backend data.', 'info');
+    event.target.value = '';
+    return;
+  }
+
   const proceed = window.confirm('Replace current admin data with imported JSON?');
   if (!proceed) {
     event.target.value = '';
@@ -416,30 +602,188 @@ function clearAllData() {
   const confirmed = window.confirm('Clear all admin data? This cannot be undone.');
   if (!confirmed) return;
 
-  state = {
-    submissions: [],
-    passwordEvents: [],
-    audit: []
-  };
+  if (isUsingBackendData) {
+    showToast('Live data is sourced from the backend. Refresh to re-sync latest submissions.', 'info');
+    return;
+  }
+
+  state = clone(INITIAL_STATE);
   commit({ audit: 'Cleared all admin data' });
   showToast('All admin data cleared.', 'info');
+}
+
+async function requireAuthToken() {
+  const token = await getAuthToken();
+  if (!token) {
+    throw new Error('Authentication required for admin data');
+  }
+  return token;
+}
+
+async function loadBackendData() {
+  const token = await requireAuthToken();
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    Accept: 'application/json'
+  };
+
+  const fetchJson = async (url) => {
+    let response;
+    try {
+      response = await fetch(url, { headers });
+    } catch (networkError) {
+      throw new Error(`Network request failed for ${url}: ${networkError && networkError.message ? networkError.message : networkError}`);
+    }
+
+    if (!response.ok) {
+      let detail = '';
+      try {
+        const body = await response.json();
+        detail = body?.detail || body?.message || body?.error || '';
+      } catch (_) {
+        detail = await response.text();
+      }
+      throw new Error(`${url} failed (${response.status})${detail ? `: ${detail}` : ''}`);
+    }
+
+    return response.json();
+  };
+
+  const [summary, logsData, usersData, waitlistData, contactData, pilotData, investorData] = await Promise.all([
+    fetchJson('/api/v1/admin/summary'),
+    fetchJson('/api/v1/admin/logs'),
+    fetchJson('/api/v1/admin/users'),
+    fetchJson('/api/v1/admin/waitlist'),
+    fetchJson('/api/v1/admin/contacts'),
+    fetchJson('/api/v1/admin/pilot-requests'),
+    fetchJson('/api/v1/admin/investor-interest')
+  ]);
+
+  state = {
+    submissions: buildSubmissions(waitlistData, contactData, pilotData, investorData),
+    passwordEvents: Array.isArray(state.passwordEvents) ? state.passwordEvents : [],
+    audit: buildAuditEntries(logsData?.items),
+    summary,
+    users: Array.isArray(usersData?.items) ? usersData.items : []
+  };
+
+  isUsingBackendData = true;
+}
+
+function buildAuditEntries(items) {
+  if (!Array.isArray(items)) {
+    return [];
+  }
+  return items
+    .filter(Boolean)
+    .map((log) => ({
+      id: `a-${log.id}`,
+      text: `${log.action}${log.actor_email ? ` by ${log.actor_email}` : ''}`,
+      at: log.created_at
+    }))
+    .sort((a, b) => new Date(b.at || 0).getTime() - new Date(a.at || 0).getTime());
+}
+
+function buildSubmissions(waitlistData, contactData, pilotData, investorData) {
+  const submissions = [];
+
+  if (Array.isArray(waitlistData?.items)) {
+    submissions.push(
+      ...waitlistData.items.map((item) => ({
+        id: `w-${item.id}`,
+        name: item.name || 'Anonymous',
+        email: item.email,
+        source: item.source || 'waitlist',
+        createdAt: item.created_at,
+        type: 'waitlist'
+      }))
+    );
+  }
+
+  if (Array.isArray(contactData?.items)) {
+    submissions.push(
+      ...contactData.items.map((item) => ({
+        id: `c-${item.id}`,
+        name: item.name,
+        email: item.email,
+        source: 'contact form',
+        createdAt: item.created_at,
+        type: 'contact',
+        message: item.message
+      }))
+    );
+  }
+
+  if (Array.isArray(pilotData?.items)) {
+    submissions.push(
+      ...pilotData.items.map((item) => ({
+        id: `p-${item.id}`,
+        name: item.name,
+        email: item.email,
+        source: `pilot request - ${item.org}`,
+        createdAt: item.created_at,
+        type: 'pilot',
+        useCase: item.use_case
+      }))
+    );
+  }
+
+  if (Array.isArray(investorData?.items)) {
+    submissions.push(
+      ...investorData.items.map((item) => ({
+        id: `i-${item.id}`,
+        name: item.name,
+        email: item.email,
+        source: `investor interest${item.amount ? ` - ${item.amount}` : ''}`,
+        createdAt: item.created_at,
+        type: 'investor',
+        note: item.note
+      }))
+    );
+  }
+
+  return submissions.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+}
+
+async function getAuthToken() {
+  // Try to get token from OrbsurvAuth if available
+  if (window.OrbsurvAuth && window.OrbsurvAuth.getAccessToken) {
+    return await window.OrbsurvAuth.getAccessToken();
+  }
+  
+  // Fallback: try to get from localStorage
+  try {
+    const tokens = localStorage.getItem('orbsurv:authTokens');
+    if (tokens) {
+      const parsed = JSON.parse(tokens);
+      return parsed.accessToken;
+    }
+  } catch (error) {
+    console.warn('Could not get auth token:', error);
+  }
+  
+  return null;
 }
 
 function loadData() {
   try {
     const stored = localStorage.getItem(STORAGE_KEYS.data);
     if (!stored) {
-      const seeded = clone(SEED_DATA);
-      localStorage.setItem(STORAGE_KEYS.data, JSON.stringify(seeded));
-      return seeded;
+      const empty = clone(INITIAL_STATE);
+      localStorage.setItem(STORAGE_KEYS.data, JSON.stringify(empty));
+      return empty;
     }
     const parsed = JSON.parse(stored);
     return sanitizeData(parsed);
   } catch (error) {
     console.warn('Resetting admin data due to error', error);
-    const seeded = clone(SEED_DATA);
-    localStorage.setItem(STORAGE_KEYS.data, JSON.stringify(seeded));
-    return seeded;
+    const empty = clone(INITIAL_STATE);
+    try {
+      localStorage.setItem(STORAGE_KEYS.data, JSON.stringify(empty));
+    } catch (_) {
+      /* ignore storage errors */
+    }
+    return empty;
   }
 }
 
@@ -447,20 +791,19 @@ function sanitizeData(raw) {
   return {
     submissions: Array.isArray(raw?.submissions) ? raw.submissions : [],
     passwordEvents: Array.isArray(raw?.passwordEvents) ? raw.passwordEvents : [],
-    audit: Array.isArray(raw?.audit) ? raw.audit : []
+    audit: Array.isArray(raw?.audit) ? raw.audit : [],
+    summary: raw && typeof raw.summary === 'object' ? raw.summary : null,
+    users: Array.isArray(raw?.users) ? raw.users : []
   };
 }
 
 function commit({ audit, render: shouldRender = true } = {}) {
-  console.log('Commit called with audit:', audit, 'shouldRender:', shouldRender);
-  
   if (audit) {
     state.audit.unshift({
       id: `a-${Date.now()}`,
       text: audit,
       at: new Date().toISOString()
     });
-    console.log('Added audit entry:', audit);
   }
 
   if (state.audit.length > 500) {
@@ -468,26 +811,18 @@ function commit({ audit, render: shouldRender = true } = {}) {
   }
 
   saveData();
-  console.log('Data saved');
 
   if (shouldRender) {
-    console.log('Calling render from commit');
     render();
   }
 }
 
 function render() {
   try {
-    console.log('Rendering admin dashboard...');
-    console.log('Submissions count:', state.submissions.length);
-    console.log('Password events count:', state.passwordEvents.length);
-    console.log('Audit entries count:', state.audit.length);
-    
     renderSubmissions();
     renderPasswordEvents();
     renderAudit();
     renderMetrics();
-    console.log('Admin dashboard rendered successfully');
   } catch (error) {
     console.error('Error rendering admin dashboard:', error);
     showToast('Error rendering dashboard', 'error');
@@ -595,12 +930,28 @@ function renderAudit() {
 }
 
 function renderMetrics() {
-  setText('[data-count-submissions]', state.submissions.length.toString());
-  setText('[data-count-passwords]', state.passwordEvents.length.toString());
+  const summary = state.summary;
+  const totalSubmissions = summary
+    ? summary.total_contacts + summary.total_waitlist + summary.total_pilot_requests + summary.total_investor_interest
+    : state.submissions.length;
+
+  setText('[data-count-submissions]', totalSubmissions.toString());
+
+  const userCount = summary ? summary.total_users : state.passwordEvents.length;
+  setText('[data-count-users]', userCount.toString());
+  setText('[data-count-passwords]', userCount.toString());
+
   setText('[data-count-audit]', state.audit.length.toString());
+  setText('[data-count-waitlist]', summary ? summary.total_waitlist.toString() : '0');
+  setText('[data-count-contacts]', summary ? summary.total_contacts.toString() : '0');
+  setText('[data-count-pilot]', summary ? summary.total_pilot_requests.toString() : '0');
+  setText('[data-count-investor]', summary ? summary.total_investor_interest.toString() : '0');
 }
 
 function saveData() {
+  if (isUsingBackendData) {
+    return;
+  }
   try {
     localStorage.setItem(STORAGE_KEYS.data, JSON.stringify(state));
   } catch (error) {
@@ -696,3 +1047,5 @@ function escapeAttr(value) {
 function clone(source) {
   return JSON.parse(JSON.stringify(source));
 }
+
+
