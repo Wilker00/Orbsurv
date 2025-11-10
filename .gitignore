@@ -5,3 +5,11 @@ dist/
 build/
 .vscode/
 .env
+backend/.env
+*.env
+!env.example
+!env.production.example
+ssl/
+*.pem
+*.key
+*.log

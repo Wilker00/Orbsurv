@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-require-auth>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +20,7 @@
   <header class="site-header" data-include="_header.html"></header>
 
   <main>
-    <section class="account-hero">
+    <section class="account-hero" style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
       <div class="wrap">
         <h1>Account Center</h1>
         <p class="account-subtitle">Manage your profile, pilot signups, prompts, notifications, and settings from one place.</p>
@@ -90,6 +90,52 @@
             <p class="action-feedback" data-settings-feedback aria-live="polite"></p>
           </form>
         </section>
+
+        <section class="card" aria-labelledby="security-heading">
+          <div class="card-header">
+            <h2 id="security-heading">Security</h2>
+          </div>
+          <form id="password-form"
+                data-endpoint="/app/account/password"
+                data-method="PATCH"
+                data-auth="true"
+                data-success-message="Password updated."
+                data-message-target="password-message">
+            <div class="form-field">
+              <label for="current-password">Current password</label>
+              <input id="current-password" name="current_password" type="password" minlength="8" required autocomplete="current-password">
+            </div>
+            <div class="form-field">
+              <label for="new-password">New password</label>
+              <input id="new-password" name="new_password" type="password" minlength="8" required autocomplete="new-password">
+            </div>
+            <button class="btn btn-primary" type="submit">Update password</button>
+            <p id="password-message" class="form-message" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <section class="card" aria-labelledby="org-heading">
+          <div class="card-header">
+            <h2 id="org-heading">Organization</h2>
+          </div>
+          <form id="org-form"
+                data-endpoint="/app/account/organization"
+                data-method="PATCH"
+                data-auth="true"
+                data-success-message="Organization saved."
+                data-message-target="org-message">
+            <div class="form-field">
+              <label for="org-name">Organization</label>
+              <input id="org-name" name="organization" type="text" autocomplete="organization" required>
+            </div>
+            <div class="form-field">
+              <label for="org-tz">Timezone (optional)</label>
+              <input id="org-tz" name="timezone" type="text" placeholder="e.g., America/Chicago">
+            </div>
+            <button class="btn btn-primary" type="submit">Save organization</button>
+            <p id="org-message" class="form-message" aria-live="polite"></p>
+          </form>
+        </section>
       </div>
     </section>
   </main>
@@ -98,6 +144,7 @@
 
   <script src="js/global.js"></script>
   <script src="js/forms.js"></script>
+  <script src="js/auth-guard.js"></script>
   <script src="js/account.js"></script>
 </body>
 </html>

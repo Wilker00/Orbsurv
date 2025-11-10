@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-require-auth>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity Feed - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="/Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/shared-vars.css">
+  <link rel="stylesheet" href="../css/privacy.css">
+  <link rel="stylesheet" href="../css/account.css">
+  <style>
+    .feed-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .feed-item {
+      display: flex;
+      gap: var(--space-4);
+      padding: var(--space-4);
+      border-bottom: 1px solid var(--line);
+      transition: background-color 0.2s ease;
+    }
+
+    .feed-item:hover {
+      background-color: var(--card-bg);
+    }
+
+    .feed-item:last-child {
+      border-bottom: none;
+    }
+
+    .feed-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+      color: var(--accent-color);
+      flex-shrink: 0;
+    }
+
+    .feed-content {
+      flex: 1;
+    }
+
+    .feed-title {
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: var(--space-1);
+    }
+
+    .feed-description {
+      color: var(--mute);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .feed-time {
+      color: var(--mute);
+      font-size: 0.875rem;
+      margin-top: var(--space-1);
+    }
+
+    .feed-empty {
+      text-align: center;
+      padding: var(--space-7);
+      color: var(--mute);
+    }
+
+    .feed-filter {
+      display: flex;
+      gap: var(--space-2);
+      margin-bottom: var(--space-5);
+      flex-wrap: wrap;
+    }
+
+    .feed-filter button {
+      padding: var(--space-1) var(--space-3);
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.875rem;
+    }
+
+    .feed-filter button:hover,
+    .feed-filter button.active {
+      background: var(--accent-color);
+      color: var(--bg);
+      border-color: var(--accent-color);
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-include="../_header.html"></header>
+
+  <main>
+    <section class="account-hero" style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
+      <div class="wrap">
+        <h1>Activity Feed</h1>
+        <p class="account-subtitle">View your recent activity, system events, and notifications in one place.</p>
+      </div>
+    </section>
+
+    <section class="account-content">
+      <div class="wrap feed-container">
+        <div class="feed-filter">
+          <button class="active" data-filter="all">All Activity</button>
+          <button data-filter="auth">Authentication</button>
+          <button data-filter="profile">Profile Updates</button>
+          <button data-filter="camera">Camera Activity</button>
+          <button data-filter="system">System Events</button>
+        </div>
+
+        <div class="card">
+          <ul id="feed-list" class="data-list" style="list-style: none; padding: 0; margin: 0;">
+            <li class="feed-empty">Loading activity...</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="../_footer.html"></footer>
+
+  <script src="../js/global.js"></script>
+  <script src="../js/forms.js"></script>
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/feed.js"></script>
+</body>
+</html>
+

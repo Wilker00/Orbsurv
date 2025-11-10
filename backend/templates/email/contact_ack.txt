@@ -1,0 +1,11 @@
+Hi {{ name or "there" }},
+
+Thanks for reaching out to the {{ app_name }} team. We received your message and will be in touch within one business day.
+
+{% if message -%}
+Message summary:
+{{ message }}
+
+{%- endif %}If you have updates to share, just reply to this email or contact us at {{ support_email }}.
+
+— The {{ app_name }} team

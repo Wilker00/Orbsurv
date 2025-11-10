@@ -1,0 +1,177 @@
+/* Shared styles for admin management pages (users, waitlist, contacts, etc.) */
+
+.search-filter {
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  flex-wrap: wrap;
+  align-items: center;
+  padding: var(--space-4);
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+.search-filter input {
+  flex: 1;
+  min-width: 200px;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.search-filter select {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.search-filter input:focus,
+.search-filter select:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+  border-color: var(--accent-color);
+}
+
+/* Admin Table Styles */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.admin-table th {
+  text-align: left;
+  padding: var(--space-4);
+  border-bottom: 2px solid var(--line);
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-bottom: var(--space-3);
+  line-height: 1.4;
+}
+
+.admin-table td {
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--line);
+  color: var(--mute);
+  line-height: 1.6;
+  vertical-align: middle;
+}
+
+.admin-table tr:hover {
+  background-color: var(--card-bg);
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--mute);
+  padding: var(--space-6);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+/* Role Badge */
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.role-badge.user {
+  background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+  color: var(--accent-color);
+}
+
+.role-badge.dev {
+  background: color-mix(in srgb, var(--status-warning) 15%, transparent);
+  color: var(--status-warning);
+}
+
+.role-badge.admin {
+  background: color-mix(in srgb, var(--status-info) 15%, transparent);
+  color: var(--status-info);
+}
+
+/* Message/Note Preview Styles */
+.message-preview,
+.use-case-preview,
+.note-preview {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--mute);
+}
+
+.message-full,
+.use-case-full,
+.note-full {
+  display: none;
+  padding: var(--space-4);
+  background: var(--card-bg);
+  border-radius: 12px;
+  margin-top: var(--space-2);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.message-full.show,
+.use-case-full.show,
+.note-full.show {
+  display: block;
+}
+
+.view-message,
+.view-details,
+.view-note {
+  cursor: pointer;
+  color: var(--accent-color);
+  font-size: 0.875rem;
+}
+
+.view-message:hover,
+.view-details:hover,
+.view-note:hover {
+  text-decoration: underline;
+}
+
+/* Amount Badge */
+.amount-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-2);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+  color: var(--accent-color);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* Count Display */
+.data-count {
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+  color: var(--mute);
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+

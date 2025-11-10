@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en" data-require-auth>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configure Camera - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="/Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/shared-vars.css">
+  <link rel="stylesheet" href="../../css/privacy.css">
+  <link rel="stylesheet" href="../../css/index.css">
+  <style>
+    .config-tabs {
+      display: flex;
+      gap: var(--space-2);
+      border-bottom: 2px solid var(--line);
+      margin-bottom: var(--space-5);
+      overflow-x: auto;
+    }
+
+    .config-tab {
+      padding: var(--space-3) var(--space-4);
+      border: none;
+      background: transparent;
+      color: var(--mute);
+      cursor: pointer;
+      font-weight: 500;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .config-tab.active {
+      color: var(--accent-color);
+      border-bottom-color: var(--accent-color);
+    }
+
+    .config-tab-content {
+      display: none;
+    }
+
+    .config-tab-content.active {
+      display: block;
+    }
+
+    .config-section {
+      margin-bottom: var(--space-6);
+    }
+
+    .config-section h3 {
+      margin-bottom: var(--space-4);
+      font-size: 1.25rem;
+      padding-bottom: var(--space-2);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .zone-editor {
+      width: 100%;
+      height: 400px;
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      position: relative;
+      margin-top: var(--space-3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--mute);
+    }
+
+    .zone-editor::before {
+      content: 'Zone Editor Canvas';
+      font-size: 1.125rem;
+    }
+
+    .waypoint-list {
+      display: grid;
+      gap: var(--space-2);
+      margin-top: var(--space-3);
+    }
+
+    .waypoint-item {
+      padding: var(--space-3);
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .waypoint-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+      color: var(--accent-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .sensitivity-slider {
+      width: 100%;
+      accent-color: var(--accent-color);
+      margin: var(--space-2) 0;
+    }
+
+    .sensitivity-value {
+      text-align: center;
+      font-weight: 600;
+      color: var(--accent-color);
+      margin-top: var(--space-2);
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-include="../../_header.html"></header>
+
+  <main>
+    <section style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
+      <div class="wrap">
+        <div style="padding: clamp(var(--space-5), 8vw, var(--space-7)) 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-4);">
+            <div>
+              <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Configuration</p>
+              <h1>Configure Camera</h1>
+              <p style="color: var(--mute); font-size: 1.05rem; margin-bottom: var(--space-3);">Front Entrance</p>
+              <img src="../../../Image/camera_image.png" alt="Camera configuration" class="camera-hero-image" style="max-width: 250px;" loading="lazy">
+            </div>
+            <div style="display: flex; gap: var(--space-3);">
+              <a href="control.html?id=cam-001" class="btn btn-secondary">
+                <i class="fa-solid fa-play"></i> View Live
+              </a>
+              <a href="../cameras.html" class="btn btn-outline">
+                <i class="fa-solid fa-arrow-left"></i> Back to Cameras
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="config-tabs">
+          <button class="config-tab active" data-tab="basic">Basic</button>
+          <button class="config-tab" data-tab="patrol">Patrol Routes</button>
+          <button class="config-tab" data-tab="zones">Detection Zones</button>
+          <button class="config-tab" data-tab="privacy">Privacy</button>
+          <button class="config-tab" data-tab="alerts">Alerts</button>
+          <button class="config-tab" data-tab="network">Network</button>
+          <button class="config-tab" data-tab="advanced">Advanced</button>
+        </div>
+
+        <!-- Basic Settings Tab -->
+        <div class="config-tab-content active" data-content="basic">
+          <div class="card" style="padding: var(--space-5);">
+            <form id="basic-config-form"
+                  data-endpoint="/app/cameras/configure"
+                  data-method="PATCH"
+                  data-auth="true"
+                  data-success-message="Settings saved successfully."
+                  data-message-target="basic-message">
+              <div class="config-section">
+                <h3>Camera Information</h3>
+                <div class="form-field" style="margin-bottom: var(--space-4);">
+                  <label for="camera-name">Camera Name</label>
+                  <input type="text" id="camera-name" name="name" value="Front Entrance" required>
+                </div>
+                <div class="form-field" style="margin-bottom: var(--space-4);">
+                  <label for="camera-location">Location</label>
+                  <input type="text" id="camera-location" name="location" value="Main Building - Entrance" required>
+                </div>
+                <div class="form-field" style="margin-bottom: var(--space-4);">
+                  <label for="camera-description">Description (optional)</label>
+                  <textarea id="camera-description" name="description" rows="3" placeholder="Additional notes about this camera"></textarea>
+                </div>
+              </div>
+
+              <div class="config-section">
+                <h3>Feed Group</h3>
+                <div class="form-field" style="margin-bottom: var(--space-4);">
+                  <label for="feed-group">Assign to Group</label>
+                  <select id="feed-group" name="feed_group">
+                    <option value="">None</option>
+                    <option value="group-1" selected>Main Building</option>
+                    <option value="group-2">Warehouse</option>
+                    <option value="group-3">Perimeter</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-save"></i> Save Settings
+              </button>
+              <p id="basic-message" class="form-message" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+
+        <!-- Patrol Routes Tab -->
+        <div class="config-tab-content" data-content="patrol">
+          <div class="card" style="padding: var(--space-5);">
+            <div class="config-section">
+              <h3>Patrol Routes</h3>
+              <p style="color: var(--mute); margin-bottom: var(--space-4); line-height: 1.7;">
+                Configure waypoints and patrol schedules for automatic camera movement.
+              </p>
+              <div class="waypoint-list">
+                <div class="waypoint-item">
+                  <div style="display: flex; align-items: center; gap: var(--space-3);">
+                    <div class="waypoint-number">1</div>
+                    <div>
+                      <div style="font-weight: 600;">Start Position</div>
+                      <div style="color: var(--mute); font-size: 0.9rem;">0% on rail</div>
+                    </div>
+                  </div>
+                  <button class="btn btn-outline" style="padding: var(--space-1) var(--space-2);">
+                    <i class="fa-solid fa-edit"></i>
+                  </button>
+                </div>
+                <div class="waypoint-item">
+                  <div style="display: flex; align-items: center; gap: var(--space-3);">
+                    <div class="waypoint-number">2</div>
+                    <div>
+                      <div style="font-weight: 600;">Mid Point</div>
+                      <div style="color: var(--mute); font-size: 0.9rem;">50% on rail • Dwell: 5s</div>
+                    </div>
+                  </div>
+                  <button class="btn btn-outline" style="padding: var(--space-1) var(--space-2);">
+                    <i class="fa-solid fa-edit"></i>
+                  </button>
+                </div>
+                <div class="waypoint-item">
+                  <div style="display: flex; align-items: center; gap: var(--space-3);">
+                    <div class="waypoint-number">3</div>
+                    <div>
+                      <div style="font-weight: 600;">End Position</div>
+                      <div style="color: var(--mute); font-size: 0.9rem;">100% on rail</div>
+                    </div>
+                  </div>
+                  <button class="btn btn-outline" style="padding: var(--space-1) var(--space-2);">
+                    <i class="fa-solid fa-edit"></i>
+                  </button>
+                </div>
+              </div>
+              <button class="btn btn-secondary" style="margin-top: var(--space-4);">
+                <i class="fa-solid fa-plus"></i> Add Waypoint
+              </button>
+            </div>
+
+            <div class="config-section">
+              <h3>Patrol Schedule</h3>
+              <div class="form-field" style="margin-bottom: var(--space-4);">
+                <label>
+                  <input type="checkbox" checked> Active 24/7
+                </label>
+              </div>
+              <p style="color: var(--mute); font-size: 0.9rem;">
+                Configure time-based schedules for different patrol modes throughout the day.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detection Zones Tab -->
+        <div class="config-tab-content" data-content="zones">
+          <div class="card" style="padding: var(--space-5);">
+            <div class="config-section">
+              <h3>Detection Zones</h3>
+              <p style="color: var(--mute); margin-bottom: var(--space-4); line-height: 1.7;">
+                Define areas where motion detection should be active. Draw zones on the camera view.
+              </p>
+              <div class="zone-editor"></div>
+              <div style="display: flex; gap: var(--space-3); margin-top: var(--space-4);">
+                <button class="btn btn-primary">
+                  <i class="fa-solid fa-plus"></i> Add Zone
+                </button>
+                <button class="btn btn-outline">
+                  <i class="fa-solid fa-trash"></i> Clear All
+                </button>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3>Sensitivity</h3>
+              <div class="form-field" style="margin-bottom: var(--space-4);">
+                <label for="motion-sensitivity">Motion Detection Sensitivity</label>
+                <input type="range" id="motion-sensitivity" min="1" max="10" value="5" class="sensitivity-slider">
+                <div class="sensitivity-value">Medium (5/10)</div>
+              </div>
+              <div class="form-field" style="margin-bottom: var(--space-4);">
+                <label for="heat-sensitivity">Thermal Detection Sensitivity</label>
+                <input type="range" id="heat-sensitivity" min="1" max="10" value="6" class="sensitivity-slider">
+                <div class="sensitivity-value">Medium-High (6/10)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Privacy Tab -->
+        <div class="config-tab-content" data-content="privacy">
+          <div class="card" style="padding: var(--space-5);">
+            <div class="config-section">
+              <h3>Privacy Zones</h3>
+              <p style="color: var(--mute); margin-bottom: var(--space-4); line-height: 1.7;">
+                Define areas where faces or sensitive information should be automatically blurred in recordings.
+              </p>
+              <div class="zone-editor"></div>
+              <div style="display: flex; gap: var(--space-3); margin-top: var(--space-4);">
+                <button class="btn btn-primary">
+                  <i class="fa-solid fa-plus"></i> Add Privacy Zone
+                </button>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3>Privacy Settings</h3>
+              <div class="form-field" style="margin-bottom: var(--space-3);">
+                <label>
+                  <input type="checkbox" checked> Enable face blurring
+                </label>
+              </div>
+              <div class="form-field" style="margin-bottom: var(--space-3);">
+                <label>
+                  <input type="checkbox"> Enable license plate blurring
+                </label>
+              </div>
+              <div class="form-field" style="margin-bottom: var(--space-3);">
+                <label>
+                  <input type="checkbox" checked> Apply privacy zones to live feed
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alerts Tab -->
+        <div class="config-tab-content" data-content="alerts">
+          <div class="card" style="padding: var(--space-5);">
+            <div class="config-section">
+              <h3>Alert Preferences</h3>
+              <div class="form-field" style="margin-bottom: var(--space-4);">
+                <label>
+                  <input type="checkbox" checked> Enable motion alerts
+                </label>
+              </div>
+              <div class="form-field" style="margin-bottom: var(--space-4);">
+                <label>
+                  <input type="checkbox" checked> Enable thermal alerts
+                </label>
+              </div>
+              <div class="form-field" style="margin-bottom: var(--space-4);">
+                <label>
+                  <input type="checkbox"> Enable audio alerts
+                </label>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3>Notification Settings</h3>
+              <div class="form-field" style="margin-bottom: var(--space-3);">
+                <label>
+                  <input type="checkbox" checked> Email notifications
+                </label>
+              </div>
+              <div class="form-field" style="margin-bottom: var(--space-3);">
+                <label>
+                  <input type="checkbox" checked> Push notifications
+                </label>
+              </div>
+              <div class="form-field" style="margin-bottom: var(--space-3);">
+                <label>
+                  <input type="checkbox"> SMS notifications
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Network Tab -->
+        <div class="config-tab-content" data-content="network">
+          <div class="card" style="padding: var(--space-5);">
+            <div class="config-section">
+              <h3>Network Configuration</h3>
+              <div class="form-field" style="margin-bottom: var(--space-4);">
+                <label for="network-type">Connection Type</label>
+                <select id="network-type" disabled>
+                  <option value="poe" selected>PoE++ (Power over Ethernet)</option>
+                  <option value="wifi">Wi-Fi 6E</option>
+                  <option value="5g">5G Cellular</option>
+                </select>
+                <p style="color: var(--mute); font-size: 0.875rem; margin-top: var(--space-1);">
+                  Connection type cannot be changed while camera is online.
+                </p>
+              </div>
+              <div class="form-field" style="margin-bottom: var(--space-4);">
+                <label for="ip-address">IP Address</label>
+                <input type="text" id="ip-address" value="192.168.1.105" disabled>
+              </div>
+              <div class="form-field" style="margin-bottom: var(--space-4);">
+                <label for="mac-address">MAC Address</label>
+                <input type="text" id="mac-address" value="00:1B:44:11:3A:B7" disabled>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3>Firmware</h3>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-3); background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-lg); margin-bottom: var(--space-3);">
+                <div>
+                  <div style="font-weight: 600;">Current Version</div>
+                  <div style="color: var(--mute); font-size: 0.9rem;">v2.1.4</div>
+                </div>
+                <span class="status-badge online" style="display: inline-flex; align-items: center; gap: var(--space-1); padding: var(--space-1) var(--space-2); border-radius: 999px; font-size: 0.875rem;">
+                  <i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Up to date
+                </span>
+              </div>
+              <a href="../updates.html" class="btn btn-outline">
+                <i class="fa-solid fa-download"></i> Check for Updates
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Advanced Tab -->
+        <div class="config-tab-content" data-content="advanced">
+          <div class="card" style="padding: var(--space-5);">
+            <div class="config-section">
+              <h3>Calibration</h3>
+              <p style="color: var(--mute); margin-bottom: var(--space-4); line-height: 1.7;">
+                Recalibrate the camera's rail system and detection zones. This process takes 15-30 minutes.
+              </p>
+              <button class="btn btn-secondary">
+                <i class="fa-solid fa-sync"></i> Start Recalibration
+              </button>
+            </div>
+
+            <div class="config-section">
+              <h3>Reset Options</h3>
+              <div style="display: grid; gap: var(--space-3);">
+                <button class="btn btn-outline" style="justify-content: flex-start;">
+                  <i class="fa-solid fa-rotate"></i> Reset to Factory Defaults
+                </button>
+                <button class="btn btn-outline" style="justify-content: flex-start; color: #f87171;">
+                  <i class="fa-solid fa-trash"></i> Remove Camera
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="../../_footer.html"></footer>
+
+  <script src="../../js/global.js"></script>
+  <script src="../../js/forms.js"></script>
+  <script src="../../js/index.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabs = document.querySelectorAll('.config-tab');
+      const contents = document.querySelectorAll('.config-tab-content');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          const targetTab = this.dataset.tab;
+          
+          tabs.forEach(t => t.classList.remove('active'));
+          contents.forEach(c => c.classList.remove('active'));
+          
+          this.classList.add('active');
+          document.querySelector(`[data-content="${targetTab}"]`).classList.add('active');
+        });
+      });
+
+      // Sensitivity slider updates
+      document.getElementById('motion-sensitivity').addEventListener('input', function() {
+        const value = this.value;
+        const labels = ['Very Low', 'Low', 'Medium-Low', 'Medium', 'Medium-High', 'High', 'Very High'];
+        const label = labels[Math.floor((value - 1) / 1.5)] || 'Medium';
+        this.nextElementSibling.textContent = `${label} (${value}/10)`;
+      });
+
+      document.getElementById('heat-sensitivity').addEventListener('input', function() {
+        const value = this.value;
+        const labels = ['Very Low', 'Low', 'Medium-Low', 'Medium', 'Medium-High', 'High', 'Very High'];
+        const label = labels[Math.floor((value - 1) / 1.5)] || 'Medium';
+        this.nextElementSibling.textContent = `${label} (${value}/10)`;
+      });
+    });
+  </script>
+  <script src="../../js/global.js"></script>
+  <script src="../../js/forms.js"></script>
+  <script src="../../js/auth-guard.js"></script>
+</body>
+</html>
+

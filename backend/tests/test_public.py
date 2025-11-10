@@ -53,3 +53,14 @@ async def test_client_error_reporting(client):
     assert response.status_code == 202
     data = response.json()
     assert data["status"] == "ok"
+
+
+@pytest.mark.asyncio
+async def test_password_reset_email_skips_without_smtp():
+    from backend.services.email import send_password_reset_email
+
+    result = await send_password_reset_email(
+        to="user@example.com",
+        reset_url="https://example.com/reset?token=abc",
+    )
+    assert result is False

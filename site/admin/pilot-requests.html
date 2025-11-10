@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" data-require-dev>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pilot Requests - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="/Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/shared-vars.css">
+  <link rel="stylesheet" href="../css/privacy.css">
+  <link rel="stylesheet" href="../css/index.css">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/admin-management.css">
+</head>
+<body class="admin-body">
+  <header class="site-header" data-include="../_header.html"></header>
+
+  <main class="admin-main">
+    <section class="admin-hero hero-gradient">
+      <div class="wrap">
+        <p class="hero-eyebrow">Developer Console</p>
+        <h1>Pilot Requests</h1>
+        <p class="hero-copy">Review and manage pilot program requests from potential customers.</p>
+      </div>
+    </section>
+
+    <section class="admin-sections">
+      <div class="wrap">
+        <div class="search-filter">
+          <input type="search" id="pilot-search" placeholder="Search by name, organization, or email..." autocomplete="off">
+          <button type="button" class="btn btn-secondary" id="export-csv">
+            <i class="fa-solid fa-file-export"></i> Export CSV
+          </button>
+          <button type="button" class="btn btn-outline" id="export-json">
+            <i class="fa-solid fa-file-code"></i> Export JSON
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="table-scroll">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Organization</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Use Case</th>
+                  <th scope="col">Created</th>
+                </tr>
+              </thead>
+              <tbody id="pilots-body">
+                <tr>
+                  <td colspan="6" class="empty-state">
+                    <div class="loading-indicator">
+                      <div class="loading-spinner"></div>
+                      <span>Loading pilot requests...</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p id="pilots-count" class="data-count"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="../_footer.html"></footer>
+
+  <script src="../js/global.js"></script>
+  <script src="../js/forms.js"></script>
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/admin-api.js"></script>
+  <script src="../js/index.js"></script>
+  <script>
+    (function() {
+      let allPilots = [];
+      let filteredPilots = [];
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AuthGuard) {
+          const hasDev = await window.AuthGuard.ensureDevRole();
+          if (!hasDev) return;
+        }
+
+        await loadPilots();
+        bindEvents();
+      });
+
+      async function loadPilots() {
+        const pilotsBody = document.getElementById('pilots-body');
+        const pilotsCount = document.getElementById('pilots-count');
+        
+        if (!pilotsBody) return;
+
+        try {
+          const data = await window.AdminAPI.getPilotRequests();
+          allPilots = data?.items || [];
+          filteredPilots = [...allPilots];
+
+          renderPilots();
+          
+          if (pilotsCount) {
+            pilotsCount.textContent = `Total: ${allPilots.length} request${allPilots.length !== 1 ? 's' : ''}`;
+          }
+        } catch (error) {
+          console.error('Unable to load pilot requests', error);
+          window.AuthGuard?.handleAuthError(error);
+          pilotsBody.innerHTML = '<tr><td colspan="6" class="empty-state">Unable to load pilot requests. Please check your connection.</td></tr>';
+        }
+      }
+
+      function renderPilots() {
+        const pilotsBody = document.getElementById('pilots-body');
+        if (!pilotsBody) return;
+
+        if (filteredPilots.length === 0) {
+          pilotsBody.innerHTML = '<tr><td colspan="6" class="empty-state">No pilot requests found.</td></tr>';
+          return;
+        }
+
+        pilotsBody.innerHTML = filteredPilots.map((pilot, index) => {
+          const useCasePreview = pilot.use_case.length > 80 
+            ? pilot.use_case.substring(0, 80) + '...' 
+            : pilot.use_case;
+          
+          return `
+            <tr>
+              <td>${pilot.id}</td>
+              <td>${escapeHtml(pilot.name)}</td>
+              <td>${escapeHtml(pilot.org)}</td>
+              <td>${escapeHtml(pilot.email)}</td>
+              <td>
+                <div class="use-case-preview" id="usecase-preview-${index}">${escapeHtml(useCasePreview)}</div>
+                <div class="use-case-full" id="usecase-full-${index}">${escapeHtml(pilot.use_case)}</div>
+                ${pilot.use_case.length > 80 ? `<span class="view-details" data-toggle-usecase="${index}">View full</span>` : ''}
+              </td>
+              <td>${window.AdminAPI.formatDate(pilot.created_at)}</td>
+            </tr>
+          `;
+        }).join('');
+
+        // Bind toggle events
+        document.querySelectorAll('[data-toggle-usecase]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const index = btn.dataset.toggleUsecase;
+            const preview = document.getElementById(`usecase-preview-${index}`);
+            const full = document.getElementById(`usecase-full-${index}`);
+            
+            if (full.classList.contains('show')) {
+              full.classList.remove('show');
+              preview.style.display = 'block';
+              btn.textContent = 'View full';
+            } else {
+              full.classList.add('show');
+              preview.style.display = 'none';
+              btn.textContent = 'Hide';
+            }
+          });
+        });
+      }
+
+      function bindEvents() {
+        const searchInput = document.getElementById('pilot-search');
+        const exportCsvBtn = document.getElementById('export-csv');
+        const exportJsonBtn = document.getElementById('export-json');
+
+        if (searchInput) {
+          searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (!query) {
+              filteredPilots = [...allPilots];
+            } else {
+              filteredPilots = allPilots.filter(pilot => 
+                pilot.name.toLowerCase().includes(query) ||
+                pilot.org.toLowerCase().includes(query) ||
+                pilot.email.toLowerCase().includes(query) ||
+                pilot.use_case.toLowerCase().includes(query)
+              );
+            }
+            renderPilots();
+          });
+        }
+
+        if (exportCsvBtn) {
+          exportCsvBtn.addEventListener('click', () => {
+            window.AdminAPI.exportToCSV(filteredPilots, 'pilot-requests');
+          });
+        }
+
+        if (exportJsonBtn) {
+          exportJsonBtn.addEventListener('click', () => {
+            window.AdminAPI.exportToJSON(filteredPilots, 'pilot-requests');
+          });
+        }
+      }
+
+      function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+    })();
+  </script>
+</body>
+</html>
+

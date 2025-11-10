@@ -25,6 +25,13 @@ JWT_SECRET_KEY=your-super-secret-jwt-key-here-make-it-long-and-random
 
 # Update with your domain (for production)
 CORS_ALLOW_ORIGINS=https://yourdomain.com,https://www.yourdomain.com
+
+# Configure SMTP so password reset + contact acknowledgements work
+EMAIL_HOST=smtp.your-provider.com
+EMAIL_PORT=587
+EMAIL_USER=your-smtp-username
+EMAIL_PASS=your-smtp-password
+EMAIL_FROM="Orbsurv" <noreply@yourdomain.com>
 ```
 
 ### 3. Deploy
@@ -168,7 +175,7 @@ If you encounter issues:
 
 ## 🎯 Next Steps
 
-1. **Configure Email**: Set up SMTP for password resets
+1. **Configure Email**: Set up SMTP so password resets and public form acknowledgements send reliably
 2. **Set up Monitoring**: Add application monitoring
 3. **Backup Strategy**: Configure database backups
 4. **Scaling**: Plan for horizontal scaling if needed

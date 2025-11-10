@@ -16,7 +16,8 @@ NC='\033[0m' # No Color
 PROJECT_NAME="orbsurv"
 BACKEND_DIR="backend"
 SITE_DIR="site"
-ENV_FILE="env.example"
+ENV_FILE="backend/.env"
+ENV_EXAMPLE="env.production.example"
 
 echo -e "${BLUE}🚀 Starting Orbsurv Production Deployment${NC}"
 
@@ -51,9 +52,17 @@ check_docker() {
 # Check if environment file exists
 check_env() {
     if [ ! -f "$ENV_FILE" ]; then
-        print_error "Environment file $ENV_FILE not found!"
-        print_warning "Please create $ENV_FILE with your configuration"
-        exit 1
+        print_warning "Environment file $ENV_FILE not found!"
+        if [ -f "$ENV_EXAMPLE" ]; then
+            print_status "Creating $ENV_FILE from $ENV_EXAMPLE template..."
+            cp "$ENV_EXAMPLE" "$ENV_FILE"
+            print_warning "Please update $ENV_FILE with your production values before deploying!"
+            print_warning "Press Enter to continue or Ctrl+C to abort..."
+            read -r
+        else
+            print_error "Template file $ENV_EXAMPLE not found!"
+            exit 1
+        fi
     fi
     
     print_status "Environment file found"
@@ -152,9 +161,10 @@ show_info() {
     echo ""
     echo -e "${YELLOW}Next Steps:${NC}"
     echo "  1. Update CORS_ALLOW_ORIGINS in $ENV_FILE with your domain"
-    echo "  2. Configure SSL certificates for HTTPS"
-    echo "  3. Set up monitoring and logging"
-    echo "  4. Configure email settings for password resets"
+    echo "  2. Generate a strong JWT_SECRET_KEY in $ENV_FILE"
+    echo "  3. Configure SSL certificates for HTTPS"
+    echo "  4. Set up monitoring and logging"
+    echo "  5. Configure email settings for password resets"
     echo ""
     echo -e "${YELLOW}Useful Commands:${NC}"
     echo "  View logs: docker-compose logs -f"

@@ -1,6 +1,6 @@
 ﻿
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-require-dev>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +22,7 @@
   <header class="site-header" data-include="../_header.html"></header>
 
   <main class="admin-main logs-main">
-    <section class="admin-hero">
+    <section class="admin-hero hero-gradient">
       <div class="wrap">
         <p class="hero-eyebrow">Developer Console</p>
         <h1>Server error logs</h1>
@@ -60,14 +60,14 @@
               <tr>
                 <th scope="col">Timestamp</th>
                 <th scope="col">Path</th>
-                <th scope="col">Status</th>
-                <th scope="col">Message</th>
-                <th scope="col">Request ID</th>
+                <th scope="col">Action</th>
+                <th scope="col">Actor</th>
+                <th scope="col">IP Address</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="logs-body">
               <tr>
-                <td colspan="5" class="empty-state">Log ingestion will stream here after launch.</td>
+                <td colspan="5" class="empty-state">Loading logs...</td>
               </tr>
             </tbody>
           </table>
@@ -105,7 +105,45 @@
 
   <script src="../js/global.js"></script>
   <script src="../js/forms.js"></script>
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/admin-api.js"></script>
   <script src="../js/index.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const logsBody = document.getElementById('logs-body');
+      if (!logsBody) return;
+
+      // Ensure DEV role
+      if (window.AuthGuard) {
+        const hasDev = await window.AuthGuard.ensureDevRole();
+        if (!hasDev) return;
+      }
+
+      try {
+        const logsData = await window.AdminAPI.getLogs();
+        const logs = logsData?.items || [];
+
+        if (logs.length === 0) {
+          logsBody.innerHTML = '<tr><td colspan="5" class="empty-state">No logs found.</td></tr>';
+          return;
+        }
+
+        logsBody.innerHTML = logs.map(log => `
+          <tr>
+            <td>${window.AdminAPI.formatDate(log.created_at)}</td>
+            <td><code>${log.path || 'N/A'}</code></td>
+            <td><span class="status-badge">${log.action || 'N/A'}</span></td>
+            <td>${log.actor_email || 'System'}</td>
+            <td><code style="font-size: 0.75rem;">${log.ip || 'N/A'}</code></td>
+          </tr>
+        `).join('');
+      } catch (error) {
+        console.error('Unable to load logs', error);
+        window.AuthGuard?.handleAuthError(error);
+        logsBody.innerHTML = '<tr><td colspan="5" class="empty-state">Unable to load logs. Please check your connection.</td></tr>';
+      }
+    });
+  </script>
 </body>
 </html>
 

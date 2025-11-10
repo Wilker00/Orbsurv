@@ -10,7 +10,8 @@ REM Configuration
 set PROJECT_NAME=orbsurv
 set BACKEND_DIR=backend
 set SITE_DIR=site
-set ENV_FILE=env.example
+set ENV_FILE=backend\.env
+set ENV_EXAMPLE=env.production.example
 
 REM Check if Docker is installed
 docker --version >nul 2>&1
@@ -29,9 +30,17 @@ echo ✅ Docker and Docker Compose are installed
 
 REM Check if environment file exists
 if not exist "%ENV_FILE%" (
-    echo ❌ Environment file %ENV_FILE% not found!
-    echo ⚠️  Please create %ENV_FILE% with your configuration
-    exit /b 1
+    echo ⚠️  Environment file %ENV_FILE% not found!
+    if exist "%ENV_EXAMPLE%" (
+        echo ✅ Creating %ENV_FILE% from %ENV_EXAMPLE% template...
+        copy "%ENV_EXAMPLE%" "%ENV_FILE%" >nul
+        echo ⚠️  Please update %ENV_FILE% with your production values before deploying!
+        echo    Press any key to continue or Ctrl+C to abort...
+        pause >nul
+    ) else (
+        echo ❌ Template file %ENV_EXAMPLE% not found!
+        exit /b 1
+    )
 )
 
 echo ✅ Environment file found
@@ -39,8 +48,18 @@ echo ✅ Environment file found
 REM Generate JWT secret if not set
 findstr /C:"your-super-secret-jwt-key-here" "%ENV_FILE%" >nul
 if not errorlevel 1 (
-    echo ⚠️  Please update JWT_SECRET_KEY in %ENV_FILE% with a secure random string
+    echo ⚠️  WARNING: JWT_SECRET_KEY still has default value!
+    echo    Please update JWT_SECRET_KEY in %ENV_FILE% with a secure random string
     echo    You can generate one at: https://generate-secret.vercel.app/32
+    echo    Press any key to continue anyway (NOT RECOMMENDED for production)...
+    pause
+)
+findstr /C:"REPLACE_WITH_YOUR_PRODUCTION_JWT_SECRET_KEY" "%ENV_FILE%" >nul
+if not errorlevel 1 (
+    echo ⚠️  WARNING: JWT_SECRET_KEY still has placeholder value!
+    echo    Please update JWT_SECRET_KEY in %ENV_FILE% with a secure random string
+    echo    You can generate one at: https://generate-secret.vercel.app/32
+    echo    Press any key to continue anyway (NOT RECOMMENDED for production)...
     pause
 )
 
@@ -133,9 +152,10 @@ echo   Admin Panel: http://localhost/admin.html
 echo.
 echo ⚠️  Next Steps:
 echo   1. Update CORS_ALLOW_ORIGINS in %ENV_FILE% with your domain
-echo   2. Configure SSL certificates for HTTPS
-echo   3. Set up monitoring and logging
-echo   4. Configure email settings for password resets
+echo   2. Generate a strong JWT_SECRET_KEY in %ENV_FILE%
+echo   3. Configure SSL certificates for HTTPS
+echo   4. Set up monitoring and logging
+echo   5. Configure email settings for password resets
 echo.
 echo ⚠️  Useful Commands:
 echo   View logs: docker-compose logs -f

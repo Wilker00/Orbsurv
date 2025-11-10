@@ -52,41 +52,6 @@
         section { padding: 64px 0; }
         .section-alt { background-color: var(--card-bg); }
 
-        /* Header */
-        header {
-            position: sticky; top: 0;
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--line);
-            transition: all 0.3s ease;
-        }
-        body.dark-mode header { background-color: rgba(34,34,34, 0.8); }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5rem; color: var(--ink); margin-bottom: 0; }
-        .nav-right { display: flex; align-items: center; gap: 24px; }
-        .nav-links { display: flex; background-color: var(--card-bg); padding: 8px; border-radius: 999px; }
-        .nav-links a {
-            padding: 12px 24px; text-decoration: none; color: var(--mute);
-            font-weight: 500; border-radius: 999px; transition: all 0.3s ease;
-        }
-        .nav-links a:hover, .nav-links a:focus-visible {
-            background-color: var(--bg); color: var(--ink); box-shadow: var(--shadow-sm); outline: none;
-        }
-        
-        /* Theme Toggle */
-        .theme-switch { display: inline-block; height: 24px; position: relative; width: 50px; }
-        .theme-switch input { display:none; }
-        .slider { background-color: var(--line); bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px;}
-        .slider:before { background-color: var(--bg); border: 1px solid var(--line); bottom: 3px; content: ""; height: 18px; left: 3px; position: absolute; transition: .4s; width: 18px; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--line); }
-        input:checked + .slider:before { transform: translateX(26px); }
-        .slider .sun, .slider .moon { position: absolute; top: 50%; transform: translateY(-50%); }
-        .slider .sun { left: 6px; opacity: 1; transition: 0.3s;}
-        .slider .moon { right: 6px; opacity: 0; transition: 0.3s;}
-        input:checked ~ .slider .sun { opacity: 0; }
-        input:checked ~ .slider .moon { opacity: 1; }
         
         /* Button */
         .btn {
@@ -267,9 +232,64 @@
             .animation-controls { justify-content: center; }
         }
         @media (max-width: 600px) {
-            .nav-container { flex-direction: column; gap: 16px; }
-            .nav-links { width: 100%; justify-content: center; }
+            /* Nav styles handled by global.css */
         }
         /* Scroll Animation */
         .animate-on-scroll { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
         .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* 3D Model Viewer */
+        .model-viewer-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        #stl-viewer-canvas {
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-md);
+        }
+
+        .model-loading-status {
+            font-size: 1rem;
+            color: var(--ink);
+            text-align: center;
+        }
+
+        /* SVG Color Overrides for Theme Support */
+        .rail-container svg path[fill="#35393D"],
+        .rail-container svg path[fill="#35383D"] {
+            fill: var(--svg-rail);
+        }
+
+        .rail-container svg rect[fill="#2E3136"] {
+            fill: var(--svg-rail-track);
+        }
+
+        .rail-container svg path[fill="#FEFEFE"] {
+            fill: var(--svg-rail-light);
+        }
+
+        /* Camera mount SVG colors */
+        .mount-assembly svg path[fill="#35383D"] {
+            fill: var(--svg-rail);
+        }
+
+        .mount-assembly svg path[fill="#76797C"],
+        .mount-assembly svg path[fill="#777A7D"] {
+            fill: var(--mute);
+        }
+
+        /* Lens SVG colors - use theme-aware colors */
+        .svg-lens svg ellipse[fill="#111111"] {
+            fill: var(--ink);
+        }
+
+        .svg-lens svg ellipse[fill="#1D1D1D"] {
+            fill: color-mix(in srgb, var(--ink) 80%, transparent);
+        }
+
+        .svg-lens svg ellipse[fill="#6F6F6F"] {
+            fill: color-mix(in srgb, var(--mute) 60%, transparent);
+        }

@@ -505,6 +505,18 @@ function bindEvents() {
     });
   }
 
+  // Refresh profile after password/org updates via generic form handler
+  document.addEventListener('orbsurv:form-success', async (event) => {
+    try {
+      const user = await apiRequest('/api/v1/auth/me');
+      if (user) {
+        applyUser(user);
+      }
+    } catch (_) {
+      /* ignore */
+    }
+  });
+
   if (markReadBtn) {
     markReadBtn.addEventListener('click', () => {
       if (!state.notifications.length) {

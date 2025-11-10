@@ -10,20 +10,25 @@
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 6px 14px -2px rgba(0, 0, 0, 0.12);
   --shadow-lg: 0 18px 35px -10px rgba(0, 0, 0, 0.16);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
   --radius-xl: 24px;
+  --space-1: 8px;
+  --space-2: 12px;
   --space-3: 16px;
   --space-4: 24px;
   --space-5: 32px;
   --space-6: 48px;
   --space-7: 72px;
   --container: 1200px;
-  --chrome-surface: #1f1f1f;
-  --chrome-border: #2b2b2b;
-  --chrome-link: #f5f5f5;
-  --chrome-link-strong: #ffffff;
-  --nav-pill-surface: #242424;
-  --nav-pill-border: #333333;
-  --nav-pill-hover: #2f2f2f;
+  --chrome-surface: rgba(255, 255, 255, 0.9);
+  --chrome-border: rgba(15, 23, 42, 0.08);
+  --chrome-link: #6b7280;
+  --chrome-link-strong: #111827;
+  --nav-pill-surface: rgba(255, 255, 255, 0.8);
+  --nav-pill-border: rgba(15, 23, 42, 0.12);
+  --nav-pill-hover: rgba(15, 23, 42, 0.08);
 }
 
 body.dark-mode {
@@ -44,4 +49,32 @@ body.dark-mode {
   --nav-pill-surface: #1a1a1a;
   --nav-pill-border: #262626;
   --nav-pill-hover: #2d2d2d;
+}
+
+/* Status Colors */
+:root {
+  --status-online: #34d399;
+  --status-offline: #f87171;
+  --status-warning: #fbbf24;
+  --status-info: #3b82f6;
+}
+
+body.dark-mode {
+  --status-online: #10b981;
+  --status-offline: #ef4444;
+  --status-warning: #f59e0b;
+  --status-info: #60a5fa;
+}
+
+/* SVG Colors (for demo.html and other SVG elements) */
+:root {
+  --svg-rail: #35393D;
+  --svg-rail-track: #2E3136;
+  --svg-rail-light: #FEFEFE;
+}
+
+body.dark-mode {
+  --svg-rail: #E5E7EB;
+  --svg-rail-track: #9CA3AF;
+  --svg-rail-light: #111827;
 }

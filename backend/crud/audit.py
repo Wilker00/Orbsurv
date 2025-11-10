@@ -1,6 +1,6 @@
 from typing import Sequence
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from .. import models
@@ -10,3 +10,8 @@ async def get_all(session: AsyncSession, *, limit: int = 100, offset: int = 0) -
     stmt = select(models.AuditLog).order_by(models.AuditLog.created_at.desc()).limit(limit).offset(offset)
     result = await session.execute(stmt)
     return result.scalars().all()
+
+
+async def count_all(session: AsyncSession) -> int:
+    result = await session.execute(select(func.count(models.AuditLog.id)))
+    return result.scalar_one()

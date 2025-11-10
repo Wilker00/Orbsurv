@@ -1,0 +1,752 @@
+/* Investor Page - Interactive Competitive Audit Styles */
+
+/* Competitor Cards Grid */
+.competitor-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 48px;
+}
+
+.competitor-card {
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: visible;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.competitor-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--mute);
+}
+
+.competitor-card.hidden {
+    display: none;
+}
+
+.competitor-card-header {
+    margin-bottom: 16px;
+}
+
+.competitor-card-header h3 {
+    margin-bottom: 8px;
+    font-size: 1.25rem;
+}
+
+.competitor-category {
+    font-size: 0.875rem;
+    color: var(--mute);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.competitor-card-content {
+    margin-bottom: 16px;
+    flex: 1;
+    min-height: 0;
+}
+
+.competitor-summary {
+    color: var(--mute);
+    margin-bottom: 16px;
+    line-height: 1.7;
+    font-size: 0.9375rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.competitor-limitations {
+    margin-top: 16px;
+}
+
+.competitor-limitations strong {
+    color: var(--ink);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.competitor-limitations ul {
+    margin-left: 1rem;
+    color: var(--mute);
+    list-style-type: disc;
+}
+
+.competitor-limitations li {
+    margin-bottom: 6px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.competitor-expand-btn {
+    width: 100%;
+    padding: 12px 16px;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    margin-top: 16px;
+}
+
+.competitor-expand-btn:hover {
+    background: var(--bg);
+    border-color: var(--mute);
+}
+
+.competitor-expand-btn[aria-expanded="true"] {
+    background: var(--bg);
+    border-color: var(--accent-color);
+}
+
+.competitor-expand-btn[aria-expanded="true"] .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.competitor-expand-btn .fa-chevron-down {
+    transition: transform 0.3s ease;
+}
+
+.competitor-details {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.competitor-details-content h4 {
+    margin-top: 16px;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: var(--ink);
+}
+
+.competitor-details-content h4:first-child {
+    margin-top: 0;
+}
+
+.competitor-details-content ul {
+    margin-left: 1rem;
+    color: var(--mute);
+    list-style-type: disc;
+}
+
+.competitor-details-content li {
+    margin-bottom: 6px;
+    line-height: 1.6;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.competitor-details-content p {
+    line-height: 1.7;
+    margin-bottom: 12px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Filter Buttons */
+.competitor-filters {
+    margin-bottom: 32px;
+}
+
+.filter-btn.active {
+    background: var(--accent-color);
+    color: var(--bg);
+    border-color: var(--accent-color);
+}
+
+/* Comparison Table Enhancements */
+.comparison-table-container {
+    margin-top: 48px;
+}
+
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 24px;
+    background: var(--bg);
+    table-layout: auto;
+    word-wrap: break-word;
+}
+
+.comparison-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 16px;
+    border: 1px solid var(--line);
+    text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 200px;
+    vertical-align: top;
+}
+
+.comparison-table th {
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--card-bg);
+}
+
+.comparison-table .orbsurv-column {
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.1), rgba(13, 202, 240, 0.05));
+    color: var(--ink);
+    font-weight: 700;
+}
+
+.comparison-table .orbsurv-cell {
+    background: var(--card-bg);
+    font-weight: 600;
+}
+
+.comparison-row {
+    transition: background-color 0.2s ease;
+}
+
+.comparison-row:hover {
+    background-color: var(--card-bg);
+}
+
+.comparison-row td:first-child {
+    font-weight: 600;
+}
+
+/* Advantages Grid */
+.advantages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.advantage-card {
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.advantage-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.advantage-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.advantage-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.1), rgba(13, 202, 240, 0.05));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.advantage-header h3 {
+    margin: 0;
+    flex: 1;
+}
+
+.advantage-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.advantage-content p {
+    color: var(--mute);
+    margin-bottom: 16px;
+    line-height: 1.7;
+    font-size: 0.9375rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.advantage-expand-btn {
+    width: 100%;
+    padding: 12px 16px;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+}
+
+.advantage-expand-btn:hover {
+    background: var(--bg);
+    border-color: var(--mute);
+}
+
+.advantage-expand-btn[aria-expanded="true"] {
+    background: var(--bg);
+    border-color: var(--accent-color);
+}
+
+.advantage-expand-btn[aria-expanded="true"] .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.advantage-expand-btn .fa-chevron-down {
+    transition: transform 0.3s ease;
+}
+
+.advantage-details {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    animation: slideDown 0.3s ease;
+}
+
+.advantage-details ul {
+    margin-left: 1rem;
+    color: var(--mute);
+    list-style-type: disc;
+    margin-bottom: 16px;
+}
+
+.advantage-details li {
+    margin-bottom: 8px;
+}
+
+.advantage-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+}
+
+.metric {
+    text-align: center;
+    padding: 12px;
+    background: var(--bg);
+    border-radius: 8px;
+}
+
+.metric strong {
+    display: block;
+    color: var(--ink);
+    margin-bottom: 4px;
+    font-size: 0.875rem;
+}
+
+.metric p {
+    color: var(--accent-color);
+    font-weight: 600;
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Case Studies Grid */
+.case-studies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 32px;
+}
+
+.case-study-card {
+    padding: 32px;
+    min-height: auto;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+}
+
+.case-study-card h3 {
+    margin-bottom: 24px;
+    text-align: center;
+    font-size: 1.5rem;
+    line-height: 1.3;
+}
+
+.case-study-comparison {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+}
+
+.before-after {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.before,
+.after {
+    padding: 20px;
+    border-radius: 12px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.before {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.after {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.before h4,
+.after h4 {
+    margin-bottom: 16px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.before ul,
+.after ul {
+    margin-left: 1.25rem;
+    list-style-type: disc;
+    color: var(--mute);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    flex: 1;
+}
+
+.before li,
+.after li {
+    margin-bottom: 8px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.before li:last-child,
+.after li:last-child {
+    margin-bottom: 0;
+}
+
+.roi-highlight {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.1), rgba(13, 202, 240, 0.05));
+    border-radius: 12px;
+    border: 1px solid var(--accent-color);
+    margin-top: 8px;
+}
+
+.roi-highlight strong {
+    color: var(--accent-color);
+    font-size: 1.125rem;
+    line-height: 1.5;
+    display: block;
+}
+
+/* Market Dominance Analysis Styles */
+.market-leader-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.market-leader-card {
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.market-leader-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.market-leader-card h4 {
+    margin-bottom: 12px;
+    font-size: 1.125rem;
+}
+
+.market-share-bar {
+    margin-top: 12px;
+}
+
+.market-share-fill {
+    background: var(--accent-color);
+    height: 8px;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+}
+
+/* Market Data Table */
+.market-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 24px;
+    background: var(--bg);
+    table-layout: auto;
+    word-wrap: break-word;
+}
+
+.market-data-table th,
+.market-data-table td {
+    padding: 16px;
+    border: 1px solid var(--line);
+    text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    vertical-align: top;
+}
+
+.market-data-table th {
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--card-bg);
+    position: sticky;
+    top: 0;
+}
+
+.revenue-cell {
+    font-weight: 700;
+    color: var(--accent-color);
+    font-size: 1.125rem;
+}
+
+.spend-cell {
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.growth-cell.positive {
+    color: #10b981;
+    font-weight: 600;
+}
+
+.growth-cell.neutral {
+    color: var(--mute);
+    font-weight: 600;
+}
+
+/* Market Gaps Grid */
+.market-gaps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 32px;
+}
+
+.market-gap-card {
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    min-height: 300px;
+}
+
+.market-gap-card h4 {
+    margin-bottom: 16px;
+    font-size: 1.25rem;
+}
+
+.market-gap-card ul {
+    margin-left: 1rem;
+    list-style-type: disc;
+    color: var(--mute);
+    line-height: 1.7;
+}
+
+.market-gap-card li {
+    margin-bottom: 12px;
+    font-size: 0.9375rem;
+}
+
+.market-gap-card li strong {
+    color: var(--ink);
+}
+
+/* Marketing Spend Cards */
+.marketing-spend-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    margin-top: 32px;
+}
+
+.spend-card {
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.spend-card h4 {
+    margin-bottom: 16px;
+    font-size: 1.125rem;
+}
+
+.spend-amount {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 8px;
+}
+
+.spend-breakdown {
+    margin-top: 16px;
+    text-align: left;
+    flex: 1;
+}
+
+.spend-breakdown p {
+    margin-bottom: 8px;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--mute);
+}
+
+.spend-breakdown strong {
+    color: var(--ink);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .competitor-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .advantages-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .case-studies-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .case-study-card {
+        padding: 24px;
+    }
+
+    .case-study-card h3 {
+        font-size: 1.25rem;
+        margin-bottom: 20px;
+    }
+
+    .before-after {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .before,
+    .after {
+        padding: 16px;
+        min-height: auto;
+    }
+
+    .before h4,
+    .after h4 {
+        font-size: 1rem;
+        margin-bottom: 12px;
+    }
+
+    .roi-highlight {
+        padding: 16px;
+        margin-top: 12px;
+    }
+
+    .comparison-table {
+        font-size: 0.875rem;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+        padding: 12px 8px;
+    }
+
+    .advantage-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .market-leader-cards {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 16px;
+    }
+
+    .market-gaps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .marketing-spend-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .market-data-table {
+        font-size: 0.875rem;
+    }
+
+    .market-data-table th,
+    .market-data-table td {
+        padding: 12px 8px;
+    }
+
+    .spend-amount {
+        font-size: 1.5rem;
+    }
+}
+

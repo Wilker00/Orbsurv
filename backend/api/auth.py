@@ -5,6 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from .. import crud, models, schemas
 from ..database import get_session
+from ..middleware.rate_limit import rate_limit_middleware
 from ..security import (
     create_access_token,
     create_password_reset_token,
@@ -28,6 +29,8 @@ async def register_user(
     request: Request,
     session: AsyncSession = Depends(get_session),
 ) -> schemas.TokenPair:
+    # Rate limit: 5 registrations per 15 minutes per IP
+    await rate_limit_middleware(request, max_requests=5, window_seconds=900)
     existing = await crud.users.get_by_email(session, email=payload.email)
     if existing:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
@@ -45,12 +48,68 @@ async def register_user(
     )
 
 
+@router.post("/register-from-order", response_model=schemas.TokenPair, status_code=status.HTTP_201_CREATED)
+async def register_from_order(
+    payload: schemas.RegistrationLinkRequest,
+    request: Request,
+    session: AsyncSession = Depends(get_session),
+) -> schemas.TokenPair:
+    """Register a user account from an order registration token."""
+    # Rate limit: 5 registrations per 15 minutes per IP
+    await rate_limit_middleware(request, max_requests=5, window_seconds=900)
+    
+    # Find order by token
+    order = await crud.order.get_order_by_token(session, payload.token)
+    if not order:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid or expired registration token")
+    
+    # Check if order is already linked to a user
+    if order.user_id is not None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="This registration link has already been used")
+    
+    # Check if user already exists
+    existing = await crud.users.get_by_email(session, email=order.email)
+    if existing:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered. Please log in instead.")
+    
+    # Create user account
+    user_payload = schemas.UserCreate(
+        email=order.email,
+        password=payload.password,
+        name=payload.name or order.name,
+        organization=payload.organization,
+    )
+    user = await crud.users.create_user(session, payload=user_payload)
+    
+    # Link order to user
+    await crud.order.link_order_to_user(session, order, user)
+    
+    # Generate tokens
+    access_token = create_access_token(user)
+    refresh_token = create_refresh_token(user)
+    
+    await record_audit_log(session, actor=user, action="auth.register.from_order", request=request)
+    await session.commit()
+    
+    return schemas.TokenPair(
+        access_token=access_token,
+        refresh_token=refresh_token,
+        role=user.role,
+        user=schemas.UserOut.model_validate(user),
+    )
+
+
 @router.post("/login", response_model=schemas.TokenPair)
 async def login_user(
     payload: schemas.AuthLoginRequest,
     request: Request,
     session: AsyncSession = Depends(get_session),
 ) -> schemas.TokenPair:
+    # Rate limit: 5 login attempts per 15 minutes per IP/email
+    await rate_limit_middleware(
+        request, max_requests=5, window_seconds=900, email=payload.email
+    )
+    
     user = await crud.users.get_by_email(session, email=payload.email)
     if not user or not verify_password(payload.password, user.password_hash):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid email or password")
@@ -82,15 +141,18 @@ async def password_reset_request(
     request: Request,
     session: AsyncSession = Depends(get_session),
 ) -> schemas.MessageResponse:
+    # Rate limit: 3 password reset requests per hour per IP/email
+    await rate_limit_middleware(
+        request, max_requests=3, window_seconds=3600, email=payload.email
+    )
     user = await crud.users.get_by_email(session, email=payload.email)
     if user:
         token = create_password_reset_token(user)
         base_url = (settings.frontend_base_url or "https://app.orbsurv.com").rstrip("/")
         reset_url = f"{base_url}/reset-password.html?token={token}"
-        try:
-            await send_password_reset_email(to=user.email, reset_url=reset_url)
-        except Exception:  # pragma: no cover
-            logger.exception("Unable to deliver password reset email")
+        success = await send_password_reset_email(to=user.email, reset_url=reset_url)
+        if not success:
+            logger.warning("Unable to deliver password reset email for %s", user.email)
         await record_audit_log(session, actor=user, action="auth.password.reset.requested", request=request)
         await session.commit()
     return schemas.MessageResponse(message="If an account exists, reset instructions are on the way.")

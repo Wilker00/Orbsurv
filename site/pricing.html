@@ -11,15 +11,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/global.css">
-<link rel="stylesheet" href="css/shared-vars.css">
-<link rel="stylesheet" href="css/privacy.css">
-<link rel="stylesheet" href="css/product.css">
+  <link rel="stylesheet" href="css/shared-vars.css">
+  <link rel="stylesheet" href="css/privacy.css">
+  <link rel="stylesheet" href="css/pricing.css">
 </head>
 <body>
-  <header class="site-header" data-include="_header.html"></header>
+    <header class="site-header" data-include="_header.html"></header>
 
-  <main>
-    <section class="pricing-hero">
+    <main>
+    <section class="pricing-hero hero-gradient">
       <div class="wrap">
         <h1>Plans built for continuous coverage</h1>
         <p>Choose the deployment tier that fits your site. All plans include encrypted storage, AI alerts, and access to the Orbsurv Command Center.</p>
@@ -37,7 +37,7 @@
             <li><i class="fa-solid fa-check"></i> Mobile alerts + email</li>
             <li><i class="fa-solid fa-check"></i> Remote calibration support</li>
           </ul>
-          <a class="btn btn-secondary" href="signup.html">Start pilot</a>
+          <button class="btn btn-secondary" data-buy-now data-plan="starter" data-price="299"><i class="fa-solid fa-cart-plus"></i> Add to cart</button>
         </article>
 
         <article class="card plan-card plan-featured">
@@ -51,7 +51,7 @@
             <li><i class="fa-solid fa-check"></i> Weekly analytics digest</li>
             <li><i class="fa-solid fa-check"></i> 24/7 proactive monitoring</li>
           </ul>
-          <a class="btn btn-primary" href="contact.html">Talk to sales</a>
+          <button class="btn btn-primary" data-buy-now data-plan="perimeter" data-price="649"><i class="fa-solid fa-cart-plus"></i> Add to cart</button>
         </article>
 
         <article class="card plan-card">
@@ -101,13 +101,48 @@
         </div>
       </div>
     </section>
-  </main>
+    </main>
+
+    <!-- FOOTER -->
 
   <footer class="site-footer" data-include="_footer.html"></footer>
 
-  <script src="js/global.js"></script>
-  <script src="js/forms.js"></script>
-  <script src="js/index.js"></script>
+  <!-- Purchase Modal -->
+  <div id="purchase-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="card" style="max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative;">
+      <button id="close-modal" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--mute);">&times;</button>
+      <h2 style="margin-bottom: var(--space-4);">Complete Your Purchase</h2>
+      <form id="purchase-form" data-endpoint="/orders">
+        <div class="form-field" style="margin-bottom: var(--space-3);">
+          <label for="purchase-name">Name *</label>
+          <input id="purchase-name" name="name" type="text" required placeholder="Your name" style="width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink);">
+        </div>
+        <div class="form-field" style="margin-bottom: var(--space-3);">
+          <label for="purchase-email">Email *</label>
+          <input id="purchase-email" name="email" type="email" required placeholder="you@example.com" style="width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink);">
+        </div>
+        <input type="hidden" id="purchase-plan-type" name="plan_type" value="">
+        <input type="hidden" id="purchase-price" name="price" value="">
+        <div style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--line);">
+          <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-3);">
+            <span>Plan:</span>
+            <strong id="purchase-plan-display"></strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-4);">
+            <span>Price:</span>
+            <strong id="purchase-price-display"></strong>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Complete Purchase</button>
+        </div>
+      </form>
+      <div id="purchase-message" class="form-message" aria-live="polite" style="margin-top: var(--space-3);"></div>
+    </div>
+  </div>
+
+<script src="js/global.js"></script>
+<script src="js/forms.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/purchase.js"></script>
 </body>
 </html>
 

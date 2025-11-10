@@ -18,6 +18,7 @@ async def count_waitlist(session: AsyncSession) -> int:
     return result.scalar_one()
 
 
-async def list_all(session: AsyncSession) -> list[models.Waitlist]:
-    result = await session.execute(select(models.Waitlist).order_by(models.Waitlist.created_at.desc()))
+async def list_all(session: AsyncSession, *, limit: int = 100, offset: int = 0) -> list[models.Waitlist]:
+    stmt = select(models.Waitlist).order_by(models.Waitlist.created_at.desc()).limit(limit).offset(offset)
+    result = await session.execute(stmt)
     return result.scalars().all()

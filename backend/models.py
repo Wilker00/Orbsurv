@@ -4,7 +4,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional
 
-from sqlalchemy import DateTime, Enum as PgEnum, ForeignKey, String, Text, JSON, func
+from sqlalchemy import DateTime, Enum as PgEnum, ForeignKey, String, Text, JSON, Numeric, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .database import Base
@@ -13,6 +13,12 @@ from .database import Base
 class UserRole(str, Enum):
     USER = "user"
     DEV = "dev"
+
+
+class OrderStatus(str, Enum):
+    PENDING = "pending"
+    COMPLETED = "completed"
+    CANCELLED = "cancelled"
 
 
 class TimestampMixin:
@@ -36,6 +42,7 @@ class User(Base, TimestampMixin):
     automation_settings: Mapped[dict] = mapped_column(JSON, default=dict)
 
     audit_logs: Mapped[list["AuditLog"]] = relationship(back_populates="actor", passive_deletes=True)
+    orders: Mapped[list["Order"]] = relationship(back_populates="user", passive_deletes=True)
 
 
 class Contact(Base):
@@ -93,3 +100,16 @@ class AuditLog(Base):
     )
 
     actor: Mapped[Optional[User]] = relationship(back_populates="audit_logs")
+
+
+class Order(Base, TimestampMixin):
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    email: Mapped[str] = mapped_column(String(255), index=True)
+    name: Mapped[str] = mapped_column(String(255))
+    plan_type: Mapped[str] = mapped_column(String(255))
+    price: Mapped[float] = mapped_column(Numeric(10, 2))
+    status: Mapped[OrderStatus] = mapped_column(PgEnum(OrderStatus, name="order_status"), default=OrderStatus.PENDING)
+    registration_token: Mapped[str] = mapped_column(String(255), unique=True, index=True)
+    user_id: Mapped[Optional[int]] = mapped_column(ForeignKey("user.id", ondelete="SET NULL"), nullable=True, index=True)
+
+    user: Mapped[Optional[User]] = relationship(back_populates="orders")

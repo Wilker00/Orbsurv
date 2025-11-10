@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-require-auth>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Settings - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="/Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/shared-vars.css">
+  <link rel="stylesheet" href="../css/privacy.css">
+  <link rel="stylesheet" href="../css/account.css">
+</head>
+<body>
+  <header class="site-header" data-include="../_header.html"></header>
+
+  <main>
+    <section class="account-hero hero-gradient">
+      <div class="wrap">
+        <h1>Profile Settings</h1>
+        <p class="account-subtitle">Manage your personal information, security preferences, and notification settings.</p>
+      </div>
+    </section>
+
+    <section class="account-content">
+      <div class="wrap account-grid">
+        <!-- Personal Information -->
+        <section class="card" aria-labelledby="personal-heading">
+          <div class="card-header">
+            <h2 id="personal-heading">Personal Information</h2>
+          </div>
+          <div class="card-body">
+          <form id="profile-form"
+                data-endpoint="/api/v1/app/account/profile"
+                data-method="PATCH"
+                data-auth="true"
+                data-success-message="Profile updated successfully."
+                data-message-target="profile-message">
+            <div class="form-field">
+              <label for="profile-name">Full Name</label>
+              <input id="profile-name" name="name" type="text" autocomplete="name" required>
+            </div>
+            <div class="form-field">
+              <label for="profile-email">Email</label>
+              <input id="profile-email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="form-field">
+              <label for="profile-organization">Organization</label>
+              <input id="profile-organization" name="organization" type="text" autocomplete="organization">
+            </div>
+            <button class="btn btn-primary" type="submit">Save Changes</button>
+            <p id="profile-message" class="form-message" aria-live="polite"></p>
+          </form>
+          </div>
+        </section>
+
+        <!-- Security -->
+        <section class="card" aria-labelledby="security-heading">
+          <div class="card-header">
+            <h2 id="security-heading">Security</h2>
+          </div>
+          <div class="card-body">
+          <form id="password-form"
+                data-endpoint="/api/v1/app/account/password"
+                data-method="PATCH"
+                data-auth="true"
+                data-success-message="Password updated successfully."
+                data-message-target="password-message">
+            <div class="form-field">
+              <label for="current-password">Current Password</label>
+              <input id="current-password" name="current_password" type="password" minlength="8" required autocomplete="current-password">
+            </div>
+            <div class="form-field">
+              <label for="new-password">New Password</label>
+              <input id="new-password" name="new_password" type="password" minlength="8" required autocomplete="new-password">
+              <small style="color: var(--mute); font-size: 0.875rem; margin-top: 4px; display: block;">Minimum 8 characters</small>
+            </div>
+            <button class="btn btn-primary" type="submit">Update Password</button>
+            <p id="password-message" class="form-message" aria-live="polite"></p>
+          </form>
+          </div>
+        </section>
+
+        <!-- Notification Preferences -->
+        <section class="card" aria-labelledby="notifications-heading">
+          <div class="card-header">
+            <h2 id="notifications-heading">Notification Preferences</h2>
+          </div>
+          <div class="card-body">
+          <form id="notifications-form"
+                data-endpoint="/api/v1/app/settings/notifications"
+                data-method="PATCH"
+                data-auth="true"
+                data-success-message="Notification preferences saved."
+                data-message-target="notifications-message">
+            <div class="form-field">
+              <label class="auth-checkbox" style="display: flex; align-items: center; gap: var(--space-2); cursor: pointer;">
+                <input type="checkbox" name="email_notifications" value="true">
+                <span>Email notifications</span>
+              </label>
+            </div>
+            <div class="form-field">
+              <label class="auth-checkbox" style="display: flex; align-items: center; gap: var(--space-2); cursor: pointer;">
+                <input type="checkbox" name="alert_notifications" value="true">
+                <span>Alert notifications</span>
+              </label>
+            </div>
+            <div class="form-field">
+              <label class="auth-checkbox" style="display: flex; align-items: center; gap: var(--space-2); cursor: pointer;">
+                <input type="checkbox" name="system_updates" value="true">
+                <span>System updates</span>
+              </label>
+            </div>
+            <button class="btn btn-primary" type="submit">Save Preferences</button>
+            <p id="notifications-message" class="form-message" aria-live="polite"></p>
+          </form>
+          </div>
+        </section>
+
+        <!-- Automation Settings -->
+        <section class="card" aria-labelledby="automation-heading">
+          <div class="card-header">
+            <h2 id="automation-heading">Automation Settings</h2>
+          </div>
+          <div class="card-body">
+          <form id="automation-form"
+                data-endpoint="/api/v1/app/settings/automation"
+                data-method="PATCH"
+                data-auth="true"
+                data-success-message="Automation settings saved."
+                data-message-target="automation-message">
+            <div class="form-field">
+              <label class="auth-checkbox" style="display: flex; align-items: center; gap: var(--space-2); cursor: pointer;">
+                <input type="checkbox" name="auto_patrol" value="true">
+                <span>Auto patrol mode</span>
+              </label>
+            </div>
+            <div class="form-field">
+              <label class="auth-checkbox" style="display: flex; align-items: center; gap: var(--space-2); cursor: pointer;">
+                <input type="checkbox" name="smart_alerts" value="true">
+                <span>Smart alert detection</span>
+              </label>
+            </div>
+            <button class="btn btn-primary" type="submit">Save Settings</button>
+            <p id="automation-message" class="form-message" aria-live="polite"></p>
+          </form>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="../_footer.html"></footer>
+
+  <script src="../js/global.js"></script>
+  <script src="../js/forms.js"></script>
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/profile.js"></script>
+</body>
+</html>
+

@@ -68,9 +68,11 @@
     "/contact": "/api/v1/contact",
     "/auth/login": "/api/v1/auth/login",
     "/auth/register": "/api/v1/auth/register",
+    "/auth/register-from-order": "/api/v1/auth/register-from-order",
     "/auth/forgot": "/api/v1/auth/forgot",
     "/auth/reset": "/api/v1/auth/reset",
     "/auth/password/reset": "/api/v1/auth/password/reset",
+    "/orders": "/api/v1/orders",
   };
 
   function remapEndpoint(endpoint) {
@@ -345,7 +347,14 @@
           : `Request failed (${response.status})`;
       const err = new Error(message);
       err.status = response.status;
+      err.statusCode = response.status;
       err.body = data;
+      
+      // Use AuthGuard if available for 401 errors
+      if (response.status === 401 && window.AuthGuard && typeof window.AuthGuard.handleAuthError === 'function') {
+        window.AuthGuard.handleAuthError(err);
+      }
+      
       throw err;
     }
 
@@ -454,6 +463,13 @@
       form.reset();
     } catch (error) {
       const message = error && error.message ? error.message : errorMessage;
+      // Use AuthGuard if available for 401 errors
+      if (error && (error.status === 401 || error.statusCode === 401)) {
+        if (window.AuthGuard && typeof window.AuthGuard.handleAuthError === 'function') {
+          window.AuthGuard.handleAuthError(error);
+        }
+      }
+      
       form.dispatchEvent(
         new CustomEvent("orbsurv:form-error", {
           detail: { endpoint, payload: safePayload, error },

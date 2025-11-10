@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,7 +19,7 @@
     <header class="site-header" data-include="_header.html"></header>
 
     <main>
-        <section id="tech">
+        <section id="tech" class="hero-gradient">
             <div class="wrap">
                 <div class="hero">
                     <div class="hero-content animate-on-scroll">
@@ -29,11 +29,11 @@
                             <a href="#" class="btn btn-primary">Get Started</a>
                         </div>
                         <div class="animation-controls">
-                            <button class="btn btn-secondary" id="toggle-camera-btn">Show Camera + Mount</button>
-                            <button class="btn btn-secondary" id="demo-btn"><i class="fas fa-play"></i> Demo</button>
-                            <button class="btn btn-secondary" id="auto-btn" aria-pressed="false"><i class="fas fa-robot"></i> Auto</button>
-                            <button class="btn btn-secondary" id="reset-btn"><i class="fas fa-undo"></i> Reset</button>
-                            <a href="demo2.html"><button class="btn btn-secondary" id="simulation-btn"><i class="fas fa-play"></i> Simulation</button></a>
+                            <button class="btn btn-secondary" id="toggle-camera-btn" type="button">Show Camera + Mount</button>
+                            <button class="btn btn-secondary" id="demo-btn" type="button"><i class="fas fa-play"></i> Demo</button>
+                            <button class="btn btn-secondary" id="auto-btn" aria-pressed="false" type="button"><i class="fas fa-robot"></i> Auto</button>
+                            <button class="btn btn-secondary" id="reset-btn" type="button"><i class="fas fa-undo"></i> Reset</button>
+                            <a class="btn btn-secondary" href="demo2.html" id="simulation-btn"><i class="fas fa-play"></i> Simulation</a>
                         </div>
                     </div>
                     <div class="camera-animation-container animate-on-scroll">
@@ -89,6 +89,20 @@
             </div>
         </section>
 
+        <section id="3d-model-viewer" class="section-alt">
+            <div class="wrap animate-on-scroll">
+                <h2 style="text-align: center; margin-bottom: var(--space-4);">Explore the 3D Model</h2>
+                <p style="text-align: center; max-width: 600px; margin: 0 auto var(--space-4);">
+                    Interact with the 3D model of the Orbsurv camera. Click and drag to rotate, scroll to zoom.
+                </p>
+                <div class="model-viewer-container">
+                    <div id="stl-viewer-canvas" data-stl-path="/Image/Camera basic model V7.stl" style="width: 100%; height: 500px; background: var(--bg-alt); border-radius: var(--radius-xl); position: relative;">
+                        <div class="model-loading-status" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--ink);">Loading 3D model...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="features" class="section-alt">
             <div class="wrap animate-on-scroll">
                 <h2 style="text-align: center;">Why Orbsurv is Different</h2>
@@ -125,12 +139,12 @@
                 <div class="features-grid">
                     <div class="card">
                         <h3>Starter Kit</h3>
-                        <p style="font-size: 2rem; font-family: 'Sora'; color: var(--ink);">$299â€“$399</p>
+                        <p style="font-size: 2rem; font-family: 'Sora'; color: var(--ink);">$299-$399</p>
                         <p>Camera + rail base kit for a single zone. Includes mobile app and essential alerts.</p>
                     </div>
                     <div class="card">
                         <h3>AI Monitoring</h3>
-                        <p style="font-size: 2rem; font-family: 'Sora'; color: var(--ink);">$10â€“$20 / mo</p>
+                        <p style="font-size: 2rem; font-family: 'Sora'; color: var(--ink);">$10-$20 / mo</p>
                         <p>Smart alerts, event summaries, and auto-learning patrols. Cancel anytime during pilot.</p>
                     </div>
                 </div>

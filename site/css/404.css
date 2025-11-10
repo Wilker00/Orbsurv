@@ -37,50 +37,7 @@
       flex-direction: column;
     }
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(12px);
-      background-color: rgba(255, 255, 255, 0.95);
-      border-bottom: 1px solid var(--line);
-      padding: clamp(12px, 2.5vh, 16px) 0;
-      transition: background-color 0.3s ease;
-    }
-
-    body.dark-mode header {
-      background-color: rgba(34, 34, 34, 0.8);
-    }
-
     .wrap { width: min(960px, 92vw); margin: 0 auto; padding: 0 clamp(16px, 4vw, 24px); }
-
-    .nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .logo { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 1.5rem; color: var(--ink); text-decoration: none; }
-
-    .nav-links { display: flex; gap: clamp(10px, 2.5vw, 16px); flex-wrap: wrap; }
-    .nav-links a {
-      text-decoration: none;
-      color: var(--mute);
-      font-weight: 600;
-      padding: clamp(8px, 1.5vw, 10px) clamp(14px, 3vw, 18px);
-      border-radius: 999px;
-      transition: all 0.25s ease;
-      border: 1px solid transparent;
-    }
-    .nav-links a:hover,
-    .nav-links a:focus-visible {
-      color: var(--ink);
-      border-color: var(--line);
-      background-color: var(--card-bg);
-      box-shadow: var(--shadow-sm);
-      outline: none;
-    }
 
     main { flex: 1; display: flex; align-items: center; justify-content: center; padding: clamp(32px, 10vh, 48px) 0; }
 

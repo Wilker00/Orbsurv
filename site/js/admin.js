@@ -245,6 +245,7 @@ function initThemeSwitch() {
 
 async function handlePasscodeSubmit(event) {
   event.preventDefault();
+  console.log('handlePasscodeSubmit called');
   const form = event.currentTarget;
   const input = form.querySelector('#admin-passcode');
   const feedback = form.querySelector('[data-passcode-feedback]');
@@ -256,31 +257,26 @@ async function handlePasscodeSubmit(event) {
     return;
   }
 
+  console.log('Passcode entered:', value);
   if (value === ADMIN_PASS) {
-    let hasAccess = false;
-    try {
-      hasAccess = await ensureDevAccess({ interactive: true });
-    } catch (error) {
-      console.error('Dev authentication failed during unlock', error);
-    }
-
+    console.log('Passcode is correct');
+    
     writeUnlocked(true);
+    console.log('Unlocked flag set to true');
 
     try {
       await unlockDashboard();
       input.value = '';
       setFeedback(feedback, '');
-      showToast(hasAccess ? 'Dev Mode unlocked.' : 'Dev Mode unlocked (limited data).', 'success');
+      showToast('Dev Mode unlocked.', 'success');
     } catch (error) {
       console.error('Unable to unlock Dev Mode', error);
       setFeedback(feedback, 'Unable to load admin data. Try again.', true);
       return;
     }
 
-    if (!hasAccess) {
-      showToast('Sign in with a developer account to see live data.', 'info');
-    }
   } else {
+    console.log('Incorrect passcode');
     setFeedback(feedback, 'Incorrect passcode. Try again.', true);
     input.focus();
   }
@@ -340,43 +336,29 @@ async function authenticateWithBackend() {
 }
 
 async function unlockDashboard({ skipAudit = false } = {}) {
+  console.log('unlockDashboard called');
   const modal = document.querySelector('[data-passcode-modal]');
-  const content = document.querySelector('[data-admin-content]');
-
+  
   if (modal) {
+    console.log('Hiding modal');
     modal.style.display = 'none';
     modal.setAttribute('hidden', 'hidden');
-    modal.setAttribute('aria-hidden', 'true');
-    modal.classList.add('is-hidden');
-    requestAnimationFrame(() => {
-      if (modal && modal.parentElement) {
-        modal.parentElement.removeChild(modal);
-      }
-    });
+  } else {
+    console.log('Modal not found');
   }
+
+  const content = document.querySelector('[data-admin-content]');
   if (content) {
+    console.log('Showing content');
     content.style.display = 'block';
     content.removeAttribute('hidden');
-  }
-  document.body.classList.add('admin-unlocked');
-  document.body.classList.remove('admin-locked');
-
-  try {
-    await ensureBackendData();
-  } catch (error) {
-    console.error('Unable to ensure backend data while unlocking dashboard', error);
-    showToast('Unable to load admin data. Refresh and try again.', 'error');
-    return;
-  }
-  
-  if (skipAudit) {
-    render();
   } else {
-    commit({ audit: 'Unlocked Dev Mode' });
+    console.log('Content not found');
   }
 }
 
 function showPasscodeModal() {
+  console.log('showPasscodeModal called');
   const modal = document.querySelector('[data-passcode-modal]');
   const content = document.querySelector('[data-admin-content]');
   const input = document.querySelector('#admin-passcode');
@@ -409,7 +391,14 @@ function handleSubmissionAction(event) {
   if (!submission) return;
 
   switch (button.dataset.action) {
-    case 'view': {\n      console.info('Viewing submission', submission);\n      showToast(`${submission.name} <${submission.email}> - ${submission.source}`, 'info');\n      commit({ audit: `Viewed submission ${id}`, render: false });\n      renderAudit();\n      break;\n    }\n    case 'email': {
+    case 'view': {
+      console.info('Viewing submission', submission);
+      showToast(`${submission.name} <${submission.email}> - ${submission.source}`, 'info');
+      commit({ audit: `Viewed submission ${id}`, render: false });
+      renderAudit();
+      break;
+    }
+    case 'email': {
       console.info('Emailing submission', submission);
       openMailClient(submission.email, `Follow-up from Orbsurv`, '');
       commit({ audit: `Opened mail client for ${submission.email}` });
@@ -1047,5 +1036,3 @@ function escapeAttr(value) {
 function clone(source) {
   return JSON.parse(JSON.stringify(source));
 }
-
-

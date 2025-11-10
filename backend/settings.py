@@ -33,6 +33,11 @@ class Settings(BaseSettings):
     email_api_key: Annotated[str | None, Field(validation_alias="EMAIL_API_KEY")] = None
     email_from_email: Annotated[str | None, Field(validation_alias="EMAIL_FROM_EMAIL")] = None
     email_from_name: Annotated[str | None, Field(validation_alias="EMAIL_FROM_NAME")] = None
+    email_host: Annotated[str | None, Field(validation_alias="EMAIL_HOST")] = None
+    email_port: Annotated[int | None, Field(validation_alias="EMAIL_PORT")] = None
+    email_username: Annotated[str | None, Field(validation_alias="EMAIL_USER")] = None
+    email_password: Annotated[str | None, Field(validation_alias="EMAIL_PASS")] = None
+    email_from: Annotated[str | None, Field(validation_alias="EMAIL_FROM")] = None
     frontend_base_url: Annotated[str | None, Field(validation_alias="FRONTEND_BASE_URL")] = None
 
     docs_url: str | None = "/docs"

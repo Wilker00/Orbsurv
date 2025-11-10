@@ -5,7 +5,7 @@ from typing import Optional
 
 from pydantic import BaseModel, EmailStr, Field
 
-from .models import UserRole
+from .models import UserRole, OrderStatus
 
 
 class ContactCreate(BaseModel):
@@ -176,8 +176,21 @@ class AdminLogEntry(BaseModel):
         from_attributes = True
 
 
+class PaginationMeta(BaseModel):
+    page: int
+    limit: int
+    total: int
+    total_pages: int
+
+    @classmethod
+    def create(cls, page: int, limit: int, total: int) -> PaginationMeta:
+        total_pages = (total + limit - 1) // limit if limit > 0 else 0
+        return cls(page=page, limit=limit, total=total, total_pages=total_pages)
+
+
 class AdminLogResponse(BaseModel):
     items: list[AdminLogEntry]
+    pagination: PaginationMeta
 
 
 class AdminUserSummary(BaseModel):
@@ -193,7 +206,7 @@ class AdminUserSummary(BaseModel):
 
 class AdminUserListResponse(BaseModel):
     items: list[AdminUserSummary]
-    total: int
+    pagination: PaginationMeta
 
 
 class AdminWaitlistItem(BaseModel):
@@ -254,20 +267,48 @@ class AdminUserRoleUpdate(BaseModel):
 
 class AdminWaitlistResponse(BaseModel):
     items: list[AdminWaitlistItem]
-    total: int
+    pagination: PaginationMeta
 
 
 class AdminContactResponse(BaseModel):
     items: list[AdminContactItem]
-    total: int
+    pagination: PaginationMeta
 
 
 class AdminPilotResponse(BaseModel):
     items: list[AdminPilotItem]
-    total: int
+    pagination: PaginationMeta
 
 
 class AdminInvestorResponse(BaseModel):
     items: list[AdminInvestorItem]
-    total: int
+    pagination: PaginationMeta
+
+
+class OrderCreate(BaseModel):
+    email: EmailStr
+    name: str = Field(..., min_length=2, max_length=255)
+    plan_type: str = Field(..., min_length=1, max_length=255)
+    price: float = Field(..., gt=0)
+
+
+class OrderResponse(BaseModel):
+    id: int
+    email: EmailStr
+    name: str
+    plan_type: str
+    price: float
+    status: OrderStatus
+    registration_token: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class RegistrationLinkRequest(BaseModel):
+    token: str = Field(..., min_length=10)
+    password: str = Field(..., min_length=8, max_length=128)
+    name: Optional[str] = Field(default=None, max_length=255)
+    organization: Optional[str] = Field(default=None, max_length=255)
 

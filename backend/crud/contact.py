@@ -18,6 +18,7 @@ async def count_contacts(session: AsyncSession) -> int:
     return result.scalar_one()
 
 
-async def list_all(session: AsyncSession) -> list[models.Contact]:
-    result = await session.execute(select(models.Contact).order_by(models.Contact.created_at.desc()))
+async def list_all(session: AsyncSession, *, limit: int = 100, offset: int = 0) -> list[models.Contact]:
+    stmt = select(models.Contact).order_by(models.Contact.created_at.desc()).limit(limit).offset(offset)
+    result = await session.execute(stmt)
     return result.scalars().all()

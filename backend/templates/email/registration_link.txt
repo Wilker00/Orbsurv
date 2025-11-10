@@ -1,0 +1,13 @@
+Hi {{ name }},
+
+Thank you for your purchase of the {{ plan_type }} plan ({{ price }})!
+
+To complete your purchase and access your Orbsurv account, please create your account using the link below:
+
+{{ registration_url }}
+
+This link will expire in 30 days. If you have any questions, please contact us at {{ support_email }}.
+
+Welcome to {{ app_name }}!
+— The {{ app_name }} team
+

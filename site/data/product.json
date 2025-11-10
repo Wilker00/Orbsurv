@@ -1,0 +1,107 @@
+{
+  "name": "Orbsurv Patrol Module",
+  "sku": "ORB-PM-2025",
+  "category": "Rail mounted surveillance",
+  "summary": "Rail-mounted autonomy that repositions vision and sensing exactly where the incident is unfolding.",
+  "price": 2499,
+  "msrp": 2799,
+  "currency": "USD",
+  "badges": ["Pilot ready", "Pre order"],
+  "reviews": {
+    "count": 128,
+    "rating": 4.6
+  },
+  "callouts": [
+    "Integrated thermal, low-light, and RGB optical stack",
+    "Edge AI inference with encrypted fleet sync",
+    "Carbon fiber rail with whisper-quiet linear drive"
+  ],
+  "variants": {
+    "finish": ["Matte White", "Graphite", "Signal Orange"],
+    "rail_length": ["10 m", "20 m", "35 m", "50 m (waitlist)"],
+    "mounting": ["Ceiling mount", "Wall mount"]
+  },
+  "variantPricing": {
+    "rail_length": {
+      "10 m": 0,
+      "20 m": 320,
+      "35 m": 740,
+      "50 m (waitlist)": 1080
+    },
+    "finish": {
+      "Signal Orange": 180
+    }
+  },
+  "media": [
+    {
+      "src": "img/placeholders/fgfnbm.png",
+      "type": "image",
+      "alt": "Orbsurv patrol module gliding along a rail inside a distribution hub",
+      "caption": "Modular rail sections snap-lock to deliver uninterrupted patrol coverage.",
+      "aspectRatio": "3:2"
+    },
+    {
+      "src": "img/placeholders/unnamed.jpg",
+      "type": "image",
+      "alt": "Close-up detail of the Orbsurv module sensor cluster and camera array",
+      "caption": "Multi-spectrum sensors fuse heat, motion, and optical signals at the edge.",
+      "aspectRatio": "4:3"
+    },
+    {
+      "src": "img/placeholders/fgfnbm.png",
+      "type": "image",
+      "alt": "Orbsurv module stationed above a factory floor on a matte rail finish",
+      "caption": "Push patrol commands from the Ops Console or schedule autonomous sweeps.",
+      "aspectRatio": "16:9"
+    }
+  ],
+  "highlights": [
+    "Rail mounted repositioning eliminates blind spots across aisles and bays",
+    "Edge AI with fused thermal, motion, and optical classification",
+    "Autonomous patrols with remote overrides and OTA firmware updates",
+    "Encrypted telemetry with SOC 2 aligned audit logging"
+  ],
+  "description": [
+    "Orbsurv Patrol Module turns static camera coverage into adaptive perimeter intelligence. The linear-drive carriage rides a carbon fiber rail, settling into any position along the path without disturbing your workflow.",
+    "Dual edge processors fuse thermal, RGB, and motion sensors in real time, while encrypted backhaul syncs only prioritized events to your command center. Operators can assume manual control with a joystick or schedule autonomous sweeps that react to threat levels."
+  ],
+  "specs": [
+    ["Rail length options", "Modular 10 m sections up to 50 m per run"],
+    ["Field of view", "120° gimballed camera sweep with 6x optical zoom"],
+    ["Sensors", "4K RGB, thermal, mm-wave motion, ambient light"],
+    ["AI stack", "NVIDIA Jetson Orin NX with Orbsurv VisionOS"],
+    ["Connectivity", "Wi-Fi 6E, LTE private, or fiber backhaul"],
+    ["Power", "Dual-fed AC w/ battery bridge or 48V DC bus"],
+    ["Ingress protection", "IP66 weatherized with hydrophobic optics"],
+    ["Operating temp", "-20°C to 55°C with active thermal management"]
+  ],
+  "shipping": {
+    "lead": "Built-to-order with calibration; ships in 6-8 weeks after design approval.",
+    "details": [
+      "White-glove freight within continental US is included.",
+      "Global deployments ship via bonded logistics with customs concierge.",
+      "Commissioning engineer available onsite or via secure remote session."
+    ],
+    "returns": "45-day pilot window with accelerated swap or full return minus freight."
+  },
+  "recommended": [
+    {
+      "title": "Rail Expansion Kit",
+      "href": "pricing.html",
+      "tagline": "Extend coverage to additional bays with modular rail segments.",
+      "image": "img/placeholders/clip-01.svg"
+    },
+    {
+      "title": "Dock & Charge Module",
+      "href": "demo.html",
+      "tagline": "Automate battery conditioning and firmware updates between patrols.",
+      "image": "img/placeholders/clip-05.svg"
+    },
+    {
+      "title": "Ops Command Console",
+      "href": "admin.html",
+      "tagline": "Real-time orchestration with analytics, alerts, and incident replay.",
+      "image": "img/placeholders/clip-07.svg"
+    }
+  ]
+}

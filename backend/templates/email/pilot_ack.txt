@@ -1,0 +1,8 @@
+Hi {{ name or "there" }},
+
+Thanks for requesting a pilot deployment with {{ app_name }}. We recorded {{ org }} and will reach out to schedule a kickoff session within one business day.
+
+If your availability changes or you have site details to share, reply to this email or contact us at {{ support_email }}.
+
+We’re excited to partner with you,
+— The {{ app_name }} team

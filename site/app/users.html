@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" data-require-auth>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="/Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/shared-vars.css">
+  <link rel="stylesheet" href="css/privacy.css">
+  <link rel="stylesheet" href="css/index.css">
+  <style>
+    .users-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      margin-bottom: var(--space-5);
+    }
+
+    .users-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .users-table th,
+    .users-table td {
+      padding: var(--space-3) var(--space-4);
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .users-table th {
+      background: var(--card-bg);
+      font-weight: 600;
+      color: var(--ink);
+      position: sticky;
+      top: 0;
+    }
+
+    .users-table tr:hover {
+      background: var(--bg);
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent-color) 20%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: var(--accent-color);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .user-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-name {
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .user-email {
+      color: var(--mute);
+      font-size: 0.9rem;
+    }
+
+    .role-badge {
+      padding: var(--space-1) var(--space-2);
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: inline-block;
+    }
+
+    .role-badge.admin {
+      background: color-mix(in srgb, #ef4444 15%, transparent);
+      color: #ef4444;
+    }
+
+    .role-badge.operator {
+      background: color-mix(in srgb, #3b82f6 15%, transparent);
+      color: #3b82f6;
+    }
+
+    .role-badge.viewer {
+      background: color-mix(in srgb, #10b981 15%, transparent);
+      color: #10b981;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      padding: var(--space-1) var(--space-2);
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .status-badge.active {
+      background: color-mix(in srgb, #34d399 20%, transparent);
+      color: #34d399;
+    }
+
+    .status-badge.invited {
+      background: color-mix(in srgb, #fbbf24 20%, transparent);
+      color: #fbbf24;
+    }
+
+    .action-menu {
+      position: relative;
+    }
+
+    .action-menu-btn {
+      padding: var(--space-2);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line);
+      background: var(--bg);
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .action-menu-btn:hover {
+      background: var(--accent-color);
+      color: var(--bg);
+      border-color: var(--accent-color);
+    }
+
+    .invite-form {
+      padding: var(--space-5);
+      margin-bottom: var(--space-6);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 200px;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+
+    @media (max-width: 768px) {
+      .users-table {
+        font-size: 0.9rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-include="_header.html"></header>
+
+  <main>
+    <section style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
+      <div class="wrap">
+        <div style="padding: clamp(var(--space-5), 8vw, var(--space-7)) 0;">
+          <div class="users-header">
+            <div>
+              <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Administration</p>
+              <h1>User Management</h1>
+              <p style="color: var(--mute); font-size: 1.05rem;">Manage users and their access to your Orbsurv system</p>
+            </div>
+            <a href="access.html" class="btn btn-secondary">
+              <i class="fa-solid fa-shield-halved"></i> Access Control
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="card invite-form">
+          <h3 style="margin-bottom: var(--space-4);">Invite User</h3>
+          <form id="invite-user-form"
+                data-endpoint="/app/users/invite"
+                data-method="POST"
+                data-auth="true"
+                data-success-message="Invitation sent successfully."
+                data-message-target="invite-message">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="invite-email">Email Address</label>
+                <input type="email" id="invite-email" name="email" placeholder="user@example.com" required>
+              </div>
+              <div class="form-field">
+                <label for="invite-role">Role</label>
+                <select id="invite-role" name="role" required>
+                  <option value="viewer">Viewer</option>
+                  <option value="operator">Operator</option>
+                  <option value="admin">Administrator</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <i class="fa-solid fa-paper-plane"></i> Send Invitation
+            </button>
+            <p id="invite-message" class="form-message" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <div style="padding: var(--space-4); border-bottom: 1px solid var(--line);">
+            <h3>All Users</h3>
+          </div>
+          <div style="overflow-x: auto;">
+            <table class="users-table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Last Active</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="user-info">
+                      <div class="user-avatar">JR</div>
+                      <div class="user-details">
+                        <div class="user-name">Jordan Rivers</div>
+                        <div class="user-email">jordan@example.com</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="role-badge admin">Administrator</span>
+                  </td>
+                  <td>
+                    <span class="status-badge active">
+                      <i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Active
+                    </span>
+                  </td>
+                  <td style="color: var(--mute);">2 minutes ago</td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="action-menu-btn">
+                        <i class="fa-solid fa-ellipsis"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="user-info">
+                      <div class="user-avatar">SM</div>
+                      <div class="user-details">
+                        <div class="user-name">Sarah Martinez</div>
+                        <div class="user-email">sarah@example.com</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="role-badge operator">Operator</span>
+                  </td>
+                  <td>
+                    <span class="status-badge active">
+                      <i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Active
+                    </span>
+                  </td>
+                  <td style="color: var(--mute);">1 hour ago</td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="action-menu-btn">
+                        <i class="fa-solid fa-ellipsis"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="user-info">
+                      <div class="user-avatar">JD</div>
+                      <div class="user-details">
+                        <div class="user-name">John Doe</div>
+                        <div class="user-email">john@example.com</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="role-badge viewer">Viewer</span>
+                  </td>
+                  <td>
+                    <span class="status-badge active">
+                      <i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Active
+                    </span>
+                  </td>
+                  <td style="color: var(--mute);">3 hours ago</td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="action-menu-btn">
+                        <i class="fa-solid fa-ellipsis"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="user-info">
+                      <div class="user-avatar">AW</div>
+                      <div class="user-details">
+                        <div class="user-name">Alex Wilson</div>
+                        <div class="user-email">alex@example.com</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="role-badge viewer">Viewer</span>
+                  </td>
+                  <td>
+                    <span class="status-badge invited">
+                      <i class="fa-solid fa-envelope" style="font-size: 0.5rem;"></i> Invited
+                    </span>
+                  </td>
+                  <td style="color: var(--mute);">Never</td>
+                  <td>
+                    <div class="action-menu">
+                      <button class="action-menu-btn">
+                        <i class="fa-solid fa-ellipsis"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="_footer.html"></footer>
+
+  <script src="js/global.js"></script>
+  <script src="js/forms.js"></script>
+  <script src="js/auth-guard.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>
+

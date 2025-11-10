@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" data-require-auth>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feed Groups - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="/Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/shared-vars.css">
+  <link rel="stylesheet" href="../../css/privacy.css">
+  <link rel="stylesheet" href="../../css/index.css">
+  <style>
+    .groups-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .group-card {
+      padding: var(--space-5);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .group-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: var(--space-4);
+    }
+
+    .group-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: var(--space-1);
+    }
+
+    .group-meta {
+      color: var(--mute);
+      font-size: 0.9rem;
+    }
+
+    .group-cameras {
+      display: grid;
+      gap: var(--space-2);
+      margin-bottom: var(--space-4);
+    }
+
+    .camera-item {
+      padding: var(--space-2) var(--space-3);
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .camera-item-name {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .remove-camera-btn {
+      padding: var(--space-1);
+      border: none;
+      background: transparent;
+      color: var(--mute);
+      cursor: pointer;
+      border-radius: var(--radius-md);
+      transition: all 0.2s ease;
+    }
+
+    .remove-camera-btn:hover {
+      background: color-mix(in srgb, #f87171 15%, transparent);
+      color: #f87171;
+    }
+
+    .group-actions {
+      display: flex;
+      gap: var(--space-2);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--line);
+    }
+
+    .create-group-form {
+      padding: var(--space-5);
+      margin-bottom: var(--space-6);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 200px;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+
+    @media (max-width: 768px) {
+      .groups-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-include="../../_header.html"></header>
+
+  <main>
+    <section style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
+      <div class="wrap">
+        <div style="padding: clamp(var(--space-5), 8vw, var(--space-7)) 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-4);">
+            <div>
+              <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Organization</p>
+              <h1>Feed Groups</h1>
+              <p style="color: var(--mute); font-size: 1.05rem;">Organize cameras into logical groups for easier management</p>
+            </div>
+            <button class="btn btn-primary" id="create-group-btn">
+              <i class="fa-solid fa-plus"></i> Create Group
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="card create-group-form" id="create-group-form" style="display: none;">
+          <h3 style="margin-bottom: var(--space-4);">Create New Feed Group</h3>
+          <form id="new-group-form"
+                data-endpoint="/app/feeds/groups"
+                data-method="POST"
+                data-auth="true"
+                data-success-message="Group created successfully."
+                data-message-target="group-message">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="group-name">Group Name</label>
+                <input type="text" id="group-name" name="name" placeholder="e.g., Main Building" required>
+              </div>
+              <div class="form-field">
+                <label for="group-color">Color (optional)</label>
+                <input type="color" id="group-color" name="color" value="#0d6efd">
+              </div>
+            </div>
+            <div class="form-field" style="margin-bottom: var(--space-4);">
+              <label for="group-description">Description (optional)</label>
+              <textarea id="group-description" name="description" rows="2" placeholder="Brief description of this group"></textarea>
+            </div>
+            <div style="display: flex; gap: var(--space-3);">
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-check"></i> Create Group
+              </button>
+              <button type="button" class="btn btn-outline" id="cancel-create">
+                Cancel
+              </button>
+            </div>
+            <p id="group-message" class="form-message" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <div class="groups-grid">
+          <div class="card group-card">
+            <div class="group-header">
+              <div>
+                <div class="group-name">Main Building</div>
+                <div class="group-meta">3 cameras</div>
+              </div>
+              <button class="btn btn-outline" style="padding: var(--space-1) var(--space-2);">
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+            </div>
+            <div class="group-cameras">
+              <div class="camera-item">
+                <span class="camera-item-name">Front Entrance</span>
+                <button class="remove-camera-btn" title="Remove from group">
+                  <i class="fa-solid fa-times"></i>
+                </button>
+              </div>
+              <div class="camera-item">
+                <span class="camera-item-name">Lobby</span>
+                <button class="remove-camera-btn" title="Remove from group">
+                  <i class="fa-solid fa-times"></i>
+                </button>
+              </div>
+              <div class="camera-item">
+                <span class="camera-item-name">Reception</span>
+                <button class="remove-camera-btn" title="Remove from group">
+                  <i class="fa-solid fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <div class="group-actions">
+              <a href="live.html?group=main-building" class="btn btn-secondary" style="flex: 1;">
+                <i class="fa-solid fa-video"></i> View Group
+              </a>
+              <button class="btn btn-outline">
+                <i class="fa-solid fa-pen"></i> Edit
+              </button>
+            </div>
+          </div>
+
+          <div class="card group-card">
+            <div class="group-header">
+              <div>
+                <div class="group-name">Warehouse</div>
+                <div class="group-meta">2 cameras</div>
+              </div>
+              <button class="btn btn-outline" style="padding: var(--space-1) var(--space-2);">
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+            </div>
+            <div class="group-cameras">
+              <div class="camera-item">
+                <span class="camera-item-name">Warehouse Aisle</span>
+                <button class="remove-camera-btn" title="Remove from group">
+                  <i class="fa-solid fa-times"></i>
+                </button>
+              </div>
+              <div class="camera-item">
+                <span class="camera-item-name">Loading Dock</span>
+                <button class="remove-camera-btn" title="Remove from group">
+                  <i class="fa-solid fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <div class="group-actions">
+              <a href="live.html?group=warehouse" class="btn btn-secondary" style="flex: 1;">
+                <i class="fa-solid fa-video"></i> View Group
+              </a>
+              <button class="btn btn-outline">
+                <i class="fa-solid fa-pen"></i> Edit
+              </button>
+            </div>
+          </div>
+
+          <div class="card group-card">
+            <div class="group-header">
+              <div>
+                <div class="group-name">Perimeter</div>
+                <div class="group-meta">0 cameras</div>
+              </div>
+              <button class="btn btn-outline" style="padding: var(--space-1) var(--space-2);">
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+            </div>
+            <div class="group-cameras">
+              <div style="text-align: center; padding: var(--space-4); color: var(--mute);">
+                <i class="fa-solid fa-video" style="font-size: 2rem; margin-bottom: var(--space-2); opacity: 0.3;"></i>
+                <div>No cameras in this group</div>
+              </div>
+            </div>
+            <div class="group-actions">
+              <button class="btn btn-outline" style="flex: 1;">
+                <i class="fa-solid fa-plus"></i> Add Cameras
+              </button>
+              <button class="btn btn-outline">
+                <i class="fa-solid fa-pen"></i> Edit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="../../_footer.html"></footer>
+
+  <script src="../../js/global.js"></script>
+  <script src="../../js/forms.js"></script>
+  <script src="../../js/index.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const createGroupBtn = document.getElementById('create-group-btn');
+      const createGroupForm = document.getElementById('create-group-form');
+      const cancelCreate = document.getElementById('cancel-create');
+
+      createGroupBtn.addEventListener('click', function() {
+        createGroupForm.style.display = 'block';
+        createGroupForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+
+      cancelCreate.addEventListener('click', function() {
+        createGroupForm.style.display = 'none';
+        document.getElementById('new-group-form').reset();
+      });
+    });
+  </script>
+  <script src="../../js/global.js"></script>
+  <script src="../../js/forms.js"></script>
+  <script src="../../js/auth-guard.js"></script>
+</body>
+</html>
+

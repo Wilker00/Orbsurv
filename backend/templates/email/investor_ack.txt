@@ -1,0 +1,11 @@
+Hi {{ name or "there" }},
+
+Thank you for sharing your interest in {{ app_name }}. Our team will follow up soon with next steps and an investor brief.
+
+{% if amount -%}
+Initial amount noted: {{ amount }}
+
+{%- endif %}If you need anything before then, reply to this email or contact us at {{ support_email }}.
+
+We appreciate your time and support,
+— The {{ app_name }} team

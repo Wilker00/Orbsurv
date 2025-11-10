@@ -18,169 +18,368 @@
 <body>
     <header class="site-header" data-include="_header.html"></header>
 
-    <main class="product-page">
-        <nav class="product-breadcrumbs" aria-label="Breadcrumb">
+    <main id="main-content" class="product-page">
+        <section id="product-hero" class="hero-gradient">
             <div class="wrap">
-                <ol class="breadcrumb-list">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="product.html" aria-current="page">Patrol Module</a></li>
-                </ol>
-            </div>
-        </nav>
-
-        <section class="product-hero" id="overview">
-            <div class="wrap">
-                <div class="product-layout">
-                    <div class="product-gallery" data-gallery>
-                        <figure class="product-media product-media--primary" data-gallery-main tabindex="0" aria-label="Primary product media">
-                            <img src="https://placehold.co/800x600/E5E7EB/111827?text=Orbsurv+Module" alt="Orbsurv patrol module on rail" width="800" height="600" loading="lazy">
-                            <button type="button" class="product-media-zoom" data-gallery-zoom aria-label="Open larger view">
-                                <i class="fa-solid fa-magnifying-glass-plus"></i>
-                            </button>
-                        </figure>
-                        <div class="product-media-thumbs" role="list">
-                            <button type="button" class="product-thumb is-active" data-gallery-thumb data-media="https://placehold.co/800x600/E5E7EB/111827?text=Orbsurv+Module" aria-pressed="true" aria-label="Main angle">
-                                <img src="https://placehold.co/160x120/E5E7EB/111827?text=Main" alt="" width="160" height="120" loading="lazy">
-                            </button>
-                            <button type="button" class="product-thumb" data-gallery-thumb data-media="https://placehold.co/800x600/D1D5DB/111827?text=Underside" aria-pressed="false" aria-label="Underside detail">
-                                <img src="https://placehold.co/160x120/D1D5DB/111827?text=Detail" alt="" width="160" height="120" loading="lazy">
-                            </button>
-                            <button type="button" class="product-thumb" data-gallery-thumb data-media="https://placehold.co/800x600/111827/F9FAFB?text=Dark+mode" aria-pressed="false" aria-label="Dark finish preview">
-                                <img src="https://placehold.co/160x120/111827/F9FAFB?text=Dark" alt="" width="160" height="120" loading="lazy">
-                            </button>
-                            <button type="button" class="product-thumb product-thumb--video" data-gallery-thumb data-media-type="video" data-media="https://www.example.com/video.mp4" aria-pressed="false" aria-label="Watch patrol demo">
-                                <i class="fa-solid fa-play"></i>
-                                <span>Demo</span>
-                            </button>
-                        </div>
-                        <div class="product-media-caption">
-                            <p class="small-text">Media placeholders &mdash; swap in photography, video, or a 3D viewer.</p>
-                        </div>
-                        <div class="product-media-modal" data-gallery-modal hidden aria-hidden="true">
-                            <div class="product-media-modal__backdrop" data-gallery-close></div>
-                            <div class="product-media-modal__content" role="dialog" aria-modal="true" aria-label="Expanded product media">
-                                <button type="button" class="product-media-modal__close" data-gallery-close aria-label="Close expanded view">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </button>
-                                <figure class="product-media product-media--modal" data-gallery-modal-body tabindex="-1"></figure>
+                <div class="hero-product-layout">
+                    <div class="hero-product-content">
+                        <p class="hero-eyebrow">Rail-mounted AI surveillance</p>
+                        <h1>Eliminate blind spots. See only what matters.</h1>
+                        <p class="hero-description hero-description-large">
+                            Orbsurv Patrol Module is an intelligent surveillance system that moves along a track, combining AI-powered alerts with fluid, complete coverage of your space. No blind spots. No false alarms. Just intelligent protection.
+                        </p>
+                        <div class="hero-product-features">
+                            <div class="hero-product-feature-item">
+                                <div class="hero-product-feature-icon">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <span class="hero-product-feature-text">Eliminates blind spots across your entire space</span>
                             </div>
+                            <div class="hero-product-feature-item">
+                                <div class="hero-product-feature-icon">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <span class="hero-product-feature-text">95% reduction in false alerts with edge AI</span>
+                            </div>
+                            <div class="hero-product-feature-item">
+                                <div class="hero-product-feature-icon">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <span class="hero-product-feature-text">Privacy-first design with on-site processing</span>
+                            </div>
+                        </div>
+                        <div class="hero-product-actions">
+                            <button class="btn btn-primary" data-buy-now data-plan="starter" data-price="299"><i class="fa-solid fa-cart-plus"></i> Add to cart</button>
+                            <a href="#product-features" class="btn btn-secondary">Explore Features</a>
                         </div>
                     </div>
-                    <aside class="product-summary card" data-summary>
-                        <div class="product-summary__header">
-                            <span class="badge">Pilot ready</span>
-                            <h1>Orbsurv Patrol Module</h1>
-                            <p class="product-subtitle">Rail-mounted AI camera that eliminates blind spots with autonomous repositioning.</p>
-                        </div>
-                        <div class="product-summary__meta">
-                            <div class="product-rating" role="img" aria-label="Rated 4.8 out of 5 stars from 128 reviews">
-                                <span class="product-rating__stars" aria-hidden="true">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-regular fa-star-half-stroke"></i>
-                                </span>
-                                <a href="#panel-reviews" class="product-rating__count">128 reviews</a>
-                            </div>
-                            <div class="product-price">
-                                <span class="product-price__current">$2,499</span>
-                                <span class="product-price__compare" aria-label="Original price">$2,799</span>
-                                <span class="product-price__badge">Pre-order</span>
-                            </div>
-                            <p class="product-stock product-stock--limited">
-                                <i class="fa-solid fa-circle"></i>
-                                Ships in 4&ndash;6 weeks &middot; 20 modules left for December pilot
-                            </p>
-                        </div>
-                        <div class="product-badges">
-                            <span class="badge"><i class="fa-solid fa-truck-fast"></i> Free freight</span>
-                            <span class="badge"><i class="fa-solid fa-shield"></i> 2 yr warranty</span>
-                            <span class="badge"><i class="fa-solid fa-arrows-rotate"></i> 45-day returns</span>
-                        </div>
-                        <form class="product-form" novalidate>
-                            <fieldset class="product-variants" data-variant-group>
-                                <legend>Finish</legend>
-                                <div class="product-variants__list product-variants__list--swatches">
-                                    <button type="button" class="product-variant is-selected" data-variant data-variant-name="Finish" data-variant-value="Matte White" style="--swatch-color: #f3f4f6;" aria-pressed="true">
-                                        Matte White
-                                    </button>
-                                    <button type="button" class="product-variant" data-variant data-variant-name="Finish" data-variant-value="Graphite" style="--swatch-color: #1f2937;" aria-pressed="false">
-                                        Graphite
-                                    </button>
-                                    <button type="button" class="product-variant" data-variant data-variant-name="Finish" data-variant-value="Signal Orange" style="--swatch-color: #f97316;" aria-pressed="false">
-                                        Signal Orange
-                                    </button>
-                                </div>
-                            </fieldset>
-                            <fieldset class="product-variants" data-variant-group>
-                                <legend>Rail length</legend>
-                                <div class="product-variants__list product-variants__list--pills">
-                                    <button type="button" class="product-variant is-selected" data-variant data-variant-name="Rail length" data-variant-value="10 m" aria-pressed="true">
-                                        10 m
-                                    </button>
-                                    <button type="button" class="product-variant" data-variant data-variant-name="Rail length" data-variant-value="20 m" aria-pressed="false">
-                                        20 m
-                                    </button>
-                                    <button type="button" class="product-variant" data-variant data-variant-name="Rail length" data-variant-value="35 m" aria-pressed="false">
-                                        35 m
-                                    </button>
-                                    <button type="button" class="product-variant" data-variant data-variant-name="Rail length" data-variant-value="50 m" aria-pressed="false" disabled>
-                                        50 m
-                                        <span class="product-variant__status">Waitlist</span>
-                                    </button>
-                                </div>
-                            </fieldset>
-                            <div class="product-quantity">
-                                <label for="product-qty">Quantity</label>
-                                <div class="quantity-stepper" data-qty>
-                                    <button type="button" class="stepper-btn" data-qty-decrement aria-label="Decrease quantity">
-                                        <i class="fa-solid fa-minus"></i>
-                                    </button>
-                                    <input id="product-qty" name="quantity" type="number" min="1" max="5" step="1" value="1" inputmode="numeric">
-                                    <button type="button" class="stepper-btn" data-qty-increment aria-label="Increase quantity">
-                                        <i class="fa-solid fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="product-actions">
-                                <button type="button" class="btn btn-primary product-actions__cta" data-add-to-cart>
-                                    <i class="fa-solid fa-cart-plus"></i> Add to cart
-                                </button>
-                                <button type="button" class="btn btn-secondary" data-buy-now>
-                                    <i class="fa-solid fa-bolt"></i> Buy now
-                                </button>
-                                <button type="button" class="btn btn-outline product-actions__wishlist" data-wishlist aria-label="Add to wishlist">
-                                    <i class="fa-regular fa-heart"></i>
+                    <div class="hero-product-video-card card">
+                        <div class="product-video-wrapper">
+                            <video autoplay loop muted playsinline class="product-hero-video" aria-label="Orbsurv patrol module in action">
+                                <source src="/Image/matte-black.mp4" type="video/mp4">
+                                <img src="/Image/camera_image.png" alt="Orbsurv Patrol Module" class="camera-hero-image" loading="eager">
+                            </video>
+                            <div class="product-video-overlay">
+                                <button type="button" class="product-video-play" aria-label="Play video" hidden>
+                                    <i class="fa-solid fa-play"></i>
                                 </button>
                             </div>
-                        </form>
-                        <div class="product-assurance">
-                            <div class="assurance-item">
-                                <i class="fa-solid fa-headset"></i>
-                                <span>Pilot onboarding support included</span>
-                            </div>
-                            <div class="assurance-item">
-                                <i class="fa-solid fa-screwdriver-wrench"></i>
-                                <span>Pro install or self-deploy playbook</span>
-                            </div>
                         </div>
-                        <dl class="product-meta">
-                            <div>
-                                <dt>SKU</dt>
-                                <dd>ORB-PM-2025</dd>
-                            </div>
-                            <div>
-                                <dt>Category</dt>
-                                <dd>Rail-mounted surveillance</dd>
-                            </div>
-                        </dl>
-                    </aside>
+                        <div class="product-video-caption">
+                            <h3>Orbsurv Patrol Module</h3>
+                            <p>Watch the module in action as it patrols along its rail, eliminating blind spots with precision and intelligence.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="product-tabs" id="details" data-tabs>
+        <!-- TRUST BAR -->
+        <section aria-label="Trust bar" class="section-no-padding-top trust-bar-section">
+            <div class="wrap">
+                <div class="card trust-bar-stats">
+                    <div class="trust-bar-stat">
+                        <span class="trust-bar-stat-value">96%</span>
+                        <span class="trust-bar-stat-label">Fewer blind spots</span>
+                    </div>
+                    <div class="trust-bar-divider"></div>
+                    <div class="trust-bar-stat">
+                        <span class="trust-bar-stat-value">4.8/5</span>
+                        <span class="trust-bar-stat-label">Average rating</span>
+                    </div>
+                    <div class="trust-bar-divider"></div>
+                    <div class="trust-bar-stat">
+                        <span class="trust-bar-stat-value">128+</span>
+                        <span class="trust-bar-stat-label">Active deployments</span>
+                    </div>
+                    <div class="trust-bar-divider"></div>
+                    <div class="trust-bar-stat">
+                        <span class="trust-bar-stat-label-accent">Trusted by</span>
+                        <span class="trust-bar-stat-label">Pilot users</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS SECTION -->
+        <section id="how-it-works">
+            <div class="wrap">
+                <div class="section-header-center">
+                    <p class="section-eyebrow">Process</p>
+                    <h2 class="section-title">How Orbsurv Works</h2>
+                    <p class="section-description">Three simple steps that transform your surveillance from static cameras to intelligent, adaptive protection.</p>
+                </div>
+                <div class="features-grid how-it-works-grid">
+                    <div class="card how-it-works-card">
+                        <div class="how-it-works-arrow"></div>
+                        <div class="how-it-works-card">
+                            <div class="how-it-works-icon">
+                                <i class="fa-solid fa-radar"></i>
+                            </div>
+                            <div class="how-it-works-step">Step 1</div>
+                            <h3 class="how-it-works-title">Detect</h3>
+                            <p class="how-it-works-description">Sensors and AI work together to identify meaningful motion, heat signatures, and recognized subjects. Edge processing filters out noise instantly, so you only get alerts that matter.</p>
+                        </div>
+                    </div>
+                    <div class="card how-it-works-card">
+                        <div class="how-it-works-arrow"></div>
+                        <div class="how-it-works-card">
+                            <div class="how-it-works-icon">
+                                <i class="fa-solid fa-arrows-left-right"></i>
+                            </div>
+                            <div class="how-it-works-step">Step 2</div>
+                            <h3 class="how-it-works-title">Move</h3>
+                            <p class="how-it-works-description">The rail smoothly repositions the module to capture the best vantage point automatically. No manual panning or tilting needed—it goes exactly where the action is.</p>
+                        </div>
+                    </div>
+                    <div class="card" style="position: relative;">
+                        <div class="how-it-works-card">
+                            <div class="how-it-works-icon">
+                                <i class="fa-solid fa-brain"></i>
+                            </div>
+                            <div class="how-it-works-step">Step 3</div>
+                            <h3 class="how-it-works-title">Decide</h3>
+                            <p class="how-it-works-description">Only high-signal events trigger alerts and recordings. False alarms are filtered out before they reach you, keeping your team focused on what actually needs attention.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="camera-gallery" style="margin-top: var(--space-6);">
+                    <div class="camera-gallery-item">
+                        <img src="/Image/left.jpg" alt="Orbsurv camera view from left angle" loading="lazy">
+                    </div>
+                    <div class="camera-gallery-item">
+                        <img src="/Image/mid.jpg" alt="Orbsurv camera view from center angle" loading="lazy">
+                    </div>
+                    <div class="camera-gallery-item">
+                        <img src="/Image/right.jpg" alt="Orbsurv camera view from right angle" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES SECTION -->
+        <section id="product-features" class="section-alt">
+            <div class="wrap">
+                <div class="section-header-center">
+                    <p class="section-eyebrow">Capabilities</p>
+                    <h2>Key Features</h2>
+                </div>
+                <div class="features-grid">
+                    <div class="card feature-card">
+                        <div class="feature-card-icon" aria-hidden="true">
+                            <i class="fa-solid fa-route"></i>
+                        </div>
+                        <h3 class="feature-card-title">Adaptive Patrol Routes</h3>
+                        <p class="feature-card-description">Programmable dwell windows and intelligent routing ensure complete coverage of your space with minimal blind spots.</p>
+                    </div>
+                    <div class="card feature-card">
+                        <div class="feature-card-icon" aria-hidden="true">
+                            <i class="fa-solid fa-camera"></i>
+                        </div>
+                        <h3 class="feature-card-title">Quad Sensor Stack</h3>
+                        <p class="feature-card-description">4K HDR, thermal, audio, and depth sensors work together to capture comprehensive surveillance data.</p>
+                    </div>
+                    <div class="card feature-card">
+                        <div class="feature-card-icon" aria-hidden="true">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <h3 class="feature-card-title">Edge AI Detection</h3>
+                        <p class="feature-card-description">On-device processing filters noise and escalates only meaningful events, with privacy-first redaction policies.</p>
+                    </div>
+                    <div class="card feature-card">
+                        <div class="feature-card-icon" aria-hidden="true">
+                            <i class="fa-solid fa-puzzle-piece"></i>
+                        </div>
+                        <h3 class="feature-card-title">Modular Rail System</h3>
+                        <p class="feature-card-description">Snap-fit brackets and hidden cable channels make installation clean and straightforward.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CAMERA COMPONENTS SECTION -->
+        <section id="product-components">
+            <div class="wrap">
+                <div class="section-header-center">
+                    <p class="section-eyebrow">Architecture</p>
+                    <h2>Camera Components</h2>
+                </div>
+                <div class="features-grid">
+                    <div class="card feature-card component" style="--feature-color:#6366f1;">
+                        <span class="feature-card__eyebrow">Optics</span>
+                        <div class="feature-card__icon" aria-hidden="true">
+                            <i class="fa-solid fa-camera"></i>
+                        </div>
+                        <h3>Lens</h3>
+                        <p class="desc">High-fidelity optics ensure wide coverage with exceptional clarity.</p>
+                        <span class="feature-card__tag">Ultra-wide glass</span>
+                    </div>
+                    <div class="card feature-card component" style="--feature-color:#0ea5e9;">
+                        <span class="feature-card__eyebrow">Mobility</span>
+                        <div class="feature-card__icon" aria-hidden="true">
+                            <i class="fa-solid fa-route"></i>
+                        </div>
+                        <h3>Rail</h3>
+                        <p class="desc">Motorized segments provide smooth panoramic motion across your space.</p>
+                        <span class="feature-card__tag">Precision drive</span>
+                    </div>
+                    <div class="card feature-card component" style="--feature-color:#f97316;">
+                        <span class="feature-card__eyebrow">Thermal</span>
+                        <div class="feature-card__icon" aria-hidden="true">
+                            <i class="fa-solid fa-temperature-three-quarters"></i>
+                        </div>
+                        <h3>Heat Sensor</h3>
+                        <p class="desc">Detects thermal signatures to boost night accuracy and detection rates.</p>
+                        <span class="feature-card__tag">Infrared sweep</span>
+                    </div>
+                    <div class="card feature-card component" style="--feature-color:#14b8a6;">
+                        <span class="feature-card__eyebrow">Compute</span>
+                        <div class="feature-card__icon" aria-hidden="true">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <h3>AI Processor</h3>
+                        <p class="desc">Local intelligence filters noise and reduces false alerts by 95%.</p>
+                        <span class="feature-card__tag">Edge inference</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- USE CASES SECTION -->
+        <section id="use-cases" class="section-alt">
+            <div class="wrap">
+                <div class="section-header-center">
+                    <p class="section-eyebrow">Applications</p>
+                    <h2>Built for Your Real-World Needs</h2>
+                    <p class="section-description-top-margin">See how Orbsurv solves surveillance challenges across different industries and environments.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="card application-card">
+                        <div class="application-icon application-icon--indigo" aria-hidden="true">
+                            <i class="fa-solid fa-warehouse"></i>
+                        </div>
+                        <h3 class="application-title">Warehouse & Distribution</h3>
+                        <p class="application-description">Cover long aisles and high bays without blind spots. Monitor inventory, track movement, and ensure safety compliance across massive facilities.</p>
+                        <ul class="application-features">
+                            <li class="application-feature-item">
+                                <div class="application-feature-check">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <span>Eliminates blind spots in 50+ meter aisles</span>
+                            </li>
+                            <li class="application-feature-item">
+                                <div class="application-feature-check">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <span>Reduces false alarms from machinery</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card application-card">
+                        <div class="application-icon application-icon--blue" aria-hidden="true">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
+                        <h3 class="application-title">Retail & Commercial</h3>
+                        <p class="application-description">Protect perimeter, entry points, and high-value areas with intelligent patrols. Maintain privacy while ensuring comprehensive coverage.</p>
+                        <ul class="application-features">
+                            <li class="application-feature-item">
+                                <div class="application-feature-check">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <span>Privacy-first redaction for customer areas</span>
+                            </li>
+                            <li class="application-feature-item">
+                                <div class="application-feature-check">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <span>Adapts to business hours and traffic patterns</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card application-card">
+                        <div class="application-icon application-icon--orange" aria-hidden="true">
+                            <i class="fa-solid fa-building-shield"></i>
+                        </div>
+                        <h3 class="application-title">Perimeter & Access Control</h3>
+                        <p class="application-description">Monitor entry points, fences, and critical zones. Thermal sensors detect movement even in low-light conditions, while AI filters environmental triggers.</p>
+                        <ul class="application-features">
+                            <li class="application-feature-item">
+                                <div class="application-feature-check">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <span>Thermal detection for 24/7 monitoring</span>
+                            </li>
+                            <li class="application-feature-item">
+                                <div class="application-feature-check">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <span>Reduces false alarms from weather and wildlife</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENGAGEMENT SECTION -->
+        <section id="product-engagement">
+            <div class="wrap">
+                <div class="card engagement-card">
+                    <div>
+                        <p class="section-eyebrow">Get Started</p>
+                        <h2 class="engagement-title">See Orbsurv in Action</h2>
+                        <p class="engagement-description">Request a personalized demo to see how Orbsurv can eliminate blind spots in your space. Our team will walk you through a live deployment.</p>
+                        <form id="demo-request-form"
+                              data-endpoint="/pilot_request"
+                              data-success-message="Thanks! We'll contact you shortly to schedule your demo."
+                              data-message-target="demo-request-message"
+                              aria-label="Request demo form">
+                            <div class="form-grid">
+                                <div class="form-field">
+                                    <label for="demo-name" class="sr-only">Name</label>
+                                    <input id="demo-name" name="name" type="text" required placeholder="Your name"
+                                           class="form-input-rounded">
+                                </div>
+                                <div class="form-field">
+                                    <label for="demo-email" class="sr-only">Email</label>
+                                    <input id="demo-email" name="email" type="email" required placeholder="you@example.com"
+                                           class="form-input-rounded">
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <label for="demo-org" class="sr-only">Organization</label>
+                                <input id="demo-org" name="org" type="text" required placeholder="Organization"
+                                       class="form-input-rounded">
+                            </div>
+                            <div class="form-field">
+                                <label for="demo-usecase" class="sr-only">Use case</label>
+                                <textarea id="demo-usecase" name="use_case" rows="3" required placeholder="Tell us about your space and surveillance goals"
+                                          class="form-textarea"></textarea>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Request Demo</button>
+                        </form>
+                        <div id="demo-request-message" class="form-message" aria-live="polite"></div>
+                        <div class="form-divider">
+                            <p class="form-divider-text">Or</p>
+                            <button class="btn btn-secondary" data-buy-now data-plan="starter" data-price="299"><i class="fa-solid fa-cart-plus"></i> Add to cart</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="demo-preview-card">
+                            <div class="demo-preview-content">
+                                <div class="demo-preview-icon">
+                                    <i class="fa-solid fa-video"></i>
+                                </div>
+                                <h3 class="demo-preview-title">Live Demo</h3>
+                                <p class="demo-preview-description">Schedule a personalized walkthrough with our team to see Orbsurv in action.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-tabs section-alt" id="details" data-tabs>
             <div class="wrap">
                 <div class="product-tabs__container card">
                     <div class="product-tablist" role="tablist" aria-label="Product information">
@@ -295,33 +494,73 @@
             </div>
         </section>
 
-        <section class="product-related" aria-labelledby="related-heading">
+        <!-- PILOT SIGNUP SECTION -->
+        <section id="pilot-signup">
             <div class="wrap">
-                <h2 id="related-heading">Recommended for your deployment</h2>
-                <div class="related-grid">
-                    <article class="card related-item">
-                        <img src="https://placehold.co/400x280/E5E7EB/111827?text=Rail+Kit" alt="Rail expansion kit" width="400" height="280" loading="lazy">
-                        <div class="related-item__body">
-                            <h3>Rail expansion kit</h3>
-                            <p>Extend coverage with additional straight and corner segments.</p>
-                            <a href="#" class="btn btn-outline">View kit</a>
+                <div class="card cta-card-center">
+                    <p class="section-eyebrow">Join Us</p>
+                    <h2 class="engagement-title">Join the Pilot Program</h2>
+                    <p class="section-description" style="margin-bottom: var(--space-5); margin-top: 0;">Be among the first to deploy Orbsurv in your space. Pilot participants get priority support, early access to features, and special pricing.</p>
+                    <form id="pilot-signup-form"
+                          data-endpoint="/pilot_request"
+                          data-success-message="Thanks for your interest! We'll reach out shortly about joining our pilot program."
+                          aria-label="Pilot program signup form">
+                        <div class="form-grid" style="margin-bottom: var(--space-3);">
+                            <div class="form-field">
+                                <label for="pilot-name" class="sr-only">Name</label>
+                                <input id="pilot-name" name="name" type="text" required placeholder="Your name"
+                                       style="padding:14px 16px;border:1px solid var(--line);border-radius:999px;width:100%;background:var(--bg);color:var(--ink)">
+                            </div>
+                            <div class="form-field">
+                                <label for="pilot-email" class="sr-only">Email</label>
+                                <input id="pilot-email" name="email" type="email" required placeholder="you@example.com"
+                                       style="padding:14px 16px;border:1px solid var(--line);border-radius:999px;width:100%;background:var(--bg);color:var(--ink)">
+                            </div>
                         </div>
+                        <div class="form-field" style="margin-bottom: var(--space-3);">
+                            <label for="pilot-org" class="sr-only">Organization</label>
+                            <input id="pilot-org" name="org" type="text" required placeholder="Organization"
+                                   style="padding:14px 16px;border:1px solid var(--line);border-radius:999px;width:100%;background:var(--bg);color:var(--ink)">
+                        </div>
+                        <div class="form-field" style="margin-bottom: var(--space-4);">
+                            <label for="pilot-usecase" class="sr-only">Use case</label>
+                            <textarea id="pilot-usecase" name="use_case" rows="3" required placeholder="Tell us about your space and surveillance needs"
+                                      style="padding:14px 16px;border:1px solid var(--line);border-radius:12px;width:100%;background:var(--bg);color:var(--ink);resize:vertical;"></textarea>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Join Pilot Program</button>
+                    </form>
+                    <div id="pilot-signup-message" class="form-message" aria-live="polite"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-related section-alt" aria-labelledby="related-heading">
+            <div class="wrap">
+                <h2 id="related-heading" style="margin-bottom: var(--space-5);">Recommended for your deployment</h2>
+                <div class="features-grid">
+                    <article class="card">
+                        <div style="width: 100%; height: 200px; background: var(--card-bg); border-radius: var(--radius-xl); margin-bottom: var(--space-3); display: flex; align-items: center; justify-content: center; border: 1px solid var(--line);">
+                            <i class="fa-solid fa-puzzle-piece" style="font-size: 3rem; color: var(--mute);"></i>
+                        </div>
+                        <h3>Rail expansion kit</h3>
+                        <p>Extend coverage with additional straight and corner segments.</p>
+                        <a href="#" class="btn btn-outline" style="margin-top: var(--space-3);">View kit</a>
                     </article>
-                    <article class="card related-item">
-                        <img src="https://placehold.co/400x280/D1D5DB/111827?text=Dock+Module" alt="Docking module" width="400" height="280" loading="lazy">
-                        <div class="related-item__body">
-                            <h3>Smart docking module</h3>
-                            <p>Automated recharge and diagnostics between patrol cycles.</p>
-                            <a href="#" class="btn btn-outline">View module</a>
+                    <article class="card">
+                        <div style="width: 100%; height: 200px; background: var(--card-bg); border-radius: var(--radius-xl); margin-bottom: var(--space-3); display: flex; align-items: center; justify-content: center; border: 1px solid var(--line);">
+                            <i class="fa-solid fa-battery-full" style="font-size: 3rem; color: var(--mute);"></i>
                         </div>
+                        <h3>Smart docking module</h3>
+                        <p>Automated recharge and diagnostics between patrol cycles.</p>
+                        <a href="#" class="btn btn-outline" style="margin-top: var(--space-3);">View module</a>
                     </article>
-                    <article class="card related-item">
-                        <img src="https://placehold.co/400x280/F3F4F6/111827?text=Ops+Console" alt="Operations console" width="400" height="280" loading="lazy">
-                        <div class="related-item__body">
-                            <h3>Operations console</h3>
-                            <p>Unified command dashboard with alert routing and audit trail.</p>
-                            <a href="#" class="btn btn-outline">View console</a>
+                    <article class="card">
+                        <div style="width: 100%; height: 200px; background: var(--card-bg); border-radius: var(--radius-xl); margin-bottom: var(--space-3); display: flex; align-items: center; justify-content: center; border: 1px solid var(--line);">
+                            <i class="fa-solid fa-desktop" style="font-size: 3rem; color: var(--mute);"></i>
                         </div>
+                        <h3>Operations console</h3>
+                        <p>Unified command dashboard with alert routing and audit trail.</p>
+                        <a href="#" class="btn btn-outline" style="margin-top: var(--space-3);">View console</a>
                     </article>
                 </div>
             </div>
@@ -330,165 +569,49 @@
 
     <footer class="site-footer" data-include="_footer.html"></footer>
 
-    <aside class="sticky-cart" data-sticky-cart hidden>
-        <div class="sticky-cart__content">
-            <div>
-                <strong>Orbsurv Patrol Module</strong>
-                <span>$2,499</span>
+    <!-- Purchase Modal -->
+    <div id="purchase-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+      <div class="card" style="max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative;">
+        <button id="close-modal" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--mute);">&times;</button>
+        <h2 style="margin-bottom: var(--space-4);">Complete Your Purchase</h2>
+        <form id="purchase-form" data-endpoint="/orders">
+          <div class="form-field" style="margin-bottom: var(--space-3);">
+            <label for="purchase-name">Name *</label>
+            <input id="purchase-name" name="name" type="text" required placeholder="Your name" style="width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink);">
+          </div>
+          <div class="form-field" style="margin-bottom: var(--space-3);">
+            <label for="purchase-email">Email *</label>
+            <input id="purchase-email" name="email" type="email" required placeholder="you@example.com" style="width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink);">
+          </div>
+          <input type="hidden" id="purchase-plan-type" name="plan_type" value="">
+          <input type="hidden" id="purchase-price" name="price" value="">
+          <div style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--line);">
+            <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-3);">
+              <span>Plan:</span>
+              <strong id="purchase-plan-display"></strong>
             </div>
-            <button type="button" class="btn btn-primary" data-sticky-add>
-                <i class="fa-solid fa-cart-plus"></i> Add to cart
-            </button>
-        </div>
-    </aside>
+            <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-4);">
+              <span>Price:</span>
+              <strong id="purchase-price-display"></strong>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Complete Purchase</button>
+          </div>
+        </form>
+        <div id="purchase-message" class="form-message" aria-live="polite" style="margin-top: var(--space-3);"></div>
+      </div>
+    </div>
 
     <script src="js/global.js"></script>
     <script src="js/forms.js"></script>
     <script src="js/index.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/purchase.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const page = document.querySelector('.product-page');
             if (!page) {
                 return;
             }
-
-            let currentMedia = null;
-            const gallery = page.querySelector('[data-gallery]');
-            const mainMedia = gallery?.querySelector('[data-gallery-main]');
-            const modal = gallery?.querySelector('[data-gallery-modal]');
-            const modalBody = gallery?.querySelector('[data-gallery-modal-body]');
-            const zoomControls = gallery?.querySelectorAll('[data-gallery-zoom]');
-            const closeControls = gallery?.querySelectorAll('[data-gallery-close]');
-            const thumbButtons = Array.from(gallery?.querySelectorAll('[data-gallery-thumb]') || []);
-
-            function renderMedia(media, type = 'image') {
-                if (!mainMedia) return;
-                currentMedia = { media, type };
-                mainMedia.dataset.mediaType = type;
-
-                if (type === 'video') {
-                    mainMedia.innerHTML = `
-                        <video controls playsinline preload="metadata" aria-label="Product demo">
-                            <source src="${media}" type="video/mp4">
-                            Your browser does not support the video element.
-                        </video>
-                    `;
-                } else {
-                    mainMedia.innerHTML = `
-                        <img src="${media}" alt="Orbsurv patrol module detail" loading="lazy" width="800" height="600">
-                        <button type="button" class="product-media-zoom" data-gallery-zoom aria-label="Open larger view">
-                            <i class="fa-solid fa-magnifying-glass-plus"></i>
-                        </button>
-                    `;
-                }
-            }
-
-            function updateActiveThumb(target) {
-                thumbButtons.forEach((btn) => {
-                    const isActive = btn === target;
-                    btn.classList.toggle('is-active', isActive);
-                    btn.setAttribute('aria-pressed', String(isActive));
-                });
-            }
-
-            function attachZoomHandlers() {
-                const zoomButtons = mainMedia?.querySelectorAll('[data-gallery-zoom]');
-                zoomButtons?.forEach((btn) => {
-                    btn.addEventListener('click', openModal);
-                });
-            }
-
-            thumbButtons.forEach((btn) => {
-                btn.addEventListener('click', () => {
-                    const mediaType = btn.dataset.mediaType || 'image';
-                    const media = btn.dataset.media;
-                    if (!media) return;
-                    renderMedia(media, mediaType);
-                    updateActiveThumb(btn);
-                    attachZoomHandlers();
-                });
-            });
-
-            function openModal() {
-                if (!modal || !modalBody || !currentMedia) return;
-                modal.hidden = false;
-                modal.setAttribute('aria-hidden', 'false');
-                modalBody.innerHTML = mainMedia.innerHTML;
-                modalBody.querySelector('button[data-gallery-zoom]')?.remove();
-                modalBody.focus();
-            }
-
-            function closeModal() {
-                if (!modal || !modalBody) return;
-                modal.hidden = true;
-                modal.setAttribute('aria-hidden', 'true');
-                modalBody.innerHTML = '';
-            }
-
-            zoomControls?.forEach((btn) => btn.addEventListener('click', openModal));
-            closeControls?.forEach((btn) => btn.addEventListener('click', closeModal));
-            modal?.addEventListener('click', (event) => {
-                if (event.target === modal || event.target.hasAttribute('data-gallery-close')) {
-                    closeModal();
-                }
-            });
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape') {
-                    closeModal();
-                }
-            });
-
-            if (thumbButtons.length) {
-                const first = thumbButtons[0];
-                renderMedia(first.dataset.media, first.dataset.mediaType);
-                updateActiveThumb(first);
-                attachZoomHandlers();
-            }
-
-            // Variant selection
-            const variantGroups = page.querySelectorAll('[data-variant-group]');
-            variantGroups.forEach((group) => {
-                const buttons = group.querySelectorAll('[data-variant]');
-                buttons.forEach((button) => {
-                    if (button.disabled) {
-                        button.setAttribute('aria-disabled', 'true');
-                        return;
-                    }
-                    button.addEventListener('click', () => {
-                        buttons.forEach((peer) => {
-                            const isActive = peer === button;
-                            peer.classList.toggle('is-selected', isActive);
-                            peer.setAttribute('aria-pressed', String(isActive));
-                        });
-                    });
-                });
-            });
-
-            // Quantity stepper
-            page.querySelectorAll('[data-qty]').forEach((stepper) => {
-                const input = stepper.querySelector('input[type="number"]');
-                const up = stepper.querySelector('[data-qty-increment]');
-                const down = stepper.querySelector('[data-qty-decrement]');
-                if (!input) return;
-
-                function clamp(value) {
-                    const min = Number(input.min || 1);
-                    const max = Number(input.max || value);
-                    return Math.min(Math.max(value, min), max);
-                }
-
-                up?.addEventListener('click', () => {
-                    const next = clamp(Number(input.value || 0) + 1);
-                    input.value = String(next);
-                    input.dispatchEvent(new Event('change'));
-                });
-
-                down?.addEventListener('click', () => {
-                    const next = clamp(Number(input.value || 0) - 1);
-                    input.value = String(next);
-                    input.dispatchEvent(new Event('change'));
-                });
-            });
 
             // Tabs and keyboard support
             const tabContainer = page.querySelector('[data-tabs]');
@@ -530,26 +653,6 @@
                 });
             }
 
-            // Sticky add to cart (mobile)
-            const sticky = document.querySelector('[data-sticky-cart]');
-            const mainCta = page.querySelector('[data-add-to-cart]');
-            if (sticky && mainCta) {
-                const observer = new IntersectionObserver(
-                    (entries) => {
-                        entries.forEach((entry) => {
-                            const hidden = entry.isIntersecting;
-                            sticky.hidden = hidden;
-                            sticky.classList.toggle('is-visible', !hidden);
-                        });
-                    },
-                    { rootMargin: '0px', threshold: 0.25 }
-                );
-                observer.observe(mainCta);
-                sticky.querySelector('[data-sticky-add]')?.addEventListener('click', () => {
-                    mainCta.click();
-                    mainCta.focus();
-                });
-            }
         });
     </script>
 

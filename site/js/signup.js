@@ -1,4 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Check for order token in URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const orderToken = urlParams.get('token');
+  const signupForm = document.getElementById('signup-form');
+  const orderTokenInput = document.getElementById('order-token');
+  const orderNotice = document.getElementById('order-notice');
+  const emailInput = document.getElementById('signup-email');
+
+  if (orderToken && signupForm && orderTokenInput) {
+    // Update form to use register-from-order endpoint
+    signupForm.dataset.endpoint = '/auth/register-from-order';
+    orderTokenInput.value = orderToken;
+    
+    // Show order notice
+    if (orderNotice) {
+      orderNotice.style.display = 'block';
+    }
+
+    // Try to fetch order details to pre-fill email
+    const API_BASE = window.ORBSURV_API_BASE || 'http://localhost:8000';
+    fetch(`${API_BASE}/api/v1/orders?token=${encodeURIComponent(orderToken)}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.email && emailInput) {
+          emailInput.value = data.email;
+          emailInput.readOnly = true;
+          emailInput.style.background = 'var(--card-bg)';
+        }
+      })
+      .catch(err => {
+        console.warn('Could not fetch order details:', err);
+      });
+  }
+
   document.querySelectorAll('form[data-endpoint]').forEach((form) => {
     if (form.dataset.orbsurvBound === 'true') {
       return;
@@ -7,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
     form.dataset.orbsurvBound = 'true';
   });
 
-  const signupForm = document.getElementById('signup-form');
   if (signupForm) {
     signupForm.addEventListener('orbsurv:form-success', (event) => {
       const detail = event.detail || {};

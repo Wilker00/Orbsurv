@@ -4,8 +4,11 @@ import logging
 import uuid
 from typing import Awaitable, Callable
 
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Request, Response, status
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from pydantic import ValidationError
 
 from .api import admin_router, app_router, auth_router, health_router, public_router
 from .settings import settings
@@ -64,6 +67,97 @@ def create_application() -> FastAPI:
             },
         )
         return response
+
+    # Global exception handlers
+    @app.exception_handler(RequestValidationError)
+    async def validation_exception_handler(
+        request: Request, exc: RequestValidationError
+    ) -> JSONResponse:
+        """Handle request validation errors."""
+        request_id = getattr(request.state, "request_id", "n/a")
+        logger.warning(
+            "validation.error",
+            extra={
+                "request_id": request_id,
+                "path": request.url.path,
+                "errors": exc.errors(),
+            },
+        )
+        return JSONResponse(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            content={
+                "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Request validation failed",
+                    "details": exc.errors(),
+                    "request_id": request_id,
+                }
+            },
+        )
+
+    @app.exception_handler(ValidationError)
+    async def pydantic_validation_exception_handler(
+        request: Request, exc: ValidationError
+    ) -> JSONResponse:
+        """Handle Pydantic validation errors."""
+        request_id = getattr(request.state, "request_id", "n/a")
+        logger.warning(
+            "pydantic.validation.error",
+            extra={
+                "request_id": request_id,
+                "path": request.url.path,
+                "errors": exc.errors(),
+            },
+        )
+        return JSONResponse(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            content={
+                "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Data validation failed",
+                    "details": exc.errors(),
+                    "request_id": request_id,
+                }
+            },
+        )
+
+    @app.exception_handler(Exception)
+    async def global_exception_handler(request: Request, exc: Exception) -> JSONResponse:
+        """Handle all unhandled exceptions."""
+        request_id = getattr(request.state, "request_id", "n/a")
+        logger.error(
+            "unhandled.exception",
+            extra={
+                "request_id": request_id,
+                "path": request.url.path,
+                "method": request.method,
+                "exception_type": type(exc).__name__,
+            },
+            exc_info=True,
+        )
+        
+        # In production, don't expose internal error details
+        if settings.env == "production":
+            message = "An internal error occurred"
+            details = None
+        else:
+            message = str(exc) or "An internal error occurred"
+            details = {
+                "type": type(exc).__name__,
+                "message": str(exc),
+            }
+        
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={
+                "error": {
+                    "code": "INTERNAL_ERROR",
+                    "message": message,
+                    "details": details,
+                    "request_id": request_id,
+                }
+            },
+        )
 
     prefix = settings.api_prefix
     app.include_router(health_router, prefix=prefix)

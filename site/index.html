@@ -17,26 +17,27 @@
 </head>
 
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="site-header" data-include="_header.html"></header>
 
-    <main>
-        <section id="hero-section">
+    <main id="main-content">
+        <section id="hero-section" class="hero-gradient">
             <div class="wrap">
                 <div class="hero">
                     <div class="hero-content animate-on-scroll">
-                        <p style="font-size: 1rem; color: var(--accent-color); font-weight: 600;">Rail-mounted AI surveillance</p>
+                        <p class="hero-eyebrow">Rail-mounted AI surveillance</p>
                         <h1>Eliminate blind spots. See only what matters.</h1>
-                        <img src="/Image/Group 213.png" alt="Orbsurv Logo" style="margin: 0 auto 24px; display: block; max-width: 150px;">
-                        <p style="max-width: 56ch;">Orbsurv is an intelligent surveillance system that moves on a track, combining
+                        <img src="/Image/camera_image.png" alt="Orbsurv camera" class="hero-logo">
+                        <p class="hero-description">Orbsurv is an intelligent surveillance system that moves on a track, combining
                             AI-powered alerts with fluid, complete coverage of your space.</p>
                         <div class="hero-buttons">
-                            <a href="landing.html" class="btn btn-primary">Live Demo</a>
+                            <a href="demo.html" class="btn btn-primary">Live Demo</a>
                             <a href="#product-showcase-section" class="btn btn-secondary">Product Showcase</a>
                         </div>
                         <div class="hero-gallery">
-                            <img src="https://placehold.co/400x225/E5E7EB/6B7280?text=View+1" alt="Product View 1" class="gallery-img">
-                            <img src="https://placehold.co/400x225/E5E7EB/6B7280?text=View+2" alt="Product View 2" class="gallery-img">
-                            <img src="https://placehold.co/400x225/E5E7EB/6B7280?text=View+3" alt="Product View 3" class="gallery-img">
+                            <img src="/Image/left.jpg" alt="Orbsurv camera view - left" class="gallery-img">
+                            <img src="/Image/mid.jpg" alt="Orbsurv camera view - center" class="gallery-img">
+                            <img src="/Image/right.jpg" alt="Orbsurv camera view - right" class="gallery-img">
                         </div>
                     </div>
                 </div>
@@ -44,14 +45,14 @@
         </section>
 
         <!-- TRUST BAR (place right after the hero section) -->
-        <section aria-label="Trust bar">
-          <div class="wrap" style="padding-top:0">
-            <div class="card" style="display:flex;gap:24px;align-items:center;justify-content:center;flex-wrap:wrap">
-              <span style="font-weight:600;color:var(--mute)">Early interest from</span>
+        <section aria-label="Trust bar" class="section-no-padding-top">
+          <div class="wrap">
+            <div class="card trust-bar">
+              <span class="trust-bar-text">Early interest from</span>
               <img src="logo1.svg" alt="Partner 1" height="20" loading="lazy">
               <img src="logo2.svg" alt="Partner 2" height="20" loading="lazy">
               <img src="logo3.svg" alt="Partner 3" height="20" loading="lazy">
-              <span style="color:var(--mute)">96% of pilot users reported fewer blind spots</span>
+              <span class="text-muted">96% of pilot users reported fewer blind spots</span>
             </div>
           </div>
         </section>
@@ -67,8 +68,7 @@
               data-success-message="Thanks for joining our early interest list!"
               aria-label="Early interest signup form">
                 <label for="early-interest-email" class="sr-only">Email</label>
-                <input id="early-interest-email" name="email" type="email" required placeholder="you@example.com"
-                       style="padding:14px 16px;border:1px solid var(--line);border-radius:999px;width:100%;margin-bottom:12px;background:var(--bg);color:var(--ink)">
+                <input id="early-interest-email" name="email" type="email" required placeholder="you@example.com" class="form-input-rounded">
                 <button class="btn btn-primary" type="submit">Join</button>
               </form>
               <div id="early-interest-message" class="form-message" aria-live="polite"></div>
@@ -77,10 +77,10 @@
         </section>
 
         <section id="product-showcase-section" class="section-alt product-showcase">
-          <div class="wrap" style="width:100%">
-            <div class="card" style="display:grid;grid-template-columns:1.5fr 1fr;gap:24px;align-items:stretch">
+          <div class="wrap full-width">
+            <div class="card product-showcase-card">
               <!-- Artwork + hotspots (left) -->
-              <div class="artwork-container" id="orbsurv-art" style="position:relative">
+              <div class="artwork-container position-relative" id="orbsurv-art">
                 <!-- KEEP THE EXISTING SVG EXACTLY AS-IS -->
                 <!-- â†“â†“â†“ Paste your current SVG between these markers â†“â†“â†“ -->
                 <!-- BEGIN: CURRENT ARTWORK SVG -->
@@ -185,41 +185,37 @@
                 <!-- END: CURRENT ARTWORK SVG -->
           
                 <!-- Hotspots overlay -->
-                <div aria-hidden="true" id="hotspot-layer" style="position:absolute;inset:0;pointer-events:none">
+                <div aria-hidden="true" id="hotspot-layer" class="hotspot-layer">
                   <!-- Adjust left/top % values to align with features in your SVG -->
-                  <button class="hotspot" data-feature="rail"
-                    style="position:absolute;left:18%;top:62%;width:6%;aspect-ratio:1;border-radius:999px;pointer-events:auto;border:1px solid var(--line);background:color-mix(in srgb, var(--card-bg) 70%, transparent);box-shadow:var(--shadow-sm);cursor:pointer"
+                  <button class="hotspot hotspot-button hotspot-1" data-feature="rail"
                     aria-label="Rail movement"></button>
           
-                  <button class="hotspot" data-feature="carriage"
-                    style="position:absolute;left:48%;top:58%;width:6%;aspect-ratio:1;border-radius:999px;pointer-events:auto;border:1px solid var(--line);background:color-mix(in srgb, var(--card-bg) 70%, transparent);box-shadow:var(--shadow-sm);cursor:pointer"
+                  <button class="hotspot hotspot-button hotspot-2" data-feature="carriage"
                     aria-label="Smart tracking"></button>
           
-                  <button class="hotspot" data-feature="coverage"
-                    style="position:absolute;left:68%;top:50%;width:7%;aspect-ratio:1;border-radius:999px;pointer-events:auto;border:1px solid var(--line);background:color-mix(in srgb, var(--card-bg) 70%, transparent);box-shadow:var(--shadow-sm);cursor:pointer"
+                  <button class="hotspot hotspot-button hotspot-3 large" data-feature="coverage"
                     aria-label="Continuous coverage"></button>
           
-                  <button class="hotspot" data-feature="ai"
-                    style="position:absolute;left:35%;top:40%;width:6%;aspect-ratio:1;border-radius:999px;pointer-events:auto;border:1px solid var(--line);background:color-mix(in srgb, var(--card-bg) 70%, transparent);box-shadow:var(--shadow-sm);cursor:pointer"
+                  <button class="hotspot hotspot-button hotspot-4" data-feature="ai"
                     aria-label="AI events"></button>
                 </div>
               </div>
           
               <!-- Messaging panel (right) -->
               <aside class="card" id="feature-panel" aria-live="polite">
-                <p style="font-size:.9rem;color:var(--accent-color);font-weight:600;margin-bottom:8px">
+                <p class="info-panel-title">
                   Hover the camera
                 </p>
-                <h3 id="panel-title" style="margin-bottom:8px">Eliminate blind spots</h3>
-                <p id="panel-copy" style="color:var(--mute);margin-bottom:16px">
+                <h3 id="panel-title" class="info-panel-heading">Eliminate blind spots</h3>
+                <p id="panel-copy" class="info-panel-text">
                   Move beyond fixed viewpoints. The motorized rail sweeps hallways and corners so nothing hides out of frame.
                 </p>
-                <ul id="panel-bullets" style="color:var(--mute);margin-left:1rem;display:grid;gap:.25rem">
+                <ul id="panel-bullets" class="info-panel-list">
                   <li>Modular straight + corner segments</li>
                   <li>Silent motion with soft start/stop</li>
                   <li>Auto map + return-to-dock</li>
                 </ul>
-                <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap">
+                <div class="info-panel-actions">
                   <a href="demo.html" class="btn btn-primary">See it in action</a>
                   <a href="#availability" class="btn btn-secondary">Join pilot</a>
                   <a href="product.html" class="btn btn-secondary">product page</a>
@@ -232,7 +228,7 @@
         <!-- CAMERA COMPONENTS SECTION -->
         <section id="camera-components">
             <div class="wrap">
-                <h2 style="text-align: center;">Camera Components</h2>
+                <h2 class="text-center">Camera Components</h2>
             <div class="features-grid">
                     <div class="card feature-card component" style="--feature-color:#6366f1;">
                         <span class="feature-card__eyebrow">Optics</span>
@@ -277,7 +273,7 @@
         <!-- EXPLAINER UNDER PRODUCT ART -->
         <section aria-label="Explainer">
           <div class="wrap">
-            <p style="text-align:center;color:var(--mute);margin-bottom:16px">
+            <p class="explainer-text">
               The camera repositions along the rail to track events and remove blind zones.
             </p>
             <div class="features-grid">
@@ -324,18 +320,17 @@
 
         <section id="demo-teaser">
             <div class="wrap animate-on-scroll">
-                <div class="card"
-                    style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);align-items:center;">
+                <div class="card grid-2-equal">
                     <div>
-                        <h3 style="margin-bottom:var(--space-3);">See it in action</h3>
+                        <h3 class="mb-3">See it in action</h3>
                         <p>Watch patrols, zone focus, and alerts live in the demo.</p>
-                        <a href="demo.html" class="btn btn-primary" style="margin-top:var(--space-3);">
+                        <a href="demo.html" class="btn btn-primary mt-3">
                             <i class="fa-solid fa-video"></i> Open Demo
                         </a>
                     </div>
                     <div>
-                        <div class="demo-image-placeholder">
-                            <p>Image Placeholder</p>
+                        <div class="demo-video-container">
+                            <video src="/Image/camera video.mp4" autoplay loop muted playsinline class="demo-video" aria-label="Orbsurv camera in action"></video>
                         </div>
                     </div>
                 </div>
@@ -345,17 +340,37 @@
         <!-- AVAILABILITY / PILOT SIGNUP -->
         <section id="availability">
           <div class="wrap">
-            <div class="card" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);align-items:center">
+            <div class="card contact-form-grid">
               <div>
                 <h2>Pilot units start December</h2>
                 <p>Home and small-business kits with modular rail lengths. Pilot includes install guidance and remote calibration.</p>
                 <form id="pilot-form"
                       data-endpoint="/pilot_request"
                       data-success-message="Thanks! You're on the pilot list."
-                      aria-label="Pilot signup form">
-                  <label for="pilot-email" class="sr-only">Email</label>
-                  <input id="pilot-email" name="email" type="email" required placeholder="you@example.com"
-                         style="padding:14px 16px;border:1px solid var(--line);border-radius:999px;width:100%;margin-bottom:12px;background:var(--bg);color:var(--ink)">
+                      aria-label="Pilot signup form"
+                      data-message-target="pilot-message">
+                  <div class="form-grid">
+                    <div class="form-field">
+                      <label for="pilot-name" class="sr-only">Name</label>
+                      <input id="pilot-name" name="name" type="text" required placeholder="Your name"
+                             class="form-input-rounded">
+                    </div>
+                    <div class="form-field">
+                      <label for="pilot-org" class="sr-only">Organization</label>
+                      <input id="pilot-org" name="org" type="text" required placeholder="Organization"
+                             class="form-input-rounded">
+                    </div>
+                    <div class="form-field">
+                      <label for="pilot-email" class="sr-only">Email</label>
+                      <input id="pilot-email" name="email" type="email" required placeholder="you@example.com"
+                             class="form-input-rounded">
+                    </div>
+                  </div>
+                  <div class="form-field">
+                    <label for="pilot-usecase" class="sr-only">Use case</label>
+                    <textarea id="pilot-usecase" name="use_case" rows="3" required placeholder="Briefly describe your site and goals"
+                              class="form-input-rounded"></textarea>
+                  </div>
                   <button class="btn btn-primary" type="submit">Join the pilot list</button>
                 </form>
                 <div id="pilot-message" class="form-message" aria-live="polite"></div>
@@ -393,7 +408,7 @@
           <div class="wrap">
             <div class="card">
               <h2>Privacy and control</h2>
-              <ul style="color:var(--mute);margin-left:1rem">
+              <ul class="text-muted privacy-list">
                 <li>Local processing preferred; cloud optional.</li>
                 <li>Selective blur/redaction for faces and plates in shared clips.</li>
                 <li>Granular retention and export controls.</li>

@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-require-dev>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,9 +76,14 @@
             <span class="metric-label">Audit entries</span>
           </div>
         </div>
-        <div class="admin-shortcuts" style="margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;">
+        <div class="admin-shortcuts">
           <a class="btn btn-secondary" href="admin/logs.html"><i class="fa-solid fa-clipboard-list"></i> View logs</a>
           <a class="btn btn-outline" href="admin/analytics.html"><i class="fa-solid fa-chart-line"></i> Analytics</a>
+          <a class="btn btn-outline" href="admin/users.html"><i class="fa-solid fa-users"></i> Users</a>
+          <a class="btn btn-outline" href="admin/waitlist.html"><i class="fa-solid fa-list"></i> Waitlist</a>
+          <a class="btn btn-outline" href="admin/contacts.html"><i class="fa-solid fa-envelope"></i> Contacts</a>
+          <a class="btn btn-outline" href="admin/pilot-requests.html"><i class="fa-solid fa-rocket"></i> Pilot Requests</a>
+          <a class="btn btn-outline" href="admin/investor-interest.html"><i class="fa-solid fa-dollar-sign"></i> Investor Interest</a>
         </div>
       </div>
     </section>
@@ -195,6 +200,8 @@
 
   <script src="js/global.js"></script>
   <script src="js/forms.js"></script>
+  <script src="js/auth-guard.js"></script>
+  <script src="js/admin-api.js"></script>
   <script src="js/index.js"></script>
   <script src="js/admin.js"></script>
 </body>

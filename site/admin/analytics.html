@@ -1,6 +1,6 @@
 ﻿
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-require-dev>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +21,7 @@
   <header class="site-header" data-include="../_header.html"></header>
 
   <main class="admin-main">
-    <section class="admin-hero">
+    <section class="admin-hero hero-gradient">
       <div class="wrap">
         <p class="hero-eyebrow">Developer Console</p>
         <h1>Analytics overview</h1>
@@ -30,12 +30,10 @@
     </section>
 
     <section class="wrap admin-grid">
-      <article class="card">
+      <article class="card" id="metrics-card">
         <h2>Key metrics</h2>
-        <ul style="list-style:none;padding-left:0;display:grid;gap:8px;">
-          <li><strong>Waitlist conversions</strong> &mdash; Coming soon</li>
-          <li><strong>Pilot approvals</strong> &mdash; Coming soon</li>
-          <li><strong>Alert accuracy</strong> &mdash; Coming soon</li>
+        <ul id="metrics-list" style="list-style:none;padding-left:0;display:grid;gap:8px;">
+          <li>Loading metrics…</li>
         </ul>
       </article>
 
@@ -54,7 +52,49 @@
 
   <script src="../js/global.js"></script>
   <script src="../js/forms.js"></script>
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/admin-api.js"></script>
   <script src="../js/index.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const list = document.getElementById('metrics-list');
+      if (!list) return;
+
+      // Ensure DEV role
+      if (window.AuthGuard) {
+        const hasDev = await window.AuthGuard.ensureDevRole();
+        if (!hasDev) return;
+      }
+
+      try {
+        const summary = await window.AdminAPI.getSummary();
+        const items = [];
+        
+        if (summary) {
+          items.push({ label: 'Total Users', value: summary.total_users || 0 });
+          items.push({ label: 'Waitlist Entries', value: summary.total_waitlist || 0 });
+          items.push({ label: 'Contact Requests', value: summary.total_contacts || 0 });
+          items.push({ label: 'Pilot Requests', value: summary.total_pilot_requests || 0 });
+          items.push({ label: 'Investor Interest', value: summary.total_investor_interest || 0 });
+        }
+
+        list.innerHTML = '';
+        if (!items.length) {
+          list.innerHTML = '<li>No metrics available.</li>';
+        } else {
+          items.forEach((m) => {
+            const li = document.createElement('li');
+            li.innerHTML = `<strong>${m.label}</strong> — ${m.value}`;
+            list.appendChild(li);
+          });
+        }
+      } catch (error) {
+        console.error('Unable to load analytics summary', error);
+        window.AuthGuard?.handleAuthError(error);
+        list.innerHTML = '<li>Analytics unavailable. Please check your connection.</li>';
+      }
+    });
+  </script>
 </body>
 </html>
 

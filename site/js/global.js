@@ -39,6 +39,9 @@ async function ensureThreeBundle() {
   }
   return window.THREE;
 }
+
+// Expose ensureThreeBundle on window for use in other scripts
+window.ensureThreeBundle = ensureThreeBundle;
 const DEFAULT_API_BASE = 'https://api.orbsurv.com';
 const SITE_ROOT = (() => {
   const script =
@@ -309,16 +312,216 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupNavigationFallback();
   wireNavButtons();
   markActiveNavigation();
-  
+
   // --- 1. Mobile Navigation Toggle ---
   const navToggle = document.getElementById('nav-toggle');
-  const navRight = document.querySelector('.nav-right');
-  if (navToggle && navRight) {
-    navToggle.addEventListener('click', () => {
+  const navMenu = document.getElementById('primary-nav-menu');
+  const navBackdrop = document.getElementById('nav-backdrop');
+  const MOBILE_MENU_BREAKPOINT = 960;
+
+  // Store original body styles for scroll lock
+  let originalBodyStyles = {
+    overflow: '',
+    position: '',
+    width: '',
+    top: ''
+  };
+
+  const getFocusableNavItems = () => {
+    if (!navMenu) return [];
+    const selectors = [
+      'a[href]',
+      'button:not([disabled])',
+      'input:not([type="hidden"]):not([disabled])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])',
+    ];
+    return Array.from(navMenu.querySelectorAll(selectors.join(',')));
+  };
+
+  const lockBodyScroll = () => {
+    if (window.innerWidth > MOBILE_MENU_BREAKPOINT) return;
+    
+    // Store current scroll position
+    const scrollY = window.scrollY;
+    
+    // Store original styles
+    originalBodyStyles = {
+      overflow: document.body.style.overflow,
+      position: document.body.style.position,
+      width: document.body.style.width,
+      top: document.body.style.top
+    };
+
+    // Lock scroll
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.top = `-${scrollY}px`;
+  };
+
+  const unlockBodyScroll = () => {
+    if (window.innerWidth > MOBILE_MENU_BREAKPOINT) return;
+
+    // Restore original styles
+    document.body.style.overflow = originalBodyStyles.overflow;
+    document.body.style.position = originalBodyStyles.position;
+    document.body.style.width = originalBodyStyles.width;
+    
+    // Restore scroll position
+    const scrollY = document.body.style.top;
+    document.body.style.top = '';
+    if (scrollY) {
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
+  };
+
+  const setNavMenuState = (isOpen) => {
+    if (!navToggle || !navMenu) {
+      return;
+    }
+    const expanded = Boolean(isOpen);
+    navToggle.setAttribute('aria-expanded', expanded.toString());
+    navMenu.dataset.mobileOpen = expanded ? 'true' : 'false';
+    navMenu.classList.toggle('is-open', expanded);
+
+    // Handle backdrop
+    if (navBackdrop) {
+      navBackdrop.classList.toggle('is-visible', expanded);
+      navBackdrop.setAttribute('aria-hidden', expanded ? 'false' : 'true');
+    }
+
+    if (window.innerWidth <= MOBILE_MENU_BREAKPOINT) {
+      navMenu.setAttribute('aria-hidden', expanded ? 'false' : 'true');
+      
+      // Handle body scroll lock
+      if (expanded) {
+        lockBodyScroll();
+        const focusable = getFocusableNavItems();
+        if (focusable.length) {
+          window.requestAnimationFrame(() => focusable[0].focus());
+        }
+      } else {
+        unlockBodyScroll();
+      }
+    } else {
+      navMenu.removeAttribute('aria-hidden');
+      if (navBackdrop) {
+        navBackdrop.classList.remove('is-visible');
+        navBackdrop.setAttribute('aria-hidden', 'true');
+      }
+      unlockBodyScroll();
+    }
+
+    if (!expanded && document.activeElement && navMenu.contains(document.activeElement)) {
+      navToggle.focus();
+    }
+  };
+
+  const closeNavMenu = () => setNavMenuState(false);
+
+  if (navToggle && navMenu) {
+    setNavMenuState(false);
+
+    navToggle.addEventListener('click', (event) => {
+      event.preventDefault();
       const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
-      navToggle.setAttribute('aria-expanded', !isExpanded);
-      navRight.classList.toggle('active');
+      setNavMenuState(!isExpanded);
     });
+
+    // Handle backdrop click to close menu
+    if (navBackdrop) {
+      navBackdrop.addEventListener('click', () => {
+        if (navMenu.classList.contains('is-open')) {
+          closeNavMenu();
+        }
+      });
+    }
+
+    document.addEventListener('click', (event) => {
+      if (!navMenu.classList.contains('is-open')) {
+        return;
+      }
+      if (event.target === navToggle || navToggle.contains(event.target)) {
+        return;
+      }
+      if (event.target === navBackdrop || navBackdrop?.contains(event.target)) {
+        return; // Handled by backdrop click handler
+      }
+      if (navMenu.contains(event.target)) {
+        return;
+      }
+      closeNavMenu();
+    });
+
+    navMenu.addEventListener('click', (event) => {
+      const trigger = event.target.closest('a[href], button[data-nav-target]');
+      if (!trigger) {
+        return;
+      }
+      if (window.innerWidth > MOBILE_MENU_BREAKPOINT) {
+        return;
+      }
+      window.setTimeout(closeNavMenu, 0);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && navMenu.classList.contains('is-open')) {
+        closeNavMenu();
+      }
+      if (event.key === 'Tab' && navMenu.classList.contains('is-open')) {
+        const focusable = getFocusableNavItems();
+        if (!focusable.length) {
+          return;
+        }
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
+    let resizeTimer = null;
+    const handleResize = () => {
+      if (window.innerWidth > MOBILE_MENU_BREAKPOINT) {
+        navMenu.removeAttribute('aria-hidden');
+        navMenu.dataset.mobileOpen = 'false';
+        navMenu.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        if (navBackdrop) {
+          navBackdrop.classList.remove('is-visible');
+          navBackdrop.setAttribute('aria-hidden', 'true');
+        }
+        unlockBodyScroll();
+      } else if (navToggle.getAttribute('aria-expanded') === 'true') {
+        navMenu.setAttribute('aria-hidden', 'false');
+        if (navBackdrop) {
+          navBackdrop.classList.add('is-visible');
+          navBackdrop.setAttribute('aria-hidden', 'false');
+        }
+        lockBodyScroll();
+      } else {
+        navMenu.setAttribute('aria-hidden', 'true');
+        if (navBackdrop) {
+          navBackdrop.classList.remove('is-visible');
+          navBackdrop.setAttribute('aria-hidden', 'true');
+        }
+        unlockBodyScroll();
+      }
+    };
+
+    window.addEventListener('resize', () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(handleResize, 150);
+    });
+
+    handleResize();
   }
 
   // --- 2. Theme (Dark/Light Mode) Switcher ---
@@ -375,7 +578,201 @@ document.addEventListener('DOMContentLoaded', async () => {
     prefersDark.addListener(handlePrefersChange);
   }
 
-  // --- 3. Animate on Scroll ---
+  // --- 3. Enhanced Smooth Scrolling ---
+  // Enhanced smooth scrolling with momentum effect
+  function smoothScrollTo(target, duration = 800) {
+    const targetElement = typeof target === 'string' ? document.querySelector(target) : target;
+    if (!targetElement) return;
+
+    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    let startTime = null;
+
+    function easeInOutCubic(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function animation(currentTime) {
+      if (startTime === null) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+      const ease = easeInOutCubic(progress);
+      
+      window.scrollTo(0, startPosition + distance * ease);
+      
+      if (timeElapsed < duration) {
+        requestAnimationFrame(animation);
+      } else {
+        // Ensure we end at the exact target
+        window.scrollTo(0, targetPosition);
+        targetElement.focus({ preventScroll: true });
+      }
+    }
+
+    requestAnimationFrame(animation);
+  }
+
+  // Enhanced anchor link scrolling
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (href === '#' || href === '#!') return;
+      
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        smoothScrollTo(target, 800);
+      }
+    });
+  });
+
+  // --- 4. Section Indicator (Replaces Blue Progress Bar) ---
+  function createSectionIndicator() {
+    // Section name mapping
+    const sectionNames = {
+      'hero-section': 'Hero',
+      'early-interest': 'Early Interest',
+      'product-showcase-section': 'Product Showcase',
+      'camera-components': 'Camera Components',
+      'details': 'How It Works',
+      'demo-teaser': 'Demo',
+      'availability': 'Pilot Program',
+      'install': 'Installation',
+      'privacy': 'Privacy'
+    };
+
+    // Get all sections with IDs
+    const sections = Array.from(document.querySelectorAll('main section[id]')).filter(section => {
+      return section.id && section.id !== 'main-content';
+    });
+
+    if (sections.length === 0) return;
+
+    // Create indicator element
+    const indicator = document.createElement('div');
+    indicator.className = 'section-indicator';
+    indicator.setAttribute('aria-label', 'Current section');
+    indicator.innerHTML = `
+      <span class="section-indicator__current"></span>
+      <span class="section-indicator__name"></span>
+      <span class="section-indicator__next"></span>
+    `;
+    
+    // Position is handled by CSS (left side, vertically centered)
+    document.body.appendChild(indicator);
+
+    const currentEl = indicator.querySelector('.section-indicator__current');
+    const nameEl = indicator.querySelector('.section-indicator__name');
+    const nextEl = indicator.querySelector('.section-indicator__next');
+
+    let currentSectionIndex = 0;
+    let lastScrollDirection = 'down';
+
+    function getSectionName(section) {
+      return sectionNames[section.id] || section.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    }
+
+    function updateIndicator() {
+      // Find the section most visible in viewport
+      let maxVisibility = 0;
+      let mostVisibleIndex = 0;
+
+      sections.forEach((section, index) => {
+        const rect = section.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const sectionTop = Math.max(0, rect.top);
+        const sectionBottom = Math.min(viewportHeight, rect.bottom);
+        const visibleHeight = Math.max(0, sectionBottom - sectionTop);
+        const visibility = visibleHeight / Math.min(viewportHeight, rect.height);
+
+        if (visibility > maxVisibility) {
+          maxVisibility = visibility;
+          mostVisibleIndex = index;
+        }
+      });
+
+      // Determine scroll direction
+      if (mostVisibleIndex > currentSectionIndex) {
+        lastScrollDirection = 'down';
+      } else if (mostVisibleIndex < currentSectionIndex) {
+        lastScrollDirection = 'up';
+      }
+
+      currentSectionIndex = mostVisibleIndex;
+      const currentSection = sections[currentSectionIndex];
+      const totalSections = sections.length;
+      const sectionNumber = currentSectionIndex + 1;
+
+      // Update current section info
+      currentEl.textContent = `Section ${sectionNumber} of ${totalSections}`;
+      nameEl.textContent = getSectionName(currentSection);
+
+      // Determine next section
+      let nextSection = null;
+      if (lastScrollDirection === 'down' && currentSectionIndex < totalSections - 1) {
+        nextSection = sections[currentSectionIndex + 1];
+      } else if (lastScrollDirection === 'up' && currentSectionIndex > 0) {
+        nextSection = sections[currentSectionIndex - 1];
+      } else if (currentSectionIndex === totalSections - 1) {
+        // At the end, show previous
+        nextSection = currentSectionIndex > 0 ? sections[currentSectionIndex - 1] : null;
+      } else if (currentSectionIndex === 0) {
+        // At the start, show next
+        nextSection = sections[1] || null;
+      }
+
+      if (nextSection) {
+        const nextName = getSectionName(nextSection);
+        const nextLabel = lastScrollDirection === 'down' ? 'Next' : 'Previous';
+        nextEl.textContent = `${nextLabel}: ${nextName}`;
+        nextEl.style.display = '';
+      } else {
+        nextEl.style.display = 'none';
+      }
+
+      // Add fade animation
+      indicator.classList.add('is-updating');
+      setTimeout(() => {
+        indicator.classList.remove('is-updating');
+      }, 300);
+    }
+
+    // Use IntersectionObserver for better performance
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -20% 0px',
+      threshold: [0, 0.25, 0.5, 0.75, 1]
+    };
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      updateIndicator();
+    }, observerOptions);
+
+    sections.forEach(section => {
+      sectionObserver.observe(section);
+    });
+
+    // Initial update
+    updateIndicator();
+
+    // Update on scroll for direction detection
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateIndicator();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  // Initialize section indicator
+  createSectionIndicator();
+
+  // --- 5. Enhanced Animate on Scroll ---
   const scrollObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -383,7 +780,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1 });
+  }, { 
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px' // Trigger slightly before element enters viewport
+  });
 
   document.querySelectorAll('.animate-on-scroll').forEach(el => {
     scrollObserver.observe(el);

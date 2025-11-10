@@ -1,0 +1,11 @@
+<p>Hi {{ name or "there" }},</p>
+
+<p>Thank you for sharing your interest in {{ app_name }}. Our team will follow up soon with next steps and an investor brief.</p>
+
+{% if amount -%}
+<p><strong>Initial amount noted:</strong> {{ amount }}</p>
+{%- endif %}
+
+<p>If you need anything before then, reply to this email or reach us at <a href="mailto:{{ support_email }}">{{ support_email }}</a>.</p>
+
+<p>We appreciate your time and support,<br>— The {{ app_name }} team</p>

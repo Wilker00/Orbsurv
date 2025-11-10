@@ -86,7 +86,7 @@
 }
 
 .admin-hero {
-  padding: var(--space-6) 0 var(--space-3);
+  padding: clamp(var(--space-5), 8vw, var(--space-7)) 0;
   background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05));
   border-bottom: 1px solid var(--line);
 }
@@ -186,7 +186,49 @@
 
 .table-scroll {
   overflow-x: auto;
+  overflow-y: visible;
   border-radius: var(--radius-xl);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.table-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 0;
+}
+
+/* Light theme admin table scrollbar */
+.table-scroll::-webkit-scrollbar-thumb {
+  background: rgba(107, 114, 128, 0.3); /* --mute at 30% opacity for light theme */
+  border-radius: 4px;
+  border: none;
+  transition: background 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 40px;
+}
+
+.table-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(13, 110, 253, 0.5); /* --accent-color (blue) at 50% opacity for light theme */
+}
+
+.table-scroll::-webkit-scrollbar-thumb:active {
+  background: rgba(13, 110, 253, 0.7); /* --accent-color (blue) at 70% opacity for light theme */
+}
+
+/* Dark theme admin table scrollbar */
+body.dark-mode .table-scroll::-webkit-scrollbar-thumb {
+  background: rgba(170, 170, 170, 0.25); /* --mute at 25% opacity for dark theme */
+}
+
+body.dark-mode .table-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(240, 240, 240, 0.4); /* Light accent at 40% opacity for dark theme */
+}
+
+body.dark-mode .table-scroll::-webkit-scrollbar-thumb:active {
+  background: rgba(240, 240, 240, 0.6); /* Light accent at 60% opacity for dark theme */
 }
 
 .admin-table {
@@ -377,11 +419,31 @@
   }
 
   .admin-table {
-    min-width: 520px;
+    min-width: 600px;
+    font-size: 0.875rem;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 10px 12px;
+    font-size: 0.875rem;
+  }
+
+  .table-actions {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .table-actions .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 16px;
+    font-size: 0.875rem;
   }
 
   .system-actions {
     flex-direction: column;
+    gap: var(--space-2);
   }
 
   .system-actions .btn {
@@ -392,5 +454,34 @@
   .email-actions .btn {
     flex: 1 1 100%;
     justify-content: center;
+  }
+
+  .search-filter {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .search-filter input,
+  .search-filter select,
+  .search-filter .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-table {
+    min-width: 500px;
+    font-size: 0.8rem;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+
+  .table-actions .btn {
+    padding: 10px 12px;
+    font-size: 0.8rem;
   }
 }

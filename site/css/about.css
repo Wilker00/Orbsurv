@@ -8,13 +8,6 @@
     p{color:var(--mute)}
     .wrap{max-width:var(--container);margin:0 auto;padding:0 24px}
     section{padding:72px 0}
-    header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:16px 0}
-    body.dark-mode header{background:rgba(34,34,34,.82)}
-    .nav-container{display:flex;justify-content:space-between;align-items:center}
-    .logo{font-size:1.5rem}
-    .nav-links{display:flex;gap:16px;background:var(--card-bg);padding:8px;border-radius:999px}
-    .nav-links a{text-decoration:none;color:var(--mute);font-weight:600;padding:10px 16px;border-radius:999px;transition:.25s}
-    .nav-links a:hover,.nav-links a[aria-pressed="true"]{background:var(--bg);color:var(--ink);box-shadow:var(--shadow-sm)}
     .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;font-weight:700;text-decoration:none;cursor:pointer;transition:.2s;border:1px solid var(--line);color:var(--ink)}
     .btn-primary{background:var(--ink);color:var(--bg);border:none}
     .btn-primary:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}

@@ -18,52 +18,146 @@
 <body>
   <header class="site-header" data-include="_header.html"></header>
 
-  <main>
-    <section class="contact-hero">
+  <main id="main-content">
+    <section class="contact-hero contact-hero-gradient">
       <div class="wrap">
-        <h1>Talk with the Orbsurv team</h1>
-        <p>Have a pilot site in mind, need support, or want to explore partnerships? Send a message and we'll get back to you quickly.</p>
+        <div class="card contact-hero-card">
+          <div>
+            <p class="small-text contact-hero-eyebrow">Partnerships • Pilots • Support</p>
+            <h1>Talk with the Orbsurv team</h1>
+            <p class="contact-hero-description">Share the deployment you're planning, the facility you monitor today, or the partnership you have in mind. We route each inquiry to the right engineer so you receive a useful response fast.</p>
+          </div>
+          <div class="form-grid contact-stats-grid">
+            <div>
+              <p class="small-text contact-stat-label">Average response</p>
+              <h3 class="contact-stat-value">&lt; 24 hours</h3>
+            </div>
+            <div>
+              <p class="small-text contact-stat-label">Pilot success rate</p>
+              <h3 class="contact-stat-value">96% launch</h3>
+            </div>
+            <div>
+              <p class="small-text contact-stat-label">Coverage</p>
+              <h3 class="contact-stat-value">35+ facilities</h3>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="wrap contact-grid">
-      <div class="card">
-        <h2>General inquiry</h2>
+      <div class="card contact-card">
+        <div>
+          <span class="auth-tag contact-tag"><i class="fa-solid fa-envelope-circle-check"></i> Send us a note</span>
+          <h2 class="contact-card-title">General inquiry</h2>
+          <p class="card-content contact-card-description">Tell us about your site, timeline, and any integrations you need. We'll introduce you to the right product or deployment lead.</p>
+        </div>
         <form id="contact-page-form"
               data-endpoint="/contact"
               data-success-message="Thanks for reaching out! A team member will respond soon."
               data-error-message="We could not submit your request. Please try again."
-              data-message-target="contact-page-message">
-          <div class="form-field">
-            <label for="contact-name">Name</label>
-            <input id="contact-name" name="name" type="text" placeholder="Maya Chen" required autocomplete="name">
+              data-message-target="contact-page-message"
+              class="card contact-form-card">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="contact-name">Full name</label>
+              <input id="contact-name" name="name" type="text" placeholder="Maya Chen" required autocomplete="name">
+            </div>
+            <div class="form-field">
+              <label for="contact-email">Work email</label>
+              <input id="contact-email" name="email" type="email" placeholder="you@example.com" required autocomplete="email">
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="contact-company">Company / site</label>
+              <input id="contact-company" name="company" type="text" placeholder="Atlas Logistics" autocomplete="organization">
+            </div>
+            <div class="form-field">
+              <label for="contact-phone">Phone (optional)</label>
+              <input id="contact-phone" name="phone" type="tel" placeholder="+1 (555) 012-4700" autocomplete="tel">
+            </div>
           </div>
           <div class="form-field">
-            <label for="contact-email">Email</label>
-            <input id="contact-email" name="email" type="email" placeholder="you@example.com" required autocomplete="email">
+            <label for="contact-topic">Topic</label>
+            <select id="contact-topic" name="topic" required>
+              <option value="" disabled selected>Select one</option>
+              <option value="pilot">Pilot or deployment</option>
+              <option value="partnership">Partnership</option>
+              <option value="support">Customer support</option>
+              <option value="press">Press / media</option>
+              <option value="other">Other</option>
+            </select>
           </div>
           <div class="form-field">
             <label for="contact-message">How can we help?</label>
-            <textarea id="contact-message" name="message" rows="5" placeholder="Tell us about your site, use case, or question." required></textarea>
+            <textarea id="contact-message" name="message" rows="5" placeholder="Share the area you want to secure, existing sensors, or project goals." required></textarea>
           </div>
           <button class="btn btn-primary" type="submit"><i class="fa-solid fa-paper-plane"></i> Send message</button>
           <div id="contact-page-message" class="form-message" aria-live="polite"></div>
         </form>
       </div>
 
-      <aside class="card contact-side">
-        <h2>Other ways to connect</h2>
-        <ul class="contact-list">
-          <li><i class="fa-solid fa-envelope"></i> <a href="mailto:hello@orbsurv.com">hello@orbsurv.com</a></li>
-          <li><i class="fa-solid fa-phone"></i> +1 (555) 012-4700</li>
-          <li><i class="fa-solid fa-location-dot"></i> Remote-first &mdash; hardware lab in Austin, TX</li>
-          <li><i class="fa-solid fa-headset"></i> Pilot support: <a href="mailto:support@orbsurv.com">support@orbsurv.com</a></li>
-        </ul>
-        <div class="contact-links">
-          <a class="btn btn-secondary btn-compact" href="pricing.html"><i class="fa-solid fa-tags"></i> View pricing</a>
-          <a class="btn btn-outline btn-compact" href="status.html"><i class="fa-solid fa-signal"></i> System status</a>
+      <aside style="display:grid;gap:var(--space-4);">
+        <div class="card contact-side">
+          <h2>Other ways to connect</h2>
+          <ul class="contact-list">
+            <li><i class="fa-solid fa-envelope"></i> <a href="mailto:hello@orbsurv.com">hello@orbsurv.com</a></li>
+            <li><i class="fa-solid fa-phone"></i> +1 (555) 012-4700</li>
+            <li><i class="fa-solid fa-location-dot"></i> Remote-first &mdash; hardware lab in Austin, TX</li>
+            <li><i class="fa-solid fa-headset"></i> Pilot support: <a href="mailto:support@orbsurv.com">support@orbsurv.com</a></li>
+          </ul>
+          <div class="contact-links">
+            <a class="btn btn-secondary btn-compact" href="pricing.html"><i class="fa-solid fa-tags"></i> View pricing</a>
+            <a class="btn btn-outline btn-compact" href="status.html"><i class="fa-solid fa-signal"></i> System status</a>
+          </div>
+        </div>
+        <div class="card contact-hours-card">
+          <h3 class="contact-hours-title">Office hours</h3>
+          <p class="contact-hours-text">Monday–Friday · 8a–7p CT<br>Emergency pilot support is monitored 24/7.</p>
+          <div class="card contact-cta-card">
+            <p class="contact-cta-title">Need a live walkthrough?</p>
+            <p class="contact-cta-description">Book a 20-minute screenshare with deployment engineering.</p>
+            <a class="btn btn-secondary btn-compact" href="demo.html"><i class="fa-solid fa-video"></i> Schedule demo</a>
+          </div>
         </div>
       </aside>
+    </section>
+
+    <section class="section-alt contact-section-alt">
+      <div class="wrap contact-section-grid">
+        <div class="contact-why-header">
+          <p class="small-text contact-why-eyebrow">Why teams reach out</p>
+          <h2 class="contact-why-title">Guided help from deployment to integrations</h2>
+          <p class="contact-why-description">Use the same Orbsurv crew across your journey. We reuse the components already powering the rest of the site so what you see here matches the rest of the product.</p>
+        </div>
+        <div class="contact-help-grid">
+          <article class="card component contact-help-card">
+            <h3>Deployment design</h3>
+            <p class="desc contact-help-description">Share floor plans and rail length to receive an annotated layout plus bill of materials.</p>
+            <ul class="contact-help-list">
+              <li>Rail span + mounting guidance</li>
+              <li>Power and network planning</li>
+            </ul>
+          </article>
+          <article class="card component contact-help-card--blue">
+            <h3>Operations &amp; training</h3>
+            <p class="desc contact-help-description">Schedule onboarding for operators, guard staff, or facilities managers.</p>
+            <ul class="contact-help-list">
+              <li>Live console walkthrough</li>
+              <li>Alert triage best practices</li>
+            </ul>
+          </article>
+          <article class="card component contact-help-card--green">
+            <h3>Integrations</h3>
+            <p class="desc contact-help-description">Discuss API, webhook, or VMS flows to slot Orbsurv into your stack.</p>
+            <ul class="contact-help-list">
+              <li>SIEM + SOC coordination</li>
+              <li>Privacy &amp; compliance reviews</li>
+            </ul>
+          </article>
+        </div>
+      </div>
     </section>
 
     <section class="wrap contact-faq">

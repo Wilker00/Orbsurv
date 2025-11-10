@@ -37,32 +37,7 @@
       flex-direction: column;
     }
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      backdrop-filter: blur(12px);
-      background: rgba(255, 255, 255, 0.95);
-      border-bottom: 1px solid var(--line);
-      padding: 16px 0;
-      transition: background 0.3s ease;
-    }
-
-    body.dark-mode header { background: rgba(34, 34, 34, 0.8); }
-
     .wrap { width: min(var(--wrap), 92vw); margin: 0 auto; }
-
-    .nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .logo { font-family: 'Sora', sans-serif; font-size: 1.5rem; font-weight: 700; text-decoration: none; color: var(--ink); }
-
-    .nav a { color: var(--mute); text-decoration: none; font-weight: 600; }
-    .nav a:hover { color: var(--ink); }
 
     main {
       flex: 1;

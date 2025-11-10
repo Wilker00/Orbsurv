@@ -1,4 +1,4 @@
-from . import users, waitlist, contact, investor, pilot, audit, settings, analytics
+from . import users, waitlist, contact, investor, pilot, audit, settings, analytics, order
 
 __all__ = [
     "users",
@@ -9,4 +9,5 @@ __all__ = [
     "audit",
     "settings",
     "analytics",
+    "order",
 ]

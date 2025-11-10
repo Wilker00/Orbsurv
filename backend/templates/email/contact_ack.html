@@ -1,0 +1,11 @@
+<p>Hi {{ name or "there" }},</p>
+
+<p>Thanks for reaching out to the {{ app_name }} team. We received your message and will be in touch within one business day.</p>
+
+{% if message -%}
+<p><strong>Message summary</strong><br>{{ message | replace('\n', '<br>') | safe }}</p>
+{%- endif %}
+
+<p>If you have updates to share, reply to this email or contact us at <a href="mailto:{{ support_email }}">{{ support_email }}</a>.</p>
+
+<p>— The {{ app_name }} team</p>

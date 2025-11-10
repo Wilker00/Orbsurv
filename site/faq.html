@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="/Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/shared-vars.css">
+  <link rel="stylesheet" href="css/privacy.css">
+  <link rel="stylesheet" href="css/index.css">
+  <style>
+    .faq-section {
+      margin-bottom: var(--space-6);
+    }
+
+    .faq-category {
+      margin-bottom: var(--space-5);
+    }
+
+    .faq-category h2 {
+      margin-bottom: var(--space-4);
+      font-size: 1.5rem;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .faq-item {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .faq-item:hover {
+      box-shadow: var(--shadow-sm);
+    }
+
+    .faq-item details {
+      padding: var(--space-5);
+    }
+
+    .faq-item summary {
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      padding: 0;
+      margin-bottom: var(--space-3);
+      line-height: 1.4;
+      font-size: 1.05rem;
+    }
+    
+    .faq-item details[open] summary {
+      margin-bottom: var(--space-4);
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::after {
+      content: '+';
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--accent-color);
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .faq-item details[open] summary::after {
+      content: '−';
+      transform: rotate(180deg);
+    }
+
+    .faq-item summary:hover {
+      color: var(--accent-color);
+    }
+
+    .faq-item p {
+      margin-top: var(--space-3);
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--line);
+      color: var(--mute);
+      line-height: 1.7;
+    }
+
+    .faq-item a {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .faq-item a:hover {
+      text-decoration: underline;
+    }
+
+    .faq-nav {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-5);
+      padding: var(--space-3);
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+    }
+
+    .faq-nav a {
+      padding: var(--space-2) var(--space-3);
+      border-radius: 999px;
+      background: var(--bg);
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.9rem;
+      border: 1px solid var(--line);
+      transition: all 0.2s ease;
+    }
+
+    .faq-nav a:hover {
+      background: var(--accent-color);
+      color: var(--bg);
+      border-color: var(--accent-color);
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-include="_header.html"></header>
+
+  <main>
+    <section class="hero-gradient hero-padding">
+      <div class="wrap">
+        <div class="section-header-center">
+          <p class="section-eyebrow">Support</p>
+          <h1 class="section-title">Frequently Asked Questions</h1>
+          <p class="section-description">
+            Find answers to common questions about Orbsurv installation, configuration, pricing, and more.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="faq-nav" role="navigation" aria-label="FAQ categories">
+          <a href="#general">General</a>
+          <a href="#installation">Installation</a>
+          <a href="#configuration">Configuration</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#pilot">Pilot Program</a>
+          <a href="#troubleshooting">Troubleshooting</a>
+        </div>
+
+        <!-- General Questions -->
+        <div class="faq-section" id="general">
+          <div class="faq-category">
+            <h2>General Questions</h2>
+            <div class="faq-list">
+              <div class="faq-item">
+                <details>
+                  <summary>How is Orbsurv different from static cameras?</summary>
+                  <p>Orbsurv patrols on a rail, eliminating blind spots that fixed cameras create. Instead of installing multiple static cameras, a single Orbsurv module moves along a track to provide comprehensive coverage. It also learns your space over time, reducing false alarms and improving detection accuracy.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>Does Orbsurv work in low light?</summary>
+                  <p>Yes. Orbsurv combines high-resolution video with thermal sensing for reliable detection in any lighting condition. The thermal sensor detects heat signatures even in complete darkness, while the 4K camera provides clear footage during daylight hours.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>Where is my data processed?</summary>
+                  <p>Events are analyzed on-device first using edge AI processing. This means your surveillance data is processed locally, maintaining privacy and reducing bandwidth usage. Cloud syncing is optional and can be configured to your preferences. See our <a href="privacy.html">Privacy Policy</a> for more details.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>Does the mobile app run on iOS and Android?</summary>
+                  <p>Yes, the Orbsurv mobile app is built with Flutter and available on both the Apple App Store and Google Play Store. You can monitor your space, receive alerts, and review footage from anywhere.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>What is the range of the rail system?</summary>
+                  <p>Each rail segment is 2 meters long, and multiple segments can be connected. The standard deployment supports up to 50 meters of rail coverage. Custom installations can extend beyond this for larger facilities.</p>
+                </details>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Installation Questions -->
+        <div class="faq-section" id="installation">
+          <div class="faq-category">
+            <h2>Installation</h2>
+            <div class="faq-list">
+              <div class="faq-item">
+                <details>
+                  <summary>How difficult is installation?</summary>
+                  <p>Installation is straightforward. The modular rail system uses snap-fit brackets that mount to your ceiling or wall. Most installations take 2-4 hours for a standard deployment. We provide detailed installation guides and video tutorials, and white-glove installation services are available for complex deployments.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>What are the hardware requirements?</summary>
+                  <p>Orbsurv requires 90W PoE++ (Power over Ethernet Plus Plus) for power and data. The system can also operate with Wi-Fi 6E or optional 5G connectivity. A network connection is required for app access and optional cloud features. See our <a href="installation.html">Installation Guide</a> for complete specifications.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>Can I install it myself or do I need a professional?</summary>
+                  <p>Many users successfully install Orbsurv themselves using our installation guide. However, for optimal performance and calibration, we recommend professional installation, especially for complex deployments or commercial spaces. Pilot participants receive installation support.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>How long does calibration take?</summary>
+                  <p>Initial calibration typically takes 15-30 minutes. The system automatically maps your space and learns optimal patrol routes. Advanced calibration with custom zones and rules can take 1-2 hours depending on complexity.</p>
+                </details>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Configuration Questions -->
+        <div class="faq-section" id="configuration">
+          <div class="faq-category">
+            <h2>Configuration</h2>
+            <div class="faq-list">
+              <div class="faq-item">
+                <details>
+                  <summary>How do I set up patrol routes?</summary>
+                  <p>Patrol routes are configured through the Orbsurv app or web interface. You can set waypoints, define dwell times at specific locations, and create schedules for different times of day. The system learns from your patterns and suggests optimizations.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>Can I customize privacy zones?</summary>
+                  <p>Yes. Orbsurv supports privacy-first redaction policies. You can define zones where faces or sensitive areas are automatically blurred in recordings while still allowing the system to detect motion and anomalies in those areas.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>How do I configure alerts and notifications?</summary>
+                  <p>Alerts are configured through the app. You can set up motion detection zones, define what types of events trigger alerts, and customize notification preferences. The edge AI filters out false alarms, so you only receive alerts for meaningful events.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>Can I integrate Orbsurv with other security systems?</summary>
+                  <p>Yes. Orbsurv provides API access for integration with existing security systems, access control, and building management platforms. Webhook support is available for real-time event notifications. See our <a href="docs.html">Developer Documentation</a> for integration guides.</p>
+                </details>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pricing Questions -->
+        <div class="faq-section" id="pricing">
+          <div class="faq-category">
+            <h2>Pricing</h2>
+            <div class="faq-list">
+              <div class="faq-item">
+                <details>
+                  <summary>What does Orbsurv cost?</summary>
+                  <p>Pricing varies by deployment tier and includes the hardware, software, and cloud storage. See our <a href="pricing.html">Pricing Page</a> for detailed plans and pricing. Pilot program participants receive special pricing and priority support.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>Are there ongoing subscription fees?</summary>
+                  <p>Yes. Orbsurv operates on a subscription model that includes cloud storage, advanced AI features, software updates, and remote support. The Starter tier is ideal for pilots, with higher tiers adding more storage and advanced features.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>What's included in the Starter tier?</summary>
+                  <p>The Starter tier includes the Orbsurv Patrol Module, 30 days of cloud storage, basic AI alerts, access to the mobile and web apps, and standard support. It's designed for pilot deployments and small-scale installations.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>Do you offer custom pricing for enterprise deployments?</summary>
+                  <p>Yes. We work with enterprise customers to create custom deployment packages that include volume pricing, extended warranties, dedicated support, and integration services. Contact our sales team through the <a href="contact.html">Contact</a> page to discuss your needs.</p>
+                </details>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pilot Program Questions -->
+        <div class="faq-section" id="pilot">
+          <div class="faq-category">
+            <h2>Pilot Program</h2>
+            <div class="faq-list">
+              <div class="faq-item">
+                <details>
+                  <summary>What is the Orbsurv Pilot Program?</summary>
+                  <p>The Pilot Program gives early adopters access to Orbsurv before general availability. Pilot participants receive priority support, early access to new features, special pricing, and direct input into product development.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>How do I join the pilot program?</summary>
+                  <p>You can join by filling out the pilot signup form on our <a href="product.html#pilot-signup">Product Page</a> or <a href="contact.html">Contact Page</a>. We'll review your application and reach out to discuss your deployment needs.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>What are the benefits of being a pilot user?</summary>
+                  <p>Pilot users receive discounted pricing, priority technical support, early access to beta features, direct communication with our engineering team, and the opportunity to shape product development based on real-world feedback.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>Is there a commitment required for pilot participation?</summary>
+                  <p>Pilot participation requires a 12-month commitment. This helps us provide stable support and gather meaningful feedback. We offer flexible terms and can work with you to structure a pilot that fits your needs.</p>
+                </details>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Troubleshooting Questions -->
+        <div class="faq-section" id="troubleshooting">
+          <div class="faq-category">
+            <h2>Troubleshooting</h2>
+            <div class="faq-list">
+              <div class="faq-item">
+                <details>
+                  <summary>Why am I getting false alarms?</summary>
+                  <p>False alarms are typically caused by environmental factors like moving shadows, reflections, or pets. The edge AI learns your space over time to reduce false alarms. You can also adjust sensitivity settings, configure exclusion zones, and fine-tune detection parameters in the app. If issues persist, contact support.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>The camera isn't moving smoothly on the rail</summary>
+                  <p>Check that the rail is properly aligned and all segments are securely connected. Ensure the rail is clean and free of obstructions. If the issue persists, the module may need recalibration. See our <a href="help.html">Help Center</a> for detailed troubleshooting steps or contact support.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>I'm having connectivity issues</summary>
+                  <p>First, verify your network connection and PoE power supply. Check that the module's LED indicators show normal operation. Try rebooting the module through the app. If connectivity problems persist, ensure your network meets the requirements (PoE++, Wi-Fi 6E, or 5G) and contact support for assistance.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>How do I reset the system to factory defaults?</summary>
+                  <p>Factory reset can be performed through the app settings under "Advanced" → "Reset to Factory Defaults". This will erase all configurations, patrol routes, and learned patterns. You'll need to recalibrate after resetting. Warning: This action cannot be undone.</p>
+                </details>
+              </div>
+              <div class="faq-item">
+                <details>
+                  <summary>Where can I get additional help?</summary>
+                  <p>Visit our <a href="help.html">Help Center</a> for guides, tutorials, and troubleshooting resources. For technical support, contact us through the <a href="contact.html">Contact Page</a> or email support@orbsurv.com. Pilot users have access to priority support channels.</p>
+                </details>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Still Have Questions -->
+        <div class="card" style="text-align: center; padding: var(--space-6); margin-top: var(--space-7);">
+          <h2 style="margin-bottom: var(--space-3);">Still Have Questions?</h2>
+          <p style="margin-bottom: var(--space-5); color: var(--mute); max-width: 60ch; margin-left: auto; margin-right: auto; line-height: 1.7;">
+            Can't find what you're looking for? Our support team is here to help. Get in touch and we'll get back to you as soon as possible.
+          </p>
+          <div style="display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;">
+            <a href="contact.html" class="btn btn-primary">Contact Support</a>
+            <a href="help.html" class="btn btn-secondary">Visit Help Center</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="_footer.html"></footer>
+
+  <script src="js/global.js"></script>
+  <script src="js/forms.js"></script>
+  <script src="js/index.js"></script>
+  <script>
+    // Smooth scroll for FAQ navigation links
+    document.addEventListener('DOMContentLoaded', function() {
+      const faqNavLinks = document.querySelectorAll('.faq-nav a');
+      faqNavLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetSection = document.querySelector(targetId);
+          if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Update URL without scrolling
+            history.pushState(null, null, targetId);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
