@@ -6,12 +6,37 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from .. import crud, schemas
 from ..database import get_session
+from ..middleware import rate_limit_middleware
 from ..security import record_audit_log
+from ..services.captcha import verify_captcha_token
 from ..services.email import send_templated_email
 from ..settings import settings
 
+try:
+    import sentry_sdk
+except ImportError:  # pragma: no cover - sentry is an optional dependency during tests
+    sentry_sdk = None
+
 router = APIRouter(tags=["public"])
 logger = logging.getLogger(__name__)
+
+
+async def _guard_public_form(
+    request: Request,
+    captcha_token: str | None,
+    *,
+    require_captcha: bool = True,
+) -> None:
+    await rate_limit_middleware(
+        request,
+        max_requests=settings.public_form_rate_limit,
+        window_seconds=settings.public_form_rate_window_seconds,
+    )
+    await verify_captcha_token(
+        captcha_token,
+        request,
+        require=require_captcha and settings.captcha_required_for_public_forms,
+    )
 
 
 @router.post("/waitlist", response_model=schemas.MessageResponse, status_code=201)
@@ -20,6 +45,7 @@ async def join_waitlist(
     request: Request,
     session: AsyncSession = Depends(get_session),
 ) -> schemas.MessageResponse:
+    await _guard_public_form(request, payload.captcha_token)
     await crud.waitlist.create_waitlist(session, payload)
     await record_audit_log(session, actor=None, action="waitlist.join", request=request)
     await session.commit()
@@ -32,6 +58,7 @@ async def submit_contact(
     request: Request,
     session: AsyncSession = Depends(get_session),
 ) -> schemas.MessageResponse:
+    await _guard_public_form(request, payload.captcha_token)
     await crud.contact.create_contact(session, payload)
     await record_audit_log(session, actor=None, action="contact.submit", request=request)
     await session.commit()
@@ -50,6 +77,7 @@ async def submit_investor_interest(
     request: Request,
     session: AsyncSession = Depends(get_session),
 ) -> schemas.MessageResponse:
+    await _guard_public_form(request, payload.captcha_token)
     await crud.investor.create_interest(session, payload)
     await record_audit_log(session, actor=None, action="investor.interest", request=request)
     await session.commit()
@@ -68,6 +96,7 @@ async def submit_pilot_request(
     request: Request,
     session: AsyncSession = Depends(get_session),
 ) -> schemas.MessageResponse:
+    await _guard_public_form(request, payload.captcha_token)
     await crud.pilot.create_pilot_request(session, payload)
     await record_audit_log(session, actor=None, action="pilot.request", request=request)
     await session.commit()
@@ -87,6 +116,7 @@ async def create_order(
     session: AsyncSession = Depends(get_session),
 ) -> schemas.OrderResponse:
     """Create a new order and send registration email."""
+    await _guard_public_form(request, payload.captcha_token)
     # Validate plan types (you can expand this with actual plan validation)
     valid_plans = ["starter", "perimeter", "enterprise"]
     if payload.plan_type.lower() not in valid_plans:
@@ -126,6 +156,11 @@ async def report_client_error(
     request: Request,
     session: AsyncSession = Depends(get_session),
 ) -> schemas.MessageResponse:
+    await rate_limit_middleware(
+        request,
+        max_requests=settings.client_error_rate_limit,
+        window_seconds=settings.client_error_rate_window_seconds,
+    )
     def _clip(value: str | None, limit: int) -> str | None:
         if value is None:
             return None
@@ -144,4 +179,8 @@ async def report_client_error(
     metadata = json.dumps({key: value for key, value in report.items() if value not in (None, "")})
     await record_audit_log(session, actor=None, action="client.error", request=request, metadata=metadata)
     await session.commit()
+    if sentry_sdk and settings.sentry_dsn:
+        with sentry_sdk.push_scope() as scope:
+            scope.set_context("client_error", report)
+            sentry_sdk.capture_message("Client error reported from frontend", level="error")
     return schemas.MessageResponse(message="Client error recorded.")

@@ -49,6 +49,7 @@ This document provides a comprehensive checklist to ensure your Orbsurv applicat
 - [ ] **Application Security**
   - [ ] CORS origins properly configured (no wildcards in production)
   - [ ] Rate limiting enabled (Redis configured)
+  - [ ] Captcha enforcement configured (`CAPTCHA_SECRET_KEY`, `CAPTCHA_REQUIRED_FOR_PUBLIC_FORMS`)
   - [ ] Security headers configured in nginx.conf
   - [ ] HTTPS/SSL certificates ready (for production)
 
@@ -129,6 +130,7 @@ This document provides a comprehensive checklist to ensure your Orbsurv applicat
   - [ ] Log rotation configured
   - [ ] Error logging working
   - [ ] Request logging enabled
+  - [ ] Sentry DSN configured and receiving events
 
 ### 7. Frontend Assets
 
@@ -320,5 +322,9 @@ This document provides a comprehensive checklist to ensure your Orbsurv applicat
 
 **Last Updated:** $(date)
 **Version:** 1.0.0
+
+
+
+
 
 

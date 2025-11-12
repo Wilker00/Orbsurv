@@ -40,6 +40,30 @@ class Settings(BaseSettings):
     email_from: Annotated[str | None, Field(validation_alias="EMAIL_FROM")] = None
     frontend_base_url: Annotated[str | None, Field(validation_alias="FRONTEND_BASE_URL")] = None
 
+    public_form_rate_limit: Annotated[int, Field(validation_alias="PUBLIC_FORM_RATE_LIMIT")] = 5
+    public_form_rate_window_seconds: Annotated[int, Field(validation_alias="PUBLIC_FORM_RATE_WINDOW_SECONDS")] = 600
+    client_error_rate_limit: Annotated[int, Field(validation_alias="CLIENT_ERROR_RATE_LIMIT")] = 20
+    client_error_rate_window_seconds: Annotated[
+        int, Field(validation_alias="CLIENT_ERROR_RATE_WINDOW_SECONDS")
+    ] = 60
+
+    captcha_provider: Annotated[str | None, Field(validation_alias="CAPTCHA_PROVIDER")] = "hcaptcha"
+    captcha_secret_key: Annotated[str | None, Field(validation_alias="CAPTCHA_SECRET_KEY")] = None
+    captcha_verify_url: Annotated[
+        str | None, Field(validation_alias="CAPTCHA_VERIFY_URL")
+    ] = "https://hcaptcha.com/siteverify"
+    captcha_required_for_public_forms: Annotated[
+        bool, Field(validation_alias="CAPTCHA_REQUIRED_FOR_PUBLIC_FORMS")
+    ] = False
+
+    sentry_dsn: Annotated[str | None, Field(validation_alias="SENTRY_DSN")] = None
+    sentry_traces_sample_rate: Annotated[
+        float, Field(validation_alias="SENTRY_TRACES_SAMPLE_RATE", ge=0.0, le=1.0)
+    ] = 0.0
+    sentry_profiles_sample_rate: Annotated[
+        float, Field(validation_alias="SENTRY_PROFILES_SAMPLE_RATE", ge=0.0, le=1.0)
+    ] = 0.0
+
     docs_url: str | None = "/docs"
     redoc_url: str | None = None
 
@@ -48,6 +72,18 @@ class Settings(BaseSettings):
         if isinstance(self.cors_allow_origins, str):
             origins = [item.strip() for item in self.cors_allow_origins.split(",") if item.strip()]
             object.__setattr__(self, "cors_allow_origins", origins)
+        test_context = bool(os.environ.get("PYTEST_CURRENT_TEST"))
+        allow_insecure = os.environ.get("ORBSURV_ALLOW_INSECURE_SETTINGS") == "1"
+        if self.captcha_required_for_public_forms and not self.captcha_secret_key and not allow_insecure:
+            raise ValueError("CAPTCHA_SECRET_KEY must be configured when captcha enforcement is enabled.")
+        if self.env.lower() == "production" and not (test_context or allow_insecure):
+            if not self.captcha_secret_key:
+                raise ValueError("CAPTCHA_SECRET_KEY must be configured in production.")
+            if not self.sentry_dsn:
+                raise ValueError("SENTRY_DSN must be configured in production.")
+            object.__setattr__(self, "captcha_required_for_public_forms", True)
+        elif allow_insecure and self.env.lower() == "production" and not self.captcha_secret_key:
+            object.__setattr__(self, "captcha_required_for_public_forms", False)
         return self
 
 

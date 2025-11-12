@@ -1,5 +1,7 @@
 import pytest
 
+from backend.settings import settings
+
 
 @pytest.mark.asyncio
 async def test_waitlist_submission(client):
@@ -64,3 +66,14 @@ async def test_password_reset_email_skips_without_smtp():
         reset_url="https://example.com/reset?token=abc",
     )
     assert result is False
+
+
+@pytest.mark.asyncio
+async def test_waitlist_rate_limit_enforced(client):
+    payload = {"email": "limited@example.com", "name": "Rate Limited", "source": "web"}
+    limit = settings.public_form_rate_limit
+    for _ in range(limit):
+        response = await client.post("/api/v1/waitlist", json=payload)
+        assert response.status_code == 201
+    response = await client.post("/api/v1/waitlist", json=payload)
+    assert response.status_code == 429

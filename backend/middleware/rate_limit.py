@@ -1,11 +1,13 @@
-"""Rate limiting middleware using Redis."""
+"""Rate limiting middleware using Redis with in-memory fallback."""
 from __future__ import annotations
 
+import asyncio
 import logging
+import time
+from collections import defaultdict, deque
 from typing import Optional
 
 from fastapi import HTTPException, Request, status
-from fastapi.responses import JSONResponse
 
 from ..settings import settings
 
@@ -13,12 +15,15 @@ logger = logging.getLogger(__name__)
 
 try:
     import redis.asyncio as aioredis
+
     REDIS_AVAILABLE = True
 except ImportError:
     REDIS_AVAILABLE = False
-    logger.warning("Redis not available, rate limiting will be disabled")
+    logger.warning("Redis not available, rate limiting will fall back to in-process storage")
 
 _redis_client: Optional[aioredis.Redis] = None
+_in_memory_lock = asyncio.Lock()
+_in_memory_buckets: dict[str, deque[float]] = defaultdict(deque)
 
 
 async def get_redis_client() -> Optional[aioredis.Redis]:
@@ -84,8 +89,7 @@ async def check_rate_limit(
     redis_client = await get_redis_client()
     
     if not redis_client:
-        # If Redis is not available, allow all requests
-        return True, max_requests, window_seconds
+        return await _check_in_memory_rate_limit(key, max_requests, window_seconds)
     
     try:
         # Use fixed window algorithm
@@ -117,6 +121,35 @@ async def check_rate_limit(
         logger.error(f"Rate limit check failed: {e}")
         # On error, allow the request (fail open)
         return True, max_requests, window_seconds
+
+
+async def _check_in_memory_rate_limit(
+    key: str,
+    max_requests: int,
+    window_seconds: int,
+) -> tuple[bool, int, int]:
+    """Simple sliding-window counter for environments without Redis."""
+    now = time.monotonic()
+    async with _in_memory_lock:
+        bucket = _in_memory_buckets[key]
+
+        # Drop timestamps older than the window
+        while bucket and now - bucket[0] >= window_seconds:
+            bucket.popleft()
+
+        if len(bucket) >= max_requests:
+            oldest = bucket[0]
+            reset_after = max(1, int(window_seconds - (now - oldest)))
+            return False, 0, reset_after
+
+        bucket.append(now)
+        remaining = max_requests - len(bucket)
+        return True, remaining, window_seconds
+
+
+def reset_in_memory_counters() -> None:
+    """Clear in-memory buckets (useful for tests)."""
+    _in_memory_buckets.clear()
 
 
 async def rate_limit_middleware(

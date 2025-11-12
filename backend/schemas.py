@@ -3,31 +3,42 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 
 from .models import UserRole, OrderStatus
 
 
-class ContactCreate(BaseModel):
+class CaptchaProtected(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+    captcha_token: Optional[str] = Field(
+        default=None,
+        alias="captchaToken",
+        min_length=10,
+        max_length=4096,
+        description="Captcha verification token.",
+    )
+
+
+class ContactCreate(CaptchaProtected):
     name: str = Field(..., min_length=2, max_length=255)
     email: EmailStr
     message: str = Field(..., min_length=10, max_length=5000)
 
 
-class WaitlistCreate(BaseModel):
+class WaitlistCreate(CaptchaProtected):
     name: Optional[str] = Field(default=None, max_length=255)
     email: EmailStr
     source: Optional[str] = Field(default=None, max_length=255)
 
 
-class InvestorInterestCreate(BaseModel):
+class InvestorInterestCreate(CaptchaProtected):
     name: str = Field(..., min_length=2, max_length=255)
     email: EmailStr
     amount: Optional[str] = Field(default=None, max_length=255)
     note: Optional[str] = Field(default=None, max_length=5000)
 
 
-class PilotRequestCreate(BaseModel):
+class PilotRequestCreate(CaptchaProtected):
     name: str = Field(..., min_length=2, max_length=255)
     org: str = Field(..., min_length=2, max_length=255)
     email: EmailStr
@@ -285,7 +296,7 @@ class AdminInvestorResponse(BaseModel):
     pagination: PaginationMeta
 
 
-class OrderCreate(BaseModel):
+class OrderCreate(CaptchaProtected):
     email: EmailStr
     name: str = Field(..., min_length=2, max_length=255)
     plan_type: str = Field(..., min_length=1, max_length=255)

@@ -7,7 +7,8 @@ FastAPI service backing Orbsurv's marketing site, user portal, and developer con
 - **Framework:** FastAPI on Uvicorn/Gunicorn
 - **Data:** SQLAlchemy 2.x (async) with PostgreSQL (`asyncpg`) and Alembic migrations
 - **Security:** Passlib bcrypt hashing, JWT access/refresh tokens, role-based guards
-- **Caching / future rate limits:** Redis (optional today, baked into docker-compose)
+- **Caching / rate limits:** Redis-backed limiter with automatic in-memory fallback
+- **Observability:** Optional Sentry instrumentation + structured client error ingestion
 - **Tooling:** pytest + httpx for API tests, ruff/black/mypy for quality gates, pre-commit hooks
 
 ## Local development
@@ -52,6 +53,19 @@ Run migrations inside the container with `docker compose exec api alembic upgrad
 | `LOG_LEVEL` | Logging level (INFO, DEBUG, etc.) |
 | `DEV_MASTER_OTP` | OTP required for dev logins (default `000000`) |
 | `REDIS_URL` | Optional Redis connection string for rate limits / blacklists |
+| `PUBLIC_FORM_RATE_LIMIT` / `PUBLIC_FORM_RATE_WINDOW_SECONDS` | Controls how many anonymous form submissions are accepted per IP per window |
+| `CLIENT_ERROR_RATE_LIMIT` / `CLIENT_ERROR_RATE_WINDOW_SECONDS` | Throttle `/client_errors` volume from noisy browsers |
+| `CAPTCHA_SECRET_KEY` | Secret key from your captcha provider (required in production) |
+| `CAPTCHA_REQUIRED_FOR_PUBLIC_FORMS` | Set `true` to require captcha tokens on waitlist/contact/pilot/order forms |
+| `SENTRY_DSN` | Sentry DSN for backend traces/errors |
+| `SENTRY_TRACES_SAMPLE_RATE` / `SENTRY_PROFILES_SAMPLE_RATE` | Sample rates (0-1) for tracing/profiling data |
+
+### Captcha, rate limiting & observability
+- Provide your captcha site key to the static site via `<meta name="orbsurv-captcha-provider">` + `<meta name="orbsurv-captcha-sitekey">` tags (or set `window.ORBSURV_CAPTCHA_PROVIDER/SITE_KEY` before loading `js/forms.js`) so the client can request tokens automatically.
+
+- Public marketing forms (`/waitlist`, `/contact`, `/pilot_request`, `/investor_interest`, `/orders`) now pass through a shared guard that enforces Redis (or in-process) rate limiting and optional captcha verification. Configure `PUBLIC_FORM_RATE_*` to adjust throughput; in production the app requires `CAPTCHA_SECRET_KEY` and `CAPTCHA_REQUIRED_FOR_PUBLIC_FORMS=true`.
+- Client-side error reports hitting `/client_errors` are throttled via `CLIENT_ERROR_RATE_*` and, when `SENTRY_DSN` is present, forwarded to Sentry with request metadata.
+- Server-side Sentry instrumentation is wired into FastAPI, SQLAlchemy, and logging; set the DSN plus trace/profile sample rates to capture production telemetry.
 
 ## Routine commands
 

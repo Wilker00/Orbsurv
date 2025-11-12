@@ -44,6 +44,109 @@
   const API_BASE = normalizeBase(configuredBase || resolveDefaultBase());
   window.ORBSURV_API_BASE = API_BASE;
 
+  function resolveCaptchaConfig() {
+    if (typeof window === "undefined" || typeof document === "undefined") {
+      return null;
+    }
+    const providerHints = [
+      window.ORBSURV_CAPTCHA_PROVIDER,
+      document.documentElement.dataset.captchaProvider,
+      document.querySelector('meta[name="orbsurv-captcha-provider"]')?.getAttribute("content"),
+    ];
+    const siteKeyHints = [
+      window.ORBSURV_CAPTCHA_SITE_KEY,
+      document.documentElement.dataset.captchaSitekey,
+      document.querySelector('meta[name="orbsurv-captcha-sitekey"]')?.getAttribute("content"),
+    ];
+    const provider = providerHints.find((value) => typeof value === "string" && value.trim().length > 0);
+    const siteKey = siteKeyHints.find((value) => typeof value === "string" && value.trim().length > 0);
+    if (!provider || !siteKey) {
+      return null;
+    }
+    return {
+      provider: provider.trim().toLowerCase(),
+      siteKey: siteKey.trim(),
+    };
+  }
+
+  const CAPTCHA_CONFIG = resolveCaptchaConfig();
+  const CAPTCHA_REQUIRED_ENDPOINTS = new Set(["/waitlist", "/contact", "/pilot_request", "/investor_interest", "/orders"]);
+  let hcaptchaReadyPromise = null;
+  let hcaptchaWidgetId = null;
+
+  function shouldRequestCaptcha(form, endpoint) {
+    if (!CAPTCHA_CONFIG) {
+      return false;
+    }
+    if (!endpoint) {
+      return false;
+    }
+    if (form && form.dataset.captcha === "false") {
+      return false;
+    }
+    if (form && form.dataset.requiresCaptcha === "true") {
+      return true;
+    }
+    return CAPTCHA_REQUIRED_ENDPOINTS.has(endpoint);
+  }
+
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector(`script[data-orbsurv-src="${src}"]`);
+      if (existing && existing.dataset.loaded === "true") {
+        resolve();
+        return;
+      }
+      const script = existing || document.createElement("script");
+      script.src = src;
+      script.async = true;
+      script.defer = true;
+      script.dataset.orbsurvSrc = src;
+      script.onload = () => {
+        script.dataset.loaded = "true";
+        resolve();
+      };
+      script.onerror = () => reject(new Error(`Unable to load script ${src}`));
+      if (!existing) {
+        document.head.appendChild(script);
+      }
+    });
+  }
+
+  async function requestCaptchaToken(form, endpoint) {
+    if (!shouldRequestCaptcha(form, endpoint)) {
+      return null;
+    }
+    if (!CAPTCHA_CONFIG) {
+      return null;
+    }
+    if (CAPTCHA_CONFIG.provider === "hcaptcha") {
+      if (!window.hcaptcha) {
+        if (!hcaptchaReadyPromise) {
+          hcaptchaReadyPromise = loadScript("https://js.hcaptcha.com/1/api.js?render=explicit");
+        }
+        await hcaptchaReadyPromise;
+      }
+      if (!window.hcaptcha) {
+        throw new Error("hCaptcha not available");
+      }
+      if (hcaptchaWidgetId === null) {
+        const host = document.createElement("div");
+        host.style.display = "none";
+        document.body.appendChild(host);
+        hcaptchaWidgetId = window.hcaptcha.render(host, {
+          sitekey: CAPTCHA_CONFIG.siteKey,
+          size: "invisible",
+        });
+      }
+      const token = await window.hcaptcha.execute(hcaptchaWidgetId, { async: true });
+      window.hcaptcha.reset(hcaptchaWidgetId);
+      return token;
+    }
+    console.warn(`Unsupported captcha provider: ${CAPTCHA_CONFIG.provider}`);
+    return null;
+  }
+
   function normalizeBase(value) {
     try {
       const fallback = resolveDefaultBase();
@@ -407,6 +510,25 @@
       return;
     }
 
+    let captchaToken = null;
+    try {
+      captchaToken = await requestCaptchaToken(form, endpoint);
+    } catch (captchaError) {
+      console.error("Captcha token generation failed", captchaError);
+      if (messageBox) {
+        showMessage(messageBox, "Verification failed. Please refresh and try again.", "error");
+      } else {
+        window.alert("Verification failed. Please refresh and try again.");
+      }
+      if (submitButton) {
+        submitButton.disabled = false;
+        if (submitButton.dataset.originalText) {
+          submitButton.innerHTML = submitButton.dataset.originalText;
+        }
+      }
+      return;
+    }
+
     const successMessage = form.dataset.successMessage || "Thanks! We received your submission.";
     const errorMessage = form.dataset.errorMessage || "Sorry, there was a problem. Please try again.";
     const targetId = form.dataset.messageTarget || (form.id ? `${form.id.replace(/-form$/, "")}-message` : "");
@@ -439,6 +561,10 @@
         payload[key] = typeof value === "string" ? value.trim() : value;
       }
     });
+
+    if (captchaToken) {
+      payload.captchaToken = captchaToken;
+    }
 
     const safePayload = sanitizePayload(payload);
     const method = (form.dataset.method || "POST").toUpperCase();

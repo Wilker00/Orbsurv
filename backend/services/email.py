@@ -210,3 +210,27 @@ async def send_password_reset_email(*, to: str, reset_url: str) -> bool:
             "reset_url": reset_url,
         },
     )
+
+
+async def send_email(*, to: str, subject: str, body: str, html_body: str | None = None) -> bool:
+    """
+    Send a raw email without requiring a stored template.
+    """
+    from_address = _resolve_from_address()
+    if not from_address:
+        logger.warning("EMAIL_FROM not configured; skipping ad-hoc email to=%s", to)
+        return False
+    compiled = CompiledEmail(
+        to=to,
+        subject=subject,
+        text_body=body,
+        html_body=html_body,
+        from_email=from_address,
+    )
+    try:
+        await _deliver(compiled)
+        logger.info("Ad-hoc email delivered to=%s", to)
+        return True
+    except Exception:
+        logger.exception("Unable to deliver ad-hoc email to=%s", to)
+        return False
