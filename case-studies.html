@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Studies - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/shared-vars.css">
+  <link rel="stylesheet" href="css/privacy.css">
+  <link rel="stylesheet" href="css/index.css">
+  <style>
+    .case-study-card {
+      padding: var(--space-5);
+      margin-bottom: var(--space-6);
+    }
+
+    .case-header {
+      display: flex;
+      gap: var(--space-4);
+      margin-bottom: var(--space-5);
+    }
+
+    .case-logo {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+      flex-shrink: 0;
+    }
+
+    .case-logo i {
+      font-size: 2.5rem;
+      color: var(--accent-color);
+    }
+
+    .case-meta {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-4);
+      padding: var(--space-3);
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+    }
+
+    .case-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .case-meta-label {
+      color: var(--mute);
+      font-size: 0.875rem;
+    }
+
+    .case-meta-value {
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .case-results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-3);
+      margin-top: var(--space-5);
+    }
+
+    .result-card {
+      padding: var(--space-3);
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      text-align: center;
+    }
+
+    .result-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-color);
+      margin-bottom: var(--space-1);
+    }
+
+    .result-label {
+      color: var(--mute);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-include="_header.html"></header>
+
+  <main>
+    <section style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
+      <div class="wrap">
+        <div style="text-align: center; padding: clamp(var(--space-5), 8vw, var(--space-7)) 0;">
+          <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Success Stories</p>
+          <h1>Case Studies</h1>
+          <p style="max-width: 60ch; margin: 0 auto; color: var(--mute); font-size: 1.125rem; line-height: 1.7;">
+            See how organizations are using Orbsurv to improve security and reduce costs
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="card case-study-card">
+          <div class="case-header">
+            <div class="case-logo">
+              <i class="fa-solid fa-warehouse"></i>
+            </div>
+            <div style="flex: 1;">
+              <h2 style="margin-bottom: var(--space-2); font-size: 1.75rem;">Warehouse Security Transformation</h2>
+              <p style="color: var(--mute); line-height: 1.7;">
+                A large distribution center reduced camera count by 70% while improving coverage and reducing false alarms.
+              </p>
+            </div>
+          </div>
+
+          <div class="case-meta">
+            <div class="case-meta-item">
+              <span class="case-meta-label">Industry</span>
+              <span class="case-meta-value">Logistics & Distribution</span>
+            </div>
+            <div class="case-meta-item">
+              <span class="case-meta-label">Location</span>
+              <span class="case-meta-value">500,000 sq ft facility</span>
+            </div>
+            <div class="case-meta-item">
+              <span class="case-meta-label">Deployment</span>
+              <span class="case-meta-value">12 Orbsurv units</span>
+            </div>
+            <div class="case-meta-item">
+              <span class="case-meta-label">Timeline</span>
+              <span class="case-meta-value">3 months</span>
+            </div>
+          </div>
+
+          <div>
+            <h3 style="margin-bottom: var(--space-3); font-size: 1.25rem;">Challenge</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-4);">
+              The facility previously used 40 static cameras, resulting in numerous blind spots, high maintenance costs, and an overwhelming number of false alarms from normal warehouse activity. Security staff spent significant time reviewing footage that turned out to be routine operations.
+            </p>
+
+            <h3 style="margin-bottom: var(--space-3); font-size: 1.25rem;">Solution</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-4);">
+              Orbsurv units were strategically placed along main aisles and high-traffic areas. The AI system learned normal activity patterns over the first month, dramatically reducing false positives. Patrol routes were configured to cover critical zones during peak hours.
+            </p>
+
+            <h3 style="margin-bottom: var(--space-3); font-size: 1.25rem;">Results</h3>
+            <div class="case-results">
+              <div class="result-card">
+                <div class="result-value">70%</div>
+                <div class="result-label">Reduction in cameras</div>
+              </div>
+              <div class="result-card">
+                <div class="result-value">95%</div>
+                <div class="result-label">False alarm reduction</div>
+              </div>
+              <div class="result-card">
+                <div class="result-value">$45K</div>
+                <div class="result-label">Annual cost savings</div>
+              </div>
+              <div class="result-card">
+                <div class="result-value">100%</div>
+                <div class="result-label">Coverage achieved</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card case-study-card">
+          <div class="case-header">
+            <div class="case-logo">
+              <i class="fa-solid fa-store"></i>
+            </div>
+            <div style="flex: 1;">
+              <h2 style="margin-bottom: var(--space-2); font-size: 1.75rem;">Retail Chain Perimeter Security</h2>
+              <p style="color: var(--mute); line-height: 1.7;">
+                A retail chain deployed Orbsurv across 15 locations to enhance perimeter security and reduce theft.
+              </p>
+            </div>
+          </div>
+
+          <div class="case-meta">
+            <div class="case-meta-item">
+              <span class="case-meta-label">Industry</span>
+              <span class="case-meta-value">Retail</span>
+            </div>
+            <div class="case-meta-item">
+              <span class="case-meta-label">Scale</span>
+              <span class="case-meta-value">15 locations</span>
+            </div>
+            <div class="case-meta-item">
+              <span class="case-meta-label">Deployment</span>
+              <span class="case-meta-value">2 units per location</span>
+            </div>
+            <div class="case-meta-item">
+              <span class="case-meta-label">Timeline</span>
+              <span class="case-meta-value">6 months rollout</span>
+            </div>
+          </div>
+
+          <div>
+            <h3 style="margin-bottom: var(--space-3); font-size: 1.25rem;">Challenge</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-4);">
+              The retail chain experienced increasing incidents of after-hours break-ins and perimeter violations. Static cameras at each location had blind spots, and monitoring 15 locations required significant resources.
+            </p>
+
+            <h3 style="margin-bottom: var(--space-3); font-size: 1.25rem;">Solution</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-4);">
+              Two Orbsurv units per location were installed to cover loading docks and main entrances. Centralized monitoring through the cloud dashboard allowed security teams to monitor all locations from a single interface. Thermal detection helped identify activity even in low-light conditions.
+            </p>
+
+            <h3 style="margin-bottom: var(--space-3); font-size: 1.25rem;">Results</h3>
+            <div class="case-results">
+              <div class="result-card">
+                <div class="result-value">60%</div>
+                <div class="result-label">Reduction in incidents</div>
+              </div>
+              <div class="result-card">
+                <div class="result-value">3 min</div>
+                <div class="result-label">Avg response time</div>
+              </div>
+              <div class="result-card">
+                <div class="result-value">$120K</div>
+                <div class="result-label">Prevented losses</div>
+              </div>
+              <div class="result-card">
+                <div class="result-value">24/7</div>
+                <div class="result-label">Automated monitoring</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card case-study-card">
+          <div class="case-header">
+            <div class="case-logo">
+              <i class="fa-solid fa-building"></i>
+            </div>
+            <div style="flex: 1;">
+              <h2 style="margin-bottom: var(--space-2); font-size: 1.75rem;">Office Building Smart Security</h2>
+              <p style="color: var(--mute); line-height: 1.7;">
+                A modern office building implemented Orbsurv to provide comprehensive coverage while maintaining employee privacy.
+              </p>
+            </div>
+          </div>
+
+          <div class="case-meta">
+            <div class="case-meta-item">
+              <span class="case-meta-label">Industry</span>
+              <span class="case-meta-value">Commercial Real Estate</span>
+            </div>
+            <div class="case-meta-item">
+              <span class="case-meta-label">Location</span>
+              <span class="case-meta-value">8-story building</span>
+            </div>
+            <div class="case-meta-item">
+              <span class="case-meta-label">Deployment</span>
+              <span class="case-meta-value">6 Orbsurv units</span>
+            </div>
+            <div class="case-meta-item">
+              <span class="case-meta-label">Timeline</span>
+              <span class="case-meta-value">2 months</span>
+            </div>
+          </div>
+
+          <div>
+            <h3 style="margin-bottom: var(--space-3); font-size: 1.25rem;">Challenge</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-4);">
+              The building needed comprehensive security coverage for common areas, lobbies, and parking garages while respecting employee privacy. Traditional static cameras created privacy concerns and required extensive wiring.
+            </p>
+
+            <h3 style="margin-bottom: var(--space-3); font-size: 1.25rem;">Solution</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-4);">
+              Orbsurv units were installed in lobbies, parking levels, and common corridors. Privacy zones were configured to automatically blur faces in recordings. The AI learned normal building activity patterns, reducing false alarms from employees working late.
+            </p>
+
+            <h3 style="margin-bottom: var(--space-3); font-size: 1.25rem;">Results</h3>
+            <div class="case-results">
+              <div class="result-card">
+                <div class="result-value">50%</div>
+                <div class="result-label">Cost reduction</div>
+              </div>
+              <div class="result-card">
+                <div class="result-value">0</div>
+                <div class="result-label">Privacy complaints</div>
+              </div>
+              <div class="result-card">
+                <div class="result-value">85%</div>
+                <div class="result-label">False alarm reduction</div>
+              </div>
+              <div class="result-card">
+                <div class="result-value">100%</div>
+                <div class="result-label">Tenant satisfaction</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="padding: var(--space-5); margin-top: var(--space-6); text-align: center;">
+          <h2 style="margin-bottom: var(--space-4); font-size: 1.75rem;">Ready to See Results?</h2>
+          <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-5); max-width: 60ch; margin-left: auto; margin-right: auto;">
+            Contact us to discuss how Orbsurv can help improve security and reduce costs for your organization.
+          </p>
+          <div style="display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;">
+            <a href="contact.html" class="btn btn-primary">
+              <i class="fa-solid fa-envelope"></i> Contact Sales
+            </a>
+            <a href="product.html" class="btn btn-secondary">
+              <i class="fa-solid fa-info-circle"></i> Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="_footer.html"></footer>
+
+  <script src="js/global.js"></script>
+  <script src="js/forms.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" data-require-dev>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Waitlist Management - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="../Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/shared-vars.css">
+  <link rel="stylesheet" href="../css/privacy.css">
+  <link rel="stylesheet" href="../css/index.css">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/admin-management.css">
+</head>
+<body class="admin-body">
+  <header class="site-header" data-include="../_header.html"></header>
+
+  <main class="admin-main">
+    <section class="admin-hero hero-gradient">
+      <div class="wrap">
+        <p class="hero-eyebrow">Developer Console</p>
+        <h1>Waitlist Management</h1>
+        <p class="hero-copy">Manage waitlist entries and track early interest in Orbsurv.</p>
+      </div>
+    </section>
+
+    <section class="admin-sections">
+      <div class="wrap">
+        <div class="search-filter">
+          <input type="search" id="waitlist-search" placeholder="Search by name or email..." autocomplete="off">
+          <select id="source-filter">
+            <option value="">All Sources</option>
+            <option value="waitlist">Waitlist</option>
+            <option value="product">Product Page</option>
+            <option value="demo">Demo</option>
+          </select>
+          <button type="button" class="btn btn-secondary" id="export-csv">
+            <i class="fa-solid fa-file-export"></i> Export CSV
+          </button>
+          <button type="button" class="btn btn-outline" id="export-json">
+            <i class="fa-solid fa-file-code"></i> Export JSON
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="table-scroll">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Source</th>
+                  <th scope="col">Created</th>
+                </tr>
+              </thead>
+              <tbody id="waitlist-body">
+                <tr>
+                  <td colspan="5" class="empty-state">
+                    <div class="loading-indicator">
+                      <div class="loading-spinner"></div>
+                      <span>Loading waitlist...</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p id="waitlist-count" class="data-count"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="../_footer.html"></footer>
+
+  <script src="../js/global.js"></script>
+  <script src="../js/forms.js"></script>
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/admin-api.js"></script>
+  <script src="../js/index.js"></script>
+  <script>
+    (function() {
+      let allWaitlist = [];
+      let filteredWaitlist = [];
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AuthGuard) {
+          const hasDev = await window.AuthGuard.ensureDevRole();
+          if (!hasDev) return;
+        }
+
+        await loadWaitlist();
+        bindEvents();
+      });
+
+      async function loadWaitlist() {
+        const waitlistBody = document.getElementById('waitlist-body');
+        const waitlistCount = document.getElementById('waitlist-count');
+        
+        if (!waitlistBody) return;
+
+        try {
+          const data = await window.AdminAPI.getWaitlist();
+          allWaitlist = data?.items || [];
+          filteredWaitlist = [...allWaitlist];
+
+          renderWaitlist();
+          
+          if (waitlistCount) {
+            waitlistCount.textContent = `Total: ${allWaitlist.length} entr${allWaitlist.length !== 1 ? 'ies' : 'y'}`;
+          }
+        } catch (error) {
+          console.error('Unable to load waitlist', error);
+          window.AuthGuard?.handleAuthError(error);
+          waitlistBody.innerHTML = '<tr><td colspan="5" class="empty-state">Unable to load waitlist. Please check your connection.</td></tr>';
+        }
+      }
+
+      function renderWaitlist() {
+        const waitlistBody = document.getElementById('waitlist-body');
+        if (!waitlistBody) return;
+
+        if (filteredWaitlist.length === 0) {
+          waitlistBody.innerHTML = '<tr><td colspan="5" class="empty-state">No waitlist entries found.</td></tr>';
+          return;
+        }
+
+        waitlistBody.innerHTML = filteredWaitlist.map(item => `
+          <tr>
+            <td>${item.id}</td>
+            <td>${escapeHtml(item.name || 'Anonymous')}</td>
+            <td>${escapeHtml(item.email)}</td>
+            <td><span style="padding: var(--space-1) var(--space-2); border-radius: 999px; background: var(--card-bg); font-size: 0.875rem;">${escapeHtml(item.source || 'waitlist')}</span></td>
+            <td>${window.AdminAPI.formatDate(item.created_at)}</td>
+          </tr>
+        `).join('');
+      }
+
+      function bindEvents() {
+        const searchInput = document.getElementById('waitlist-search');
+        const sourceFilter = document.getElementById('source-filter');
+        const exportCsvBtn = document.getElementById('export-csv');
+        const exportJsonBtn = document.getElementById('export-json');
+
+        function applyFilters() {
+          const query = searchInput?.value.toLowerCase().trim() || '';
+          const source = sourceFilter?.value || '';
+
+          filteredWaitlist = allWaitlist.filter(item => {
+            const matchesSearch = !query || 
+              (item.name && item.name.toLowerCase().includes(query)) ||
+              item.email.toLowerCase().includes(query);
+            
+            const matchesSource = !source || (item.source || 'waitlist') === source;
+
+            return matchesSearch && matchesSource;
+          });
+
+          renderWaitlist();
+        }
+
+        if (searchInput) {
+          searchInput.addEventListener('input', applyFilters);
+        }
+
+        if (sourceFilter) {
+          sourceFilter.addEventListener('change', applyFilters);
+        }
+
+        if (exportCsvBtn) {
+          exportCsvBtn.addEventListener('click', () => {
+            window.AdminAPI.exportToCSV(filteredWaitlist, 'waitlist');
+          });
+        }
+
+        if (exportJsonBtn) {
+          exportJsonBtn.addEventListener('click', () => {
+            window.AdminAPI.exportToJSON(filteredWaitlist, 'waitlist');
+          });
+        }
+      }
+
+      function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+

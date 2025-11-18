@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partners & Resellers - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/shared-vars.css">
+  <link rel="stylesheet" href="css/privacy.css">
+  <link rel="stylesheet" href="css/index.css">
+  <style>
+    .partner-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .partner-card {
+      padding: var(--space-5);
+      text-align: center;
+    }
+
+    .partner-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto var(--space-4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+    }
+
+    .partner-icon i {
+      font-size: 2.5rem;
+      color: var(--accent-color);
+    }
+
+    .benefit-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+      display: grid;
+      gap: var(--space-2);
+      margin-top: var(--space-4);
+    }
+
+    .benefit-list li {
+      padding-left: var(--space-4);
+      position: relative;
+      color: var(--mute);
+      line-height: 1.7;
+    }
+
+    .benefit-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-include="_header.html"></header>
+
+  <main>
+    <section style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
+      <div class="wrap">
+        <div style="text-align: center; padding: clamp(var(--space-5), 8vw, var(--space-7)) 0;">
+          <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Business</p>
+          <h1>Partners & Resellers</h1>
+          <p style="max-width: 60ch; margin: 0 auto; color: var(--mute); font-size: 1.125rem; line-height: 1.7;">
+            Join our partner program and help organizations transform their security infrastructure
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="partner-grid" style="margin-bottom: var(--space-7);">
+          <div class="card partner-card">
+            <div class="partner-icon">
+              <i class="fa-solid fa-store"></i>
+            </div>
+            <h3 style="margin-bottom: var(--space-2);">Reseller Program</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-4);">
+              Sell Orbsurv solutions to your customers with competitive margins and dedicated support.
+            </p>
+            <ul class="benefit-list">
+              <li>Competitive pricing and margins</li>
+              <li>Dedicated partner support</li>
+              <li>Marketing materials and resources</li>
+              <li>Sales training and certification</li>
+              <li>Co-marketing opportunities</li>
+            </ul>
+          </div>
+
+          <div class="card partner-card">
+            <div class="partner-icon">
+              <i class="fa-solid fa-puzzle-piece"></i>
+            </div>
+            <h3 style="margin-bottom: var(--space-2);">Integration Partners</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-4);">
+              Integrate Orbsurv with your platform or solution to provide enhanced security capabilities.
+            </p>
+            <ul class="benefit-list">
+              <li>API access and documentation</li>
+              <li>Technical integration support</li>
+              <li>Joint go-to-market opportunities</li>
+              <li>Co-branded solutions</li>
+              <li>Developer resources</li>
+            </ul>
+          </div>
+
+          <div class="card partner-card">
+            <div class="partner-icon">
+              <i class="fa-solid fa-handshake"></i>
+            </div>
+            <h3 style="margin-bottom: var(--space-2);">Technology Partners</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-4);">
+              Collaborate on innovative solutions that combine Orbsurv with complementary technologies.
+            </p>
+            <ul class="benefit-list">
+              <li>Joint product development</li>
+              <li>Technology integration</li>
+              <li>Market expansion opportunities</li>
+              <li>Shared customer success</li>
+              <li>Innovation partnerships</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="padding: var(--space-5); margin-bottom: var(--space-6);">
+          <h2 style="margin-bottom: var(--space-4); font-size: 1.75rem;">Partner Benefits</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-4);">
+            <div>
+              <h3 style="margin-bottom: var(--space-2); font-size: 1.125rem; display: flex; align-items: center; gap: var(--space-2);">
+                <i class="fa-solid fa-dollar-sign" style="color: var(--accent-color);"></i>
+                Revenue Opportunities
+              </h3>
+              <p style="color: var(--mute); line-height: 1.7;">
+                Earn competitive margins on hardware sales and recurring revenue from service subscriptions.
+              </p>
+            </div>
+            <div>
+              <h3 style="margin-bottom: var(--space-2); font-size: 1.125rem; display: flex; align-items: center; gap: var(--space-2);">
+                <i class="fa-solid fa-graduation-cap" style="color: var(--accent-color);"></i>
+                Training & Support
+              </h3>
+              <p style="color: var(--mute); line-height: 1.7;">
+                Comprehensive training programs, technical support, and sales enablement resources.
+              </p>
+            </div>
+            <div>
+              <h3 style="margin-bottom: var(--space-2); font-size: 1.125rem; display: flex; align-items: center; gap: var(--space-2);">
+                <i class="fa-solid fa-bullhorn" style="color: var(--accent-color);"></i>
+                Marketing Support
+              </h3>
+              <p style="color: var(--mute); line-height: 1.7;">
+                Co-marketing opportunities, lead sharing, and access to marketing materials and campaigns.
+              </p>
+            </div>
+            <div>
+              <h3 style="margin-bottom: var(--space-2); font-size: 1.125rem; display: flex; align-items: center; gap: var(--space-2);">
+                <i class="fa-solid fa-chart-line" style="color: var(--accent-color);"></i>
+                Growth Opportunities
+              </h3>
+              <p style="color: var(--mute); line-height: 1.7;">
+                Access to growing market with increasing demand for intelligent surveillance solutions.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="padding: var(--space-5); margin-bottom: var(--space-6);">
+          <h2 style="margin-bottom: var(--space-4); font-size: 1.75rem;">Partner Application</h2>
+          <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-4);">
+            Interested in becoming an Orbsurv partner? Fill out the form below and our partner team will contact you.
+          </p>
+          <form id="partner-form"
+                data-endpoint="/partners/apply"
+                data-method="POST"
+                data-success-message="Application submitted successfully. We'll be in touch soon."
+                data-message-target="partner-message">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-3); margin-bottom: var(--space-4);">
+              <div class="form-field">
+                <label for="partner-name">Company Name</label>
+                <input type="text" id="partner-name" name="company_name" required>
+              </div>
+              <div class="form-field">
+                <label for="partner-type">Partner Type</label>
+                <select id="partner-type" name="partner_type" required>
+                  <option value="">Select type</option>
+                  <option value="reseller">Reseller</option>
+                  <option value="integration">Integration Partner</option>
+                  <option value="technology">Technology Partner</option>
+                </select>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-3); margin-bottom: var(--space-4);">
+              <div class="form-field">
+                <label for="partner-contact">Contact Name</label>
+                <input type="text" id="partner-contact" name="contact_name" required>
+              </div>
+              <div class="form-field">
+                <label for="partner-email">Email</label>
+                <input type="email" id="partner-email" name="email" required>
+              </div>
+            </div>
+            <div class="form-field" style="margin-bottom: var(--space-4);">
+              <label for="partner-message">Tell us about your company and partnership interest</label>
+              <textarea id="partner-message" name="message" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <i class="fa-solid fa-paper-plane"></i> Submit Application
+            </button>
+            <p id="partner-message" class="form-message" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <div class="card" style="padding: var(--space-5);">
+          <h2 style="margin-bottom: var(--space-4); font-size: 1.75rem;">Partner Resources</h2>
+          <div style="display: grid; gap: var(--space-3);">
+            <a href="docs.html" style="padding: var(--space-3); background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-lg); display: flex; align-items: center; gap: var(--space-3); text-decoration: none; color: var(--ink); transition: all 0.2s ease;">
+              <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: color-mix(in srgb, var(--accent-color) 15%, transparent); color: var(--accent-color); flex-shrink: 0;">
+                <i class="fa-solid fa-book"></i>
+              </div>
+              <div>
+                <div style="font-weight: 600; margin-bottom: var(--space-1);">Partner Portal</div>
+                <div style="color: var(--mute); font-size: 0.9rem;">Access partner resources, training materials, and support</div>
+              </div>
+            </a>
+            <a href="api.html" style="padding: var(--space-3); background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-lg); display: flex; align-items: center; gap: var(--space-3); text-decoration: none; color: var(--ink); transition: all 0.2s ease;">
+              <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: color-mix(in srgb, var(--accent-color) 15%, transparent); color: var(--accent-color); flex-shrink: 0;">
+                <i class="fa-solid fa-code"></i>
+              </div>
+              <div>
+                <div style="font-weight: 600; margin-bottom: var(--space-1);">API Documentation</div>
+                <div style="color: var(--mute); font-size: 0.9rem;">Technical documentation for integration partners</div>
+              </div>
+            </a>
+            <a href="contact.html" style="padding: var(--space-3); background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-lg); display: flex; align-items: center; gap: var(--space-3); text-decoration: none; color: var(--ink); transition: all 0.2s ease;">
+              <div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: color-mix(in srgb, var(--accent-color) 15%, transparent); color: var(--accent-color); flex-shrink: 0;">
+                <i class="fa-solid fa-headset"></i>
+              </div>
+              <div>
+                <div style="font-weight: 600; margin-bottom: var(--space-1);">Partner Support</div>
+                <div style="color: var(--mute); font-size: 0.9rem;">Contact our partner team for assistance</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="_footer.html"></footer>
+
+  <script src="js/global.js"></script>
+  <script src="js/forms.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

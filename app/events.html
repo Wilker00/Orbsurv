@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" data-require-auth>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events & Alerts - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="../Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/shared-vars.css">
+  <link rel="stylesheet" href="../css/privacy.css">
+  <link rel="stylesheet" href="../css/index.css">
+  <style>
+    .events-filters {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-5);
+      padding: var(--space-4);
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      min-width: 150px;
+    }
+
+    .filter-group label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .filter-group select,
+    .filter-group input {
+      padding: var(--space-2) var(--space-3);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    .events-list {
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    .event-item {
+      padding: var(--space-4);
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      gap: var(--space-4);
+      align-items: center;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .event-item:hover {
+      transform: translateX(4px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .event-item.unread {
+      border-left: 4px solid var(--accent-color);
+      background: color-mix(in srgb, var(--accent-color) 3%, var(--card-bg));
+    }
+
+    .event-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .event-icon.motion {
+      background: color-mix(in srgb, #3b82f6 20%, transparent);
+      color: #3b82f6;
+    }
+
+    .event-icon.alert {
+      background: color-mix(in srgb, #ef4444 20%, transparent);
+      color: #ef4444;
+    }
+
+    .event-icon.recording {
+      background: color-mix(in srgb, #f59e0b 20%, transparent);
+      color: #f59e0b;
+    }
+
+    .event-content {
+      flex: 1;
+    }
+
+    .event-title {
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: var(--space-1);
+    }
+
+    .event-meta {
+      display: flex;
+      gap: var(--space-3);
+      color: var(--mute);
+      font-size: 0.9rem;
+    }
+
+    .event-actions {
+      display: flex;
+      gap: var(--space-2);
+    }
+
+    .event-action-btn {
+      padding: var(--space-2);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line);
+      background: var(--bg);
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .event-action-btn:hover {
+      background: var(--accent-color);
+      color: var(--bg);
+      border-color: var(--accent-color);
+    }
+
+    .event-preview {
+      width: 120px;
+      aspect-ratio: 16 / 9;
+      background: color-mix(in srgb, var(--accent-color) 10%, var(--card-bg));
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .event-preview i {
+      color: var(--accent-color);
+      opacity: 0.5;
+    }
+
+    @media (max-width: 768px) {
+      .event-item {
+        grid-template-columns: 1fr;
+      }
+
+      .event-preview {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-include="../_header.html"></header>
+
+  <main>
+    <section style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
+      <div class="wrap">
+        <div style="padding: clamp(24px, 3vw, 32px) 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-4);">
+            <div>
+              <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Activity</p>
+              <h1>Events & Alerts</h1>
+              <p style="color: var(--mute); font-size: 1.05rem;">View and manage detection events and alerts</p>
+            </div>
+            <button class="btn btn-secondary" id="mark-all-read">
+              <i class="fa-solid fa-check-double"></i> Mark All Read
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="events-filters">
+          <div class="filter-group">
+            <label for="filter-type">Event Type</label>
+            <select id="filter-type">
+              <option value="all">All Events</option>
+              <option value="motion">Motion</option>
+              <option value="alert">Alerts</option>
+              <option value="recording">Recordings</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filter-camera">Camera</label>
+            <select id="filter-camera">
+              <option value="all">All Cameras</option>
+              <option value="cam-001">Front Entrance</option>
+              <option value="cam-002">Warehouse Aisle</option>
+              <option value="cam-003">Loading Dock</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filter-date">Date</label>
+            <input type="date" id="filter-date" value="2024-11-06">
+          </div>
+          <div class="filter-group">
+            <label for="filter-status">Status</label>
+            <select id="filter-status">
+              <option value="all">All</option>
+              <option value="unread">Unread</option>
+              <option value="read">Read</option>
+            </select>
+          </div>
+          <div style="flex: 1; display: flex; align-items: flex-end;">
+            <button class="btn btn-primary" style="width: 100%;">
+              <i class="fa-solid fa-filter"></i> Apply Filters
+            </button>
+          </div>
+        </div>
+
+        <div class="events-list">
+          <div class="event-item unread" data-event-id="evt-001">
+            <div class="event-icon motion">
+              <i class="fa-solid fa-person-walking"></i>
+            </div>
+            <div class="event-content">
+              <div class="event-title">Motion Detected</div>
+              <div class="event-meta">
+                <span><i class="fa-solid fa-video"></i> Front Entrance</span>
+                <span><i class="fa-solid fa-clock"></i> 2 minutes ago</span>
+                <span><i class="fa-solid fa-fire"></i> Thermal signature detected</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: var(--space-3); align-items: center;">
+              <div class="event-preview">
+                <i class="fa-solid fa-play"></i>
+              </div>
+              <div class="event-actions">
+                <button class="event-action-btn" title="View">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <button class="event-action-btn" title="Acknowledge">
+                  <i class="fa-solid fa-check"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="event-item unread" data-event-id="evt-002">
+            <div class="event-icon alert">
+              <i class="fa-solid fa-bell"></i>
+            </div>
+            <div class="event-content">
+              <div class="event-title">Alert Triggered - Unauthorized Access</div>
+              <div class="event-meta">
+                <span><i class="fa-solid fa-video"></i> Loading Dock</span>
+                <span><i class="fa-solid fa-clock"></i> 15 minutes ago</span>
+                <span><i class="fa-solid fa-exclamation-triangle"></i> High Priority</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: var(--space-3); align-items: center;">
+              <div class="event-preview">
+                <i class="fa-solid fa-play"></i>
+              </div>
+              <div class="event-actions">
+                <button class="event-action-btn" title="View">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <button class="event-action-btn" title="Acknowledge">
+                  <i class="fa-solid fa-check"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="event-item" data-event-id="evt-003">
+            <div class="event-icon recording">
+              <i class="fa-solid fa-video"></i>
+            </div>
+            <div class="event-content">
+              <div class="event-title">Manual Recording Started</div>
+              <div class="event-meta">
+                <span><i class="fa-solid fa-video"></i> Warehouse Aisle</span>
+                <span><i class="fa-solid fa-clock"></i> 1 hour ago</span>
+                <span><i class="fa-solid fa-user"></i> Jordan Rivers</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: var(--space-3); align-items: center;">
+              <div class="event-preview">
+                <i class="fa-solid fa-play"></i>
+              </div>
+              <div class="event-actions">
+                <button class="event-action-btn" title="View">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <button class="event-action-btn" title="Download">
+                  <i class="fa-solid fa-download"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="event-item" data-event-id="evt-004">
+            <div class="event-icon motion">
+              <i class="fa-solid fa-person-walking"></i>
+            </div>
+            <div class="event-content">
+              <div class="event-title">Motion Detected</div>
+              <div class="event-meta">
+                <span><i class="fa-solid fa-video"></i> Front Entrance</span>
+                <span><i class="fa-solid fa-clock"></i> 2 hours ago</span>
+                <span><i class="fa-solid fa-check"></i> Acknowledged</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: var(--space-3); align-items: center;">
+              <div class="event-preview">
+                <i class="fa-solid fa-play"></i>
+              </div>
+              <div class="event-actions">
+                <button class="event-action-btn" title="View">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <button class="event-action-btn" title="Archive">
+                  <i class="fa-solid fa-archive"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="event-item" data-event-id="evt-005">
+            <div class="event-icon alert">
+              <i class="fa-solid fa-bell"></i>
+            </div>
+            <div class="event-content">
+              <div class="event-title">Package Detected</div>
+              <div class="event-meta">
+                <span><i class="fa-solid fa-video"></i> Front Entrance</span>
+                <span><i class="fa-solid fa-clock"></i> 3 hours ago</span>
+                <span><i class="fa-solid fa-box"></i> Package detection</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: var(--space-3); align-items: center;">
+              <div class="event-preview">
+                <i class="fa-solid fa-play"></i>
+              </div>
+              <div class="event-actions">
+                <button class="event-action-btn" title="View">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <button class="event-action-btn" title="Share">
+                  <i class="fa-solid fa-share"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: var(--space-6);">
+          <button class="btn btn-outline">
+            <i class="fa-solid fa-arrow-down"></i> Load More Events
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="../_footer.html"></footer>
+
+  <script src="../js/global.js"></script>
+  <script src="../js/forms.js"></script>
+  <script src="../js/index.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const eventItems = document.querySelectorAll('.event-item');
+      const markAllReadBtn = document.getElementById('mark-all-read');
+
+      eventItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+          if (!e.target.closest('.event-action-btn')) {
+            // Navigate to playback or event detail
+            window.location.href = 'feeds/playback.html';
+          }
+        });
+
+        const acknowledgeBtn = item.querySelector('[title="Acknowledge"]');
+        if (acknowledgeBtn) {
+          acknowledgeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            item.classList.remove('unread');
+            this.style.display = 'none';
+          });
+        }
+      });
+
+      markAllReadBtn.addEventListener('click', function() {
+        eventItems.forEach(item => {
+          item.classList.remove('unread');
+          const ackBtn = item.querySelector('[title="Acknowledge"]');
+          if (ackBtn) ackBtn.style.display = 'none';
+        });
+      });
+    });
+  </script>
+  <script src="../js/global.js"></script>
+  <script src="../js/forms.js"></script>
+  <script src="../js/auth-guard.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

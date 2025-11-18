@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" data-require-auth>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roles & Permissions - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="../Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/shared-vars.css">
+  <link rel="stylesheet" href="../css/privacy.css">
+  <link rel="stylesheet" href="../css/index.css">
+  <style>
+    .role-card {
+      padding: var(--space-5);
+      margin-bottom: var(--space-4);
+    }
+
+    .role-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: var(--space-4);
+    }
+
+    .permission-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-3);
+      margin-top: var(--space-4);
+    }
+
+    .permission-item {
+      padding: var(--space-2) var(--space-3);
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .permission-checkbox {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: var(--accent-color);
+    }
+
+    .permission-label {
+      flex: 1;
+      font-weight: 500;
+      color: var(--ink);
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-include="../_header.html"></header>
+
+  <main>
+    <section style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
+      <div class="wrap">
+        <div style="padding: clamp(var(--space-5), 8vw, var(--space-7)) 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-4);">
+            <div>
+              <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Security</p>
+              <h1>Roles & Permissions</h1>
+              <p style="color: var(--mute); font-size: 1.05rem;">Manage user roles and define access permissions</p>
+            </div>
+            <button class="btn btn-primary" id="create-role-btn">
+              <i class="fa-solid fa-plus"></i> Create Custom Role
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="card role-card">
+          <div class="role-header">
+            <div>
+              <h2 style="margin-bottom: var(--space-2); font-size: 1.5rem;">Administrator</h2>
+              <p style="color: var(--mute);">Full system access and control</p>
+            </div>
+            <span style="padding: var(--space-1) var(--space-2); border-radius: 999px; font-size: 0.875rem; font-weight: 500; background: color-mix(in srgb, #ef4444 15%, transparent); color: #ef4444;">System Role</span>
+          </div>
+          <div>
+            <h3 style="margin-bottom: var(--space-3); font-size: 1.125rem;">Permissions</h3>
+            <div class="permission-grid">
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" checked disabled>
+                <span class="permission-label">Manage Cameras</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" checked disabled>
+                <span class="permission-label">View All Feeds</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" checked disabled>
+                <span class="permission-label">Manage Users</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" checked disabled>
+                <span class="permission-label">Configure System</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" checked disabled>
+                <span class="permission-label">Manage Access Control</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" checked disabled>
+                <span class="permission-label">Install Updates</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card role-card">
+          <div class="role-header">
+            <div>
+              <h2 style="margin-bottom: var(--space-2); font-size: 1.5rem;">Operator</h2>
+              <p style="color: var(--mute);">Camera control and feed management</p>
+            </div>
+            <span style="padding: var(--space-1) var(--space-2); border-radius: 999px; font-size: 0.875rem; font-weight: 500; background: color-mix(in srgb, #3b82f6 15%, transparent); color: #3b82f6;">System Role</span>
+          </div>
+          <div>
+            <h3 style="margin-bottom: var(--space-3); font-size: 1.125rem;">Permissions</h3>
+            <div class="permission-grid">
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" checked disabled>
+                <span class="permission-label">Control Cameras</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" checked disabled>
+                <span class="permission-label">View All Feeds</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" checked disabled>
+                <span class="permission-label">Configure Cameras</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" checked disabled>
+                <span class="permission-label">Manage Events</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" disabled>
+                <span class="permission-label">Manage Users</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" disabled>
+                <span class="permission-label">System Configuration</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card role-card">
+          <div class="role-header">
+            <div>
+              <h2 style="margin-bottom: var(--space-2); font-size: 1.5rem;">Viewer</h2>
+              <p style="color: var(--mute);">Read-only access to feeds and events</p>
+            </div>
+            <span style="padding: var(--space-1) var(--space-2); border-radius: 999px; font-size: 0.875rem; font-weight: 500; background: color-mix(in srgb, #10b981 15%, transparent); color: #10b981;">System Role</span>
+          </div>
+          <div>
+            <h3 style="margin-bottom: var(--space-3); font-size: 1.125rem;">Permissions</h3>
+            <div class="permission-grid">
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" checked disabled>
+                <span class="permission-label">View Feeds</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" checked disabled>
+                <span class="permission-label">View Events</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" checked disabled>
+                <span class="permission-label">View Playback</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" disabled>
+                <span class="permission-label">Control Cameras</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" disabled>
+                <span class="permission-label">Configure Settings</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" disabled>
+                <span class="permission-label">Manage Users</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card role-card">
+          <div class="role-header">
+            <div>
+              <h2 style="margin-bottom: var(--space-2); font-size: 1.5rem;">Security Guard</h2>
+              <p style="color: var(--mute);">Custom role for security personnel</p>
+            </div>
+            <span style="padding: var(--space-1) var(--space-2); border-radius: 999px; font-size: 0.875rem; font-weight: 500; background: color-mix(in srgb, var(--accent-color) 15%, transparent); color: var(--accent-color);">Custom Role</span>
+          </div>
+          <div>
+            <h3 style="margin-bottom: var(--space-3); font-size: 1.125rem;">Permissions</h3>
+            <div class="permission-grid">
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" checked>
+                <span class="permission-label">View Feeds</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" checked>
+                <span class="permission-label">View Events</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" checked>
+                <span class="permission-label">Acknowledge Alerts</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox">
+                <span class="permission-label">Control Cameras</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" disabled>
+                <span class="permission-label">Configure Settings</span>
+              </div>
+              <div class="permission-item">
+                <input type="checkbox" class="permission-checkbox" disabled>
+                <span class="permission-label">Manage Users</span>
+              </div>
+            </div>
+            <div style="margin-top: var(--space-4);">
+              <button class="btn btn-primary">
+                <i class="fa-solid fa-save"></i> Save Changes
+              </button>
+              <button class="btn btn-outline" style="margin-left: var(--space-2);">
+                <i class="fa-solid fa-trash"></i> Delete Role
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="../_footer.html"></footer>
+
+  <script src="../js/global.js"></script>
+  <script src="../js/forms.js"></script>
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/index.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

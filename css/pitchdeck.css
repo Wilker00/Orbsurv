@@ -1,0 +1,764 @@
+﻿/* ============================================
+   Interactive Pitch Deck Styles - Compact & Improved
+   ============================================ */
+
+/* Pitch Deck Container */
+.pitchdeck-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 24px);
+}
+
+.pitchdeck-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.pitchdeck-header h2 {
+  margin-bottom: 8px;
+}
+
+.pitchdeck-subtitle {
+  color: var(--mute);
+  font-size: 1rem;
+  margin-bottom: 16px;
+}
+
+.pitchdeck-download-btn {
+  margin-top: 16px;
+}
+
+/* Pitch Deck Viewport - Compact to fit in screen */
+.pitchdeck-viewport {
+  position: relative;
+  width: 100%;
+  max-height: 80vh;
+  min-height: 500px;
+  margin-bottom: 32px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.pitchdeck-stack {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+}
+
+/* Pitch Deck Card - Smooth slide animations */
+.pitchdeck-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pitchdeck-card.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  z-index: 10;
+}
+
+.pitchdeck-card[aria-hidden="true"] {
+  pointer-events: none;
+}
+
+/* Smooth slide animations (not 3D flip) */
+.pitchdeck-card-slide-out-left {
+  animation: slideOutLeft 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.pitchdeck-card-slide-out-right {
+  animation: slideOutRight 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.pitchdeck-card-slide-in-right {
+  animation: slideInRight 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.pitchdeck-card-slide-in-left {
+  animation: slideInLeft 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes slideOutLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Card Content - Compact padding */
+.pitchdeck-card-content {
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: clamp(16px, 2vw, 20px);
+  box-shadow: var(--shadow-lg);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+  background: linear-gradient(135deg, var(--card-bg) 0%, color-mix(in srgb, var(--card-bg) 95%, var(--accent-color)) 100%);
+  overflow-y: auto;
+}
+
+.pitchdeck-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--line);
+}
+
+.pitchdeck-card-number {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  min-width: 50px;
+}
+
+.pitchdeck-card-header h3 {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 1.75rem);
+}
+
+.pitchdeck-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+/* Image Container */
+.pitchdeck-image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0;
+}
+
+.pitchdeck-image {
+  max-width: 250px;
+  max-height: 200px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  object-fit: contain;
+}
+
+/* Features List - Compact */
+.pitchdeck-features {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 8px 0;
+}
+
+.pitchdeck-feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: color-mix(in srgb, var(--accent-color) 10%, transparent);
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent-color) 20%, transparent);
+}
+
+/* Icons - White/normal color, NOT blue */
+.pitchdeck-feature i,
+.pitchdeck-competitor-logo i,
+.pitchdeck-team-avatar i,
+.pitchdeck-vision-stages i {
+  color: var(--ink);
+  opacity: 0.8;
+}
+
+.pitchdeck-description {
+  color: var(--mute);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-top: auto;
+}
+
+/* Stats Grid - Compact */
+.pitchdeck-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.pitchdeck-stat {
+  text-align: center;
+  padding: 16px;
+  background: color-mix(in srgb, var(--accent-color) 5%, transparent);
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--accent-color) 15%, transparent);
+}
+
+.pitchdeck-stat-value {
+  font-family: 'Sora', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-bottom: 4px;
+}
+
+.pitchdeck-stat-label {
+  color: var(--mute);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Market Details - Compact */
+.pitchdeck-market-details {
+  margin-top: 16px;
+}
+
+.pitchdeck-market-details ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pitchdeck-market-details li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--mute);
+  font-size: 0.9rem;
+}
+
+.pitchdeck-market-details li:last-child {
+  border-bottom: none;
+}
+
+/* Competitors - Compact */
+.pitchdeck-competitors {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.pitchdeck-competitor {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  background: color-mix(in srgb, var(--card-bg) 70%, var(--accent-color));
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+.pitchdeck-competitor-logo {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--accent-color) 10%, transparent);
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--accent-color) 20%, transparent);
+  flex-shrink: 0;
+}
+
+.pitchdeck-competitor-logo i {
+  font-size: 1.5rem;
+  color: var(--ink);
+  opacity: 0.8;
+}
+
+.pitchdeck-competitor-info {
+  flex: 1;
+}
+
+.pitchdeck-competitor-info h4 {
+  margin: 0 0 4px 0;
+  font-size: 1rem;
+}
+
+.pitchdeck-competitor-info p {
+  margin: 0;
+  color: var(--mute);
+  font-size: 0.85rem;
+}
+
+/* Revenue Model - Compact */
+.pitchdeck-revenue-model {
+  display: grid;
+  gap: 20px;
+}
+
+.pitchdeck-revenue-stream,
+.pitchdeck-market-segmentation {
+  padding: 16px;
+  background: color-mix(in srgb, var(--card-bg) 70%, var(--accent-color));
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+.pitchdeck-revenue-stream h4,
+.pitchdeck-market-segmentation h4 {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  color: var(--accent-color);
+}
+
+.pitchdeck-revenue-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pitchdeck-revenue-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.9rem;
+}
+
+.pitchdeck-revenue-item:last-child {
+  border-bottom: none;
+}
+
+.pitchdeck-revenue-item strong {
+  color: var(--ink);
+}
+
+.pitchdeck-revenue-item span {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.pitchdeck-segment {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--mute);
+  font-size: 0.9rem;
+}
+
+.pitchdeck-segment:last-child {
+  border-bottom: none;
+}
+
+/* Timeline - Compact */
+.pitchdeck-timeline {
+  position: relative;
+  padding-left: 24px;
+  margin: 16px 0;
+}
+
+.pitchdeck-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--line);
+}
+
+.pitchdeck-timeline-item {
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.pitchdeck-timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.pitchdeck-timeline-marker {
+  position: absolute;
+  left: -32px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--accent-color);
+}
+
+.pitchdeck-timeline-content h4 {
+  margin-bottom: 4px;
+  font-size: 1rem;
+  color: var(--accent-color);
+}
+
+.pitchdeck-timeline-content p {
+  color: var(--mute);
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+}
+
+.pitchdeck-metric {
+  display: inline-block;
+  padding: 2px 8px;
+  background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+  border-radius: 999px;
+  color: var(--accent-color);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Metrics - Compact */
+.pitchdeck-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.pitchdeck-metric-card {
+  text-align: center;
+  padding: 16px;
+  background: color-mix(in srgb, var(--accent-color) 10%, transparent);
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--accent-color) 20%, transparent);
+}
+
+.pitchdeck-metric-value {
+  font-family: 'Sora', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-bottom: 4px;
+}
+
+.pitchdeck-metric-label {
+  color: var(--mute);
+  font-size: 0.75rem;
+}
+
+/* Team - Compact */
+.pitchdeck-team {
+  margin: 16px 0;
+}
+
+.pitchdeck-team-member {
+  text-align: center;
+  padding: 20px;
+  background: color-mix(in srgb, var(--card-bg) 70%, var(--accent-color));
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+.pitchdeck-team-avatar {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--accent-color);
+}
+
+.pitchdeck-team-avatar i {
+  font-size: 2.5rem;
+  color: var(--ink);
+  opacity: 0.8;
+}
+
+.pitchdeck-team-member h4 {
+  margin-bottom: 4px;
+  font-size: 1.1rem;
+}
+
+.pitchdeck-team-role {
+  color: var(--mute);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Vision - Compact */
+.pitchdeck-vision {
+  margin-top: 20px;
+}
+
+.pitchdeck-vision h4 {
+  margin-bottom: 16px;
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--accent-color);
+}
+
+.pitchdeck-vision-stages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.pitchdeck-vision-stage {
+  text-align: center;
+  padding: 16px;
+  background: color-mix(in srgb, var(--card-bg) 70%, var(--accent-color));
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  min-width: 120px;
+}
+
+.pitchdeck-vision-stage strong {
+  display: block;
+  color: var(--accent-color);
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.pitchdeck-vision-stage p {
+  color: var(--mute);
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.pitchdeck-vision-stages i {
+  color: var(--mute);
+  font-size: 1.25rem;
+  opacity: 0.6;
+}
+
+/* Navigation Controls - Compact */
+.pitchdeck-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+.pitchdeck-nav-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.pitchdeck-nav-btn:hover:not(:disabled) {
+  background: var(--accent-color);
+  color: var(--bg);
+  border-color: var(--accent-color);
+  transform: scale(1.05);
+}
+
+.pitchdeck-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Progress Indicators - Compact */
+.pitchdeck-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  max-width: 300px;
+}
+
+.pitchdeck-progress-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.pitchdeck-progress-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.pitchdeck-progress-dot:hover {
+  border-color: var(--accent-color);
+  transform: scale(1.2);
+}
+
+.pitchdeck-progress-dot.active {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  transform: scale(1.3);
+}
+
+.pitchdeck-progress-bar {
+  width: 100%;
+  height: 3px;
+  background: var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.pitchdeck-progress-fill {
+  height: 100%;
+  background: var(--accent-color);
+  border-radius: 2px;
+  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  width: 0%;
+}
+
+.pitchdeck-counter {
+  font-family: 'Sora', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+  min-width: 50px;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .pitchdeck-viewport {
+    max-height: 70vh;
+    min-height: 400px;
+  }
+
+  .pitchdeck-card-content {
+    padding: 20px;
+  }
+
+  .pitchdeck-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .pitchdeck-card-number {
+    font-size: 1.25rem;
+  }
+
+  .pitchdeck-image {
+    max-width: 200px;
+    max-height: 150px;
+  }
+
+  .pitchdeck-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .pitchdeck-vision-stages {
+    flex-direction: column;
+  }
+
+  .pitchdeck-vision-stages i {
+    transform: rotate(90deg);
+  }
+
+  .pitchdeck-controls {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pitchdeck-progress {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .pitchdeck-viewport {
+    max-height: 65vh;
+    min-height: 350px;
+  }
+
+  .pitchdeck-card-content {
+    padding: 16px;
+  }
+
+  .pitchdeck-features {
+    flex-direction: column;
+  }
+
+  .pitchdeck-stat-value {
+    font-size: 1.75rem;
+  }
+
+  .pitchdeck-metric-value {
+    font-size: 1.75rem;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .pitchdeck-card,
+  .pitchdeck-progress-fill {
+    transition: none;
+  }
+
+  .pitchdeck-card-slide-out-left,
+  .pitchdeck-card-slide-out-right,
+  .pitchdeck-card-slide-in-right,
+  .pitchdeck-card-slide-in-left {
+    animation: none;
+  }
+}

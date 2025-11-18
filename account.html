@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" data-require-auth>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orbsurv - Account</title>
+  <link rel="icon" type="image/x-icon" href="Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/global.css">
+<link rel="stylesheet" href="css/shared-vars.css">
+<link rel="stylesheet" href="css/privacy.css">
+<link rel="stylesheet" href="css/account.css">
+</head>
+
+<body>
+  <header class="site-header" data-include="_header.html"></header>
+
+  <main>
+    <section class="account-hero" style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
+      <div class="wrap">
+        <h1>Account Center</h1>
+        <p class="account-subtitle">Manage your profile, pilot signups, prompts, notifications, and settings from one place.</p>
+      </div>
+    </section>
+
+    <section class="account-content">
+      <div class="wrap account-grid">
+        <section class="card profile-card" aria-labelledby="profile-summary-heading">
+          <div class="card-header">
+            <h2 id="profile-summary-heading">Profile Summary</h2>
+            <button type="button" class="btn btn-secondary" data-focus-settings>Update info</button>
+          </div>
+          <div class="profile-header">
+            <div class="profile-avatar" data-profile-avatar aria-hidden="true">JR</div>
+            <div>
+              <p class="profile-name" data-profile-name>Jordan Rivers</p>
+              <p class="profile-email" data-profile-email>jordan@example.com</p>
+              <p class="profile-joined">Joined <span data-profile-joined>July 10, 2025</span></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="pilot-heading">
+          <div class="card-header">
+            <h2 id="pilot-heading">Pilot Signups</h2>
+          </div>
+          <ul class="data-list" data-pilot-list>
+            <li class="empty-state">Loading pilot signups...</li>
+          </ul>
+        </section>
+
+        <section class="card" aria-labelledby="prompt-heading">
+          <div class="card-header">
+            <h2 id="prompt-heading">Prompt Activity</h2>
+          </div>
+          <ul class="data-list" data-prompt-list>
+            <li class="empty-state">Loading prompt activity...</li>
+          </ul>
+        </section>
+
+        <section class="card" aria-labelledby="notification-heading">
+          <div class="card-header">
+            <h2 id="notification-heading">Notifications</h2>
+            <button type="button" class="btn btn-secondary" data-mark-read>Mark read</button>
+          </div>
+          <ul class="data-list" data-notification-list>
+            <li class="empty-state">Loading notifications...</li>
+          </ul>
+          <p class="action-feedback" data-notification-feedback aria-live="polite"></p>
+        </section>
+
+        <section class="card settings-card" aria-labelledby="settings-heading">
+          <div class="card-header">
+            <h2 id="settings-heading">Settings</h2>
+          </div>
+          <form data-settings-form novalidate>
+            <div class="form-field">
+              <label for="settings-name">Name</label>
+              <input id="settings-name" name="name" type="text" autocomplete="name" required>
+            </div>
+            <div class="form-field">
+              <label for="settings-email">Email</label>
+              <input id="settings-email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Save</button>
+            <p class="action-feedback" data-settings-feedback aria-live="polite"></p>
+          </form>
+        </section>
+
+        <section class="card" aria-labelledby="security-heading">
+          <div class="card-header">
+            <h2 id="security-heading">Security</h2>
+          </div>
+          <form id="password-form"
+                data-endpoint="/app/account/password"
+                data-method="PATCH"
+                data-auth="true"
+                data-success-message="Password updated."
+                data-message-target="password-message">
+            <div class="form-field">
+              <label for="current-password">Current password</label>
+              <input id="current-password" name="current_password" type="password" minlength="8" required autocomplete="current-password">
+            </div>
+            <div class="form-field">
+              <label for="new-password">New password</label>
+              <input id="new-password" name="new_password" type="password" minlength="8" required autocomplete="new-password">
+            </div>
+            <button class="btn btn-primary" type="submit">Update password</button>
+            <p id="password-message" class="form-message" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <section class="card" aria-labelledby="org-heading">
+          <div class="card-header">
+            <h2 id="org-heading">Organization</h2>
+          </div>
+          <form id="org-form"
+                data-endpoint="/app/account/organization"
+                data-method="PATCH"
+                data-auth="true"
+                data-success-message="Organization saved."
+                data-message-target="org-message">
+            <div class="form-field">
+              <label for="org-name">Organization</label>
+              <input id="org-name" name="organization" type="text" autocomplete="organization" required>
+            </div>
+            <div class="form-field">
+              <label for="org-tz">Timezone (optional)</label>
+              <input id="org-tz" name="timezone" type="text" placeholder="e.g., America/Chicago">
+            </div>
+            <button class="btn btn-primary" type="submit">Save organization</button>
+            <p id="org-message" class="form-message" aria-live="polite"></p>
+          </form>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="_footer.html"></footer>
+
+  <script src="js/global.js"></script>
+  <script src="js/forms.js"></script>
+  <script src="js/auth-guard.js"></script>
+  <script src="js/account.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-require-dev>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>User Management - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="../Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/shared-vars.css">
+  <link rel="stylesheet" href="../css/privacy.css">
+  <link rel="stylesheet" href="../css/index.css">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/admin-management.css">
+</head>
+<body class="admin-body">
+  <header class="site-header" data-include="../_header.html"></header>
+
+  <main id="main-content" class="admin-main">
+    <section class="admin-hero hero-gradient">
+      <div class="wrap">
+        <p class="hero-eyebrow">Developer Console</p>
+        <h1>User Management</h1>
+        <p class="hero-copy">View and manage all registered users in the Orbsurv system.</p>
+      </div>
+    </section>
+
+    <section class="admin-sections">
+      <div class="wrap">
+        <div class="search-filter">
+          <input type="search" id="user-search" placeholder="Search by name or email..." autocomplete="off">
+          <button type="button" class="btn btn-secondary" id="export-users">
+            <i class="fa-solid fa-file-export"></i> Export CSV
+          </button>
+          <button type="button" class="btn btn-outline" id="export-json">
+            <i class="fa-solid fa-file-code"></i> Export JSON
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="table-scroll">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Role</th>
+                  <th scope="col">Created</th>
+                </tr>
+              </thead>
+              <tbody id="users-body">
+                <tr>
+                  <td colspan="5" class="empty-state">
+                    <div class="loading-indicator">
+                      <div class="loading-spinner"></div>
+                      <span>Loading users...</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p id="users-count" class="data-count"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="../_footer.html"></footer>
+
+  <script src="../js/global.js"></script>
+  <script src="../js/forms.js"></script>
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/admin-api.js"></script>
+  <script src="../js/index.js"></script>
+  <script>
+    (function() {
+      let allUsers = [];
+      let filteredUsers = [];
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        // Ensure DEV role
+        if (window.AuthGuard) {
+          const hasDev = await window.AuthGuard.ensureDevRole();
+          if (!hasDev) return;
+        }
+
+        await loadUsers();
+        bindEvents();
+      });
+
+      async function loadUsers() {
+        const usersBody = document.getElementById('users-body');
+        const usersCount = document.getElementById('users-count');
+        
+        if (!usersBody) return;
+
+        try {
+          const data = await window.AdminAPI.getUsers();
+          allUsers = data?.items || [];
+          filteredUsers = [...allUsers];
+
+          renderUsers();
+          
+          if (usersCount) {
+            usersCount.textContent = `Total: ${allUsers.length} user${allUsers.length !== 1 ? 's' : ''}`;
+          }
+        } catch (error) {
+          console.error('Unable to load users', error);
+          window.AuthGuard?.handleAuthError(error);
+          usersBody.innerHTML = '<tr><td colspan="5" class="empty-state">Unable to load users. Please check your connection.</td></tr>';
+        }
+      }
+
+      function renderUsers() {
+        const usersBody = document.getElementById('users-body');
+        if (!usersBody) return;
+
+        if (filteredUsers.length === 0) {
+          usersBody.innerHTML = '<tr><td colspan="5" class="empty-state">No users found.</td></tr>';
+          return;
+        }
+
+        usersBody.innerHTML = filteredUsers.map(user => `
+          <tr>
+            <td>${user.id}</td>
+            <td>${escapeHtml(user.name || 'N/A')}</td>
+            <td>${escapeHtml(user.email)}</td>
+            <td><span class="role-badge ${user.role || 'user'}">${(user.role || 'user').toUpperCase()}</span></td>
+            <td>${window.AdminAPI.formatDate(user.created_at)}</td>
+          </tr>
+        `).join('');
+      }
+
+      function bindEvents() {
+        const searchInput = document.getElementById('user-search');
+        const exportCsvBtn = document.getElementById('export-users');
+        const exportJsonBtn = document.getElementById('export-json');
+
+        if (searchInput) {
+          searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (!query) {
+              filteredUsers = [...allUsers];
+            } else {
+              filteredUsers = allUsers.filter(user => 
+                (user.name && user.name.toLowerCase().includes(query)) ||
+                user.email.toLowerCase().includes(query)
+              );
+            }
+            renderUsers();
+          });
+        }
+
+        if (exportCsvBtn) {
+          exportCsvBtn.addEventListener('click', () => {
+            window.AdminAPI.exportToCSV(filteredUsers, 'users');
+          });
+        }
+
+        if (exportJsonBtn) {
+          exportJsonBtn.addEventListener('click', () => {
+            window.AdminAPI.exportToJSON(filteredUsers, 'users');
+          });
+        }
+      }
+
+      function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+

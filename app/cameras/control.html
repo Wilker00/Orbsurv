@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" data-require-auth>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Camera Control - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="../../Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/shared-vars.css">
+  <link rel="stylesheet" href="../../css/privacy.css">
+  <link rel="stylesheet" href="../../css/index.css">
+  <style>
+    .control-layout {
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: var(--space-5);
+    }
+
+    .live-viewer {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .live-video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: color-mix(in srgb, var(--accent-color) 10%, var(--card-bg));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .live-video i {
+      font-size: 4rem;
+      color: var(--accent-color);
+      opacity: 0.5;
+    }
+
+    .live-overlay {
+      position: absolute;
+      top: var(--space-3);
+      left: var(--space-3);
+      right: var(--space-3);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .camera-info {
+      background: color-mix(in srgb, var(--ink) 80%, transparent);
+      color: var(--bg);
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      backdrop-filter: blur(8px);
+    }
+
+    .live-status {
+      display: flex;
+      gap: var(--space-2);
+    }
+
+    .status-badge {
+      padding: var(--space-1) var(--space-2);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      backdrop-filter: blur(8px);
+    }
+
+    .status-badge.live {
+      background: color-mix(in srgb, #ef4444 90%, transparent);
+      color: #fff;
+    }
+
+    .control-panel {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .control-section {
+      padding: var(--space-4);
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+    }
+
+    .control-section h3 {
+      margin-bottom: var(--space-3);
+      font-size: 1.125rem;
+    }
+
+    .mode-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-2);
+      margin-bottom: var(--space-4);
+    }
+
+    .mode-btn {
+      padding: var(--space-3);
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--line);
+      background: var(--bg);
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    .mode-btn.active {
+      border-color: var(--accent-color);
+      background: color-mix(in srgb, var(--accent-color) 10%, var(--card-bg));
+      color: var(--accent-color);
+    }
+
+    .waypoint-controls {
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    .waypoint-btn {
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line);
+      background: var(--bg);
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .waypoint-btn:hover {
+      background: var(--accent-color);
+      color: var(--bg);
+      border-color: var(--accent-color);
+    }
+
+    .speed-control {
+      margin-top: var(--space-3);
+    }
+
+    .speed-slider {
+      width: 100%;
+      accent-color: var(--accent-color);
+      margin: var(--space-2) 0;
+    }
+
+    .speed-value {
+      text-align: center;
+      font-weight: 600;
+      color: var(--accent-color);
+      margin-top: var(--space-2);
+    }
+
+    .emergency-stop {
+      width: 100%;
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      border: none;
+      background: #ef4444;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.125rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: var(--space-4);
+    }
+
+    .emergency-stop:hover {
+      background: #dc2626;
+      transform: scale(1.02);
+    }
+
+    .recording-controls {
+      display: flex;
+      gap: var(--space-2);
+      margin-top: var(--space-3);
+    }
+
+    @media (max-width: 1024px) {
+      .control-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-include="../../_header.html"></header>
+
+  <main>
+    <section style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
+      <div class="wrap">
+        <div style="padding: clamp(24px, 3vw, 32px) 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-4);">
+            <div>
+              <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Live Control</p>
+              <h1>Camera Control</h1>
+              <p style="color: var(--mute); font-size: 1.05rem;">Front Entrance</p>
+            </div>
+            <div style="display: flex; gap: var(--space-3);">
+              <a href="configure.html?id=cam-001" class="btn btn-secondary">
+                <i class="fa-solid fa-gear"></i> Configure
+              </a>
+              <a href="../cameras.html" class="btn btn-outline">
+                <i class="fa-solid fa-arrow-left"></i> Back
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="control-layout">
+          <div>
+            <div class="live-viewer">
+              <div class="live-video">
+                <i class="fa-solid fa-video"></i>
+                <div class="live-overlay">
+                  <div class="camera-info">Front Entrance</div>
+                  <div class="live-status">
+                    <span class="status-badge live">
+                      <i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> LIVE
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div style="padding: var(--space-4); border-top: 1px solid var(--line);">
+                <div class="recording-controls">
+                  <button class="btn btn-primary">
+                    <i class="fa-solid fa-camera"></i> Snapshot
+                  </button>
+                  <button class="btn btn-secondary">
+                    <i class="fa-solid fa-circle"></i> Start Recording
+                  </button>
+                  <button class="btn btn-outline">
+                    <i class="fa-solid fa-expand"></i> Fullscreen
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="control-panel">
+            <!-- Movement Mode -->
+            <div class="control-section">
+              <h3>Movement Mode</h3>
+              <div class="mode-buttons">
+                <button class="mode-btn active" data-mode="scan">
+                  <i class="fa-solid fa-arrows-left-right"></i><br>
+                  Scan
+                </button>
+                <button class="mode-btn" data-mode="patrol">
+                  <i class="fa-solid fa-route"></i><br>
+                  Patrol
+                </button>
+                <button class="mode-btn" data-mode="focus">
+                  <i class="fa-solid fa-crosshairs"></i><br>
+                  Focus
+                </button>
+                <button class="mode-btn" data-mode="manual">
+                  <i class="fa-solid fa-hand"></i><br>
+                  Manual
+                </button>
+              </div>
+            </div>
+
+            <!-- Waypoint Control -->
+            <div class="control-section">
+              <h3>Move to Waypoint</h3>
+              <div class="waypoint-controls">
+                <button class="waypoint-btn">
+                  <span>Start Position</span>
+                  <span style="color: var(--mute); font-size: 0.875rem;">0%</span>
+                </button>
+                <button class="waypoint-btn">
+                  <span>Mid Point</span>
+                  <span style="color: var(--mute); font-size: 0.875rem;">50%</span>
+                </button>
+                <button class="waypoint-btn">
+                  <span>End Position</span>
+                  <span style="color: var(--mute); font-size: 0.875rem;">100%</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Speed Control -->
+            <div class="control-section">
+              <h3>Speed Control</h3>
+              <div class="speed-control">
+                <input type="range" id="speed-slider" min="0.5" max="3" step="0.1" value="1" class="speed-slider">
+                <div class="speed-value">Normal (1.0x)</div>
+              </div>
+            </div>
+
+            <!-- Manual Position -->
+            <div class="control-section">
+              <h3>Manual Position</h3>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); margin-bottom: var(--space-3);">
+                <button class="btn btn-outline" style="padding: var(--space-2);">
+                  <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button class="btn btn-outline" style="padding: var(--space-2);">
+                  <i class="fa-solid fa-stop"></i>
+                </button>
+                <button class="btn btn-outline" style="padding: var(--space-2);">
+                  <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </div>
+              <div style="text-align: center; color: var(--mute); font-size: 0.9rem;">
+                Position: <span style="font-weight: 600; color: var(--ink);">45%</span>
+              </div>
+            </div>
+
+            <!-- Emergency Stop -->
+            <button class="emergency-stop">
+              <i class="fa-solid fa-triangle-exclamation"></i> Emergency Stop
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="../../_footer.html"></footer>
+
+  <script src="../../js/global.js"></script>
+  <script src="../../js/forms.js"></script>
+  <script src="../../js/index.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const modeButtons = document.querySelectorAll('.mode-btn');
+      const speedSlider = document.getElementById('speed-slider');
+
+      modeButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          modeButtons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+
+      speedSlider.addEventListener('input', function() {
+        const value = parseFloat(this.value);
+        const labels = {
+          0.5: 'Slow (0.5x)',
+          1.0: 'Normal (1.0x)',
+          1.5: 'Fast (1.5x)',
+          2.0: 'Very Fast (2.0x)',
+          2.5: 'Maximum (2.5x)',
+          3.0: 'Maximum+ (3.0x)'
+        };
+        const label = labels[value] || `${value}x`;
+        this.nextElementSibling.textContent = label;
+      });
+    });
+  </script>
+  <script src="../../js/global.js"></script>
+  <script src="../../js/forms.js"></script>
+  <script src="../../js/auth-guard.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

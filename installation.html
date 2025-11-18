@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Installation Guide - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/shared-vars.css">
+  <link rel="stylesheet" href="css/privacy.css">
+  <link rel="stylesheet" href="css/index.css">
+  <style>
+    .installation-step {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: var(--space-4);
+      padding: var(--space-5);
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .installation-step:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .step-number {
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, color-mix(in srgb, var(--accent-color) 20%, transparent), color-mix(in srgb, var(--accent-color) 10%, transparent));
+      color: var(--accent-color);
+      font-weight: 700;
+      font-size: 1.5rem;
+      border: 2px solid color-mix(in srgb, var(--accent-color) 30%, transparent);
+      flex-shrink: 0;
+    }
+
+    .step-content h3 {
+      margin-bottom: var(--space-2);
+      font-size: 1.25rem;
+    }
+
+    .step-content ul {
+      margin-top: var(--space-3);
+      padding-left: var(--space-4);
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    .step-content ul li {
+      color: var(--mute);
+      line-height: 1.7;
+    }
+
+    .requirements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-5);
+    }
+
+    .requirement-card {
+      padding: var(--space-4);
+    }
+
+    .requirement-card h3 {
+      margin-bottom: var(--space-3);
+      font-size: 1.125rem;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .requirement-card h3 i {
+      color: var(--accent-color);
+    }
+
+    .requirement-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    .requirement-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-2);
+      color: var(--mute);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .requirement-list li::before {
+      content: '•';
+      color: var(--accent-color);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .warning-box {
+      padding: var(--space-4);
+      background: color-mix(in srgb, #f59e0b 10%, var(--card-bg));
+      border: 1px solid color-mix(in srgb, #f59e0b 30%, transparent);
+      border-radius: var(--radius-lg);
+      margin: var(--space-5) 0;
+    }
+
+    .warning-box h3 {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-2);
+      color: #f59e0b;
+    }
+
+    .video-embed {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: var(--space-5) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-embed::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, color-mix(in srgb, var(--accent-color) 10%, transparent), color-mix(in srgb, var(--accent-color) 15%, transparent));
+      opacity: 0.5;
+    }
+
+    .video-embed i {
+      font-size: 4rem;
+      color: var(--accent-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 768px) {
+      .installation-step {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .step-number {
+        margin: 0 auto var(--space-3);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-include="_header.html"></header>
+
+  <main>
+    <section style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
+      <div class="wrap">
+        <div style="text-align: center; padding: clamp(24px, 3vw, 32px) 0;">
+          <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Guide</p>
+          <h1>Installation Guide</h1>
+          <p style="max-width: 60ch; margin: 0 auto; color: var(--mute); font-size: 1.125rem; line-height: 1.7;">
+            Step-by-step instructions to install and configure your Orbsurv Patrol Module. Most installations take 2-4 hours.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hardware Requirements -->
+    <section class="section">
+      <div class="wrap">
+        <div style="text-align: center; margin-bottom: clamp(24px, 3vw, 32px);">
+          <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Prerequisites</p>
+          <h2>Hardware Requirements</h2>
+          <p style="max-width: 60ch; margin: 0 auto; color: var(--mute); font-size: 1.125rem; line-height: 1.7; margin-top: var(--space-3);">
+            Ensure you have everything needed before starting installation
+          </p>
+        </div>
+
+        <div class="requirements-grid">
+          <div class="card requirement-card">
+            <h3><i class="fa-solid fa-plug"></i> Power Requirements</h3>
+            <ul class="requirement-list">
+              <li>90W PoE++ (Power over Ethernet Plus Plus) switch or injector</li>
+              <li>Alternative: Dedicated 90W power adapter</li>
+              <li>Voltage: 48V DC</li>
+              <li>Backup battery recommended for critical deployments</li>
+            </ul>
+          </div>
+
+          <div class="card requirement-card">
+            <h3><i class="fa-solid fa-network-wired"></i> Network Requirements</h3>
+            <ul class="requirement-list">
+              <li>Gigabit Ethernet connection (PoE++)</li>
+              <li>Wi-Fi 6E router (if using wireless)</li>
+              <li>Optional: 5G modem for remote locations</li>
+              <li>Minimum 10 Mbps upload bandwidth</li>
+            </ul>
+          </div>
+
+          <div class="card requirement-card">
+            <h3><i class="fa-solid fa-tools"></i> Installation Tools</h3>
+            <ul class="requirement-list">
+              <li>Drill with appropriate bits for mounting surface</li>
+              <li>Level for rail alignment</li>
+              <li>Measuring tape</li>
+              <li>Stud finder (for wall mounting)</li>
+              <li>Included mounting hardware</li>
+            </ul>
+          </div>
+
+          <div class="card requirement-card">
+            <h3><i class="fa-solid fa-mobile-alt"></i> Setup Device</h3>
+            <ul class="requirement-list">
+              <li>iOS or Android device with Orbsurv app</li>
+              <li>Or web browser for web-based setup</li>
+              <li>Active internet connection</li>
+              <li>Orbsurv account (created during setup)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="warning-box">
+          <h3><i class="fa-solid fa-triangle-exclamation"></i> Safety First</h3>
+          <p style="color: var(--mute); line-height: 1.7;">
+            Always ensure power is disconnected before handling electrical components. For ceiling installations, use appropriate safety equipment. If unsure about any step, consult a professional installer or contact Orbsurv support.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Installation Steps -->
+    <section class="section-alt">
+      <div class="wrap">
+        <div style="text-align: center; margin-bottom: clamp(24px, 3vw, 32px);">
+          <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Installation</p>
+          <h2>Step-by-Step Installation</h2>
+          <p style="max-width: 60ch; margin: 0 auto; color: var(--mute); font-size: 1.125rem; line-height: 1.7; margin-top: var(--space-3);">
+            Follow these steps in order for a successful installation
+          </p>
+        </div>
+
+        <div class="installation-step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Unbox and Verify Components</h3>
+            <p style="color: var(--mute); line-height: 1.7;">
+              Open your Orbsurv package and verify all components are present. You should have:
+            </p>
+            <ul>
+              <li>Orbsurv Patrol Module (camera unit)</li>
+              <li>Rail segments (quantity depends on your deployment)</li>
+              <li>Mounting brackets with screws</li>
+              <li>Power supply (if not using PoE++)</li>
+              <li>Network cable (if using wired connection)</li>
+              <li>Quick start guide and documentation</li>
+            </ul>
+            <p style="color: var(--mute); line-height: 1.7; margin-top: var(--space-3);">
+              Check for any shipping damage. Contact support immediately if any components are missing or damaged.
+            </p>
+          </div>
+        </div>
+
+        <div class="installation-step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Plan Your Installation Location</h3>
+            <p style="color: var(--mute); line-height: 1.7;">
+              Determine the optimal location for your rail system:
+            </p>
+            <ul>
+              <li>Measure your space to determine rail length needed</li>
+              <li>Identify mounting surface (ceiling or wall)</li>
+              <li>Ensure rail path provides complete coverage</li>
+              <li>Check for power and network connectivity</li>
+              <li>Verify mounting surface can support weight (module + rail)</li>
+              <li>Consider cable routing and accessibility</li>
+            </ul>
+            <p style="color: var(--mute); line-height: 1.7; margin-top: var(--space-3);">
+              Use the Orbsurv app's coverage planning tool to visualize your installation before mounting.
+            </p>
+          </div>
+        </div>
+
+        <div class="installation-step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Install Mounting Brackets</h3>
+            <p style="color: var(--mute); line-height: 1.7;">
+              Mount the brackets that will hold your rail system:
+            </p>
+            <ul>
+              <li>Mark bracket positions using a level and measuring tape</li>
+              <li>For ceiling: Locate studs or use appropriate anchors</li>
+              <li>For wall: Use stud finder to locate solid mounting points</li>
+              <li>Drill pilot holes at marked positions</li>
+              <li>Secure brackets with provided screws</li>
+              <li>Verify brackets are level and securely mounted</li>
+            </ul>
+            <p style="color: var(--mute); line-height: 1.7; margin-top: var(--space-3);">
+              Bracket spacing should match your rail segment lengths. Typically 2 meters between brackets.
+            </p>
+          </div>
+        </div>
+
+        <div class="installation-step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Assemble and Mount Rail Segments</h3>
+            <p style="color: var(--mute); line-height: 1.7;">
+              Connect rail segments and mount to brackets:
+            </p>
+            <ul>
+              <li>Connect rail segments using snap-fit connectors</li>
+              <li>Ensure segments are aligned and flush</li>
+              <li>Mount rail assembly to brackets</li>
+              <li>Verify rail is level across entire length</li>
+              <li>Check for any gaps or misalignments</li>
+              <li>Route cables through hidden cable channel</li>
+            </ul>
+            <p style="color: var(--mute); line-height: 1.7; margin-top: var(--space-3);">
+              The rail should be smooth and free of obstructions. Test by manually moving a small object along the rail path.
+            </p>
+          </div>
+        </div>
+
+        <div class="installation-step">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <h3>Mount Patrol Module</h3>
+            <p style="color: var(--mute); line-height: 1.7;">
+              Attach the Patrol Module to the rail:
+            </p>
+            <ul>
+              <li>Position module at one end of the rail</li>
+              <li>Engage module's mounting mechanism with rail</li>
+              <li>Verify module moves freely along rail</li>
+              <li>Check that module doesn't wobble or bind</li>
+              <li>Ensure all connections are accessible</li>
+            </ul>
+            <p style="color: var(--mute); line-height: 1.7; margin-top: var(--space-3);">
+              The module should slide smoothly without excessive force. If movement is rough, check rail alignment.
+            </p>
+          </div>
+        </div>
+
+        <div class="installation-step">
+          <div class="step-number">6</div>
+          <div class="step-content">
+            <h3>Connect Power and Network</h3>
+            <p style="color: var(--mute); line-height: 1.7;">
+              Connect power and network cables:
+            </p>
+            <ul>
+              <li>Connect PoE++ cable to module and switch/injector</li>
+              <li>If using Wi-Fi: Configure network settings through app</li>
+              <li>If using 5G: Insert SIM card and activate</li>
+              <li>Verify power LED indicators show normal operation</li>
+              <li>Check network connectivity status</li>
+              <li>Ensure cables don't interfere with module movement</li>
+            </ul>
+            <p style="color: var(--mute); line-height: 1.7; margin-top: var(--space-3);">
+              Allow 2-3 minutes for module to boot and initialize. Status LED will indicate when ready.
+            </p>
+          </div>
+        </div>
+
+        <div class="installation-step">
+          <div class="step-number">7</div>
+          <div class="step-content">
+            <h3>Download and Setup App</h3>
+            <p style="color: var(--mute); line-height: 1.7;">
+              Set up the Orbsurv mobile or web app:
+            </p>
+            <ul>
+              <li>Download Orbsurv app from App Store or Google Play</li>
+              <li>Create an Orbsurv account or sign in</li>
+              <li>Follow in-app setup wizard</li>
+              <li>Scan QR code on module or enter device ID</li>
+              <li>Connect to your module's network</li>
+              <li>Complete initial account setup</li>
+            </ul>
+            <p style="color: var(--mute); line-height: 1.7; margin-top: var(--space-3);">
+              The app will guide you through device pairing and network configuration step by step.
+            </p>
+          </div>
+        </div>
+
+        <div class="installation-step">
+          <div class="step-number">8</div>
+          <div class="step-content">
+            <h3>Initial Calibration</h3>
+            <p style="color: var(--mute); line-height: 1.7;">
+              Calibrate your system for optimal performance:
+            </p>
+            <ul>
+              <li>Run automatic calibration from app</li>
+              <li>System maps your space and rail path</li>
+              <li>Define patrol boundaries</li>
+              <li>Set initial waypoints</li>
+              <li>Configure detection zones</li>
+              <li>Test module movement along full rail length</li>
+            </ul>
+            <p style="color: var(--mute); line-height: 1.7; margin-top: var(--space-3);">
+              Calibration typically takes 15-30 minutes. The system learns your space over the first few days to improve accuracy.
+            </p>
+          </div>
+        </div>
+
+        <div class="installation-step">
+          <div class="step-number">9</div>
+          <div class="step-content">
+            <h3>Configure Settings and Preferences</h3>
+            <p style="color: var(--mute); line-height: 1.7;">
+              Customize your Orbsurv system:
+            </p>
+            <ul>
+              <li>Set up patrol schedules for different times</li>
+              <li>Configure detection sensitivity</li>
+              <li>Define privacy zones if needed</li>
+              <li>Set up alert preferences and notifications</li>
+              <li>Configure storage and cloud sync options</li>
+              <li>Test motion detection and alerts</li>
+            </ul>
+            <p style="color: var(--mute); line-height: 1.7; margin-top: var(--space-3);">
+              These settings can be adjusted anytime through the app. Start with defaults and fine-tune as needed.
+            </p>
+          </div>
+        </div>
+
+        <div class="video-embed">
+          <i class="fa-solid fa-play-circle"></i>
+        </div>
+        <div style="text-align: center; margin-bottom: var(--space-5);">
+          <p style="color: var(--mute); font-size: 0.95rem;">Watch the complete installation video walkthrough</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Post-Installation -->
+    <section class="section">
+      <div class="wrap">
+        <div style="text-align: center; margin-bottom: clamp(24px, 3vw, 32px);">
+          <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Next Steps</p>
+          <h2>After Installation</h2>
+          <p style="max-width: 60ch; margin: 0 auto; color: var(--mute); font-size: 1.125rem; line-height: 1.7; margin-top: var(--space-3);">
+            Important steps to complete your setup
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="card" style="padding: clamp(16px, 2vw, 20px);">
+            <div style="width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border-radius: 16px; background: color-mix(in srgb, var(--accent-color) 15%, transparent); margin-bottom: var(--space-4);">
+              <i class="fa-solid fa-check-circle" style="font-size: 2rem; color: var(--accent-color);"></i>
+            </div>
+            <h3 style="margin-bottom: var(--space-2); font-size: 1.25rem;">Verify Coverage</h3>
+            <p style="color: var(--mute); line-height: 1.7;">
+              Test the module's movement along the entire rail. Use the app to manually position the module and verify it reaches all areas of your space without blind spots.
+            </p>
+          </div>
+
+          <div class="card" style="padding: clamp(16px, 2vw, 20px);">
+            <div style="width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border-radius: 16px; background: color-mix(in srgb, var(--accent-color) 15%, transparent); margin-bottom: var(--space-4);">
+              <i class="fa-solid fa-brain" style="font-size: 2rem; color: var(--accent-color);"></i>
+            </div>
+            <h3 style="margin-bottom: var(--space-2); font-size: 1.25rem;">Let AI Learn</h3>
+            <p style="color: var(--mute); line-height: 1.7;">
+              Allow 2-3 days for the system to learn your space. The AI will adapt to normal patterns, reducing false alarms and improving detection accuracy over time.
+            </p>
+          </div>
+
+          <div class="card" style="padding: clamp(16px, 2vw, 20px);">
+            <div style="width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border-radius: 16px; background: color-mix(in srgb, var(--accent-color) 15%, transparent); margin-bottom: var(--space-4);">
+              <i class="fa-solid fa-sliders" style="font-size: 2rem; color: var(--accent-color);"></i>
+            </div>
+            <h3 style="margin-bottom: var(--space-2); font-size: 1.25rem;">Fine-Tune Settings</h3>
+            <p style="color: var(--mute); line-height: 1.7;">
+              Adjust sensitivity, alert preferences, and patrol schedules based on your needs. Review detection events and refine zones to minimize false alarms.
+            </p>
+          </div>
+
+          <div class="card" style="padding: clamp(16px, 2vw, 20px);">
+            <div style="width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border-radius: 16px; background: color-mix(in srgb, var(--accent-color) 15%, transparent); margin-bottom: var(--space-4);">
+              <i class="fa-solid fa-book" style="font-size: 2rem; color: var(--accent-color);"></i>
+            </div>
+            <h3 style="margin-bottom: var(--space-2); font-size: 1.25rem;">Explore Documentation</h3>
+            <p style="color: var(--mute); line-height: 1.7;">
+              Review our <a href="help.html" style="color: var(--accent-color); text-decoration: none; font-weight: 500;">Help Center</a> for advanced configuration, troubleshooting, and best practices to get the most from your system.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Support Section -->
+    <section class="section-alt">
+      <div class="wrap">
+        <div class="card" style="text-align: center; padding: clamp(16px, 2vw, 20px);">
+          <h2 style="margin-bottom: var(--space-3);">Need Installation Help?</h2>
+          <p style="margin-bottom: var(--space-5); color: var(--mute); max-width: 60ch; margin-left: auto; margin-right: auto; line-height: 1.7;">
+            Professional installation services are available for complex deployments. Our certified installers ensure optimal placement, calibration, and configuration.
+          </p>
+          <div style="display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;">
+            <a href="contact.html" class="btn btn-primary">Request Installation Service</a>
+            <a href="help.html" class="btn btn-secondary">Visit Help Center</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="_footer.html"></footer>
+
+  <script src="js/global.js"></script>
+  <script src="js/forms.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

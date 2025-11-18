@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" data-require-auth>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Device Management - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="../Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/shared-vars.css">
+  <link rel="stylesheet" href="../css/privacy.css">
+  <link rel="stylesheet" href="../css/index.css">
+  <style>
+    .device-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .device-table th,
+    .device-table td {
+      padding: var(--space-3) var(--space-4);
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .device-table th {
+      background: var(--card-bg);
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .device-table tr:hover {
+      background: var(--bg);
+    }
+
+    .device-type {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .device-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+      color: var(--accent-color);
+    }
+
+    .firmware-badge {
+      padding: var(--space-1) var(--space-2);
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .firmware-badge.current {
+      background: color-mix(in srgb, #34d399 15%, transparent);
+      color: #34d399;
+    }
+
+    .firmware-badge.update {
+      background: color-mix(in srgb, #fbbf24 15%, transparent);
+      color: #fbbf24;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-include="../_header.html"></header>
+
+  <main>
+    <section style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
+      <div class="wrap">
+        <div style="padding: clamp(24px, 3vw, 32px) 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-4);">
+            <div>
+              <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Inventory</p>
+              <h1>Device Management</h1>
+              <p style="color: var(--mute); font-size: 1.05rem;">Manage all devices in your Orbsurv system</p>
+            </div>
+            <a href="cameras/add.html" class="btn btn-primary">
+              <i class="fa-solid fa-plus"></i> Add Device
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <div style="padding: var(--space-4); border-bottom: 1px solid var(--line);">
+            <h3>All Devices</h3>
+          </div>
+          <div style="overflow-x: auto;">
+            <table class="device-table">
+              <thead>
+                <tr>
+                  <th>Device</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Firmware</th>
+                  <th>Last Seen</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="device-type">
+                      <div class="device-icon">
+                        <i class="fa-solid fa-video"></i>
+                      </div>
+                      <div>
+                        <div style="font-weight: 600;">Front Entrance</div>
+                        <div style="color: var(--mute); font-size: 0.9rem;">Serial: ORB-2024-001</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Camera</td>
+                  <td>
+                    <span class="status-badge online" style="display: inline-flex; align-items: center; gap: var(--space-1); padding: var(--space-1) var(--space-2); border-radius: 999px; font-size: 0.875rem;">
+                      <i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Online
+                    </span>
+                  </td>
+                  <td>
+                    <span class="firmware-badge current">v2.1.4</span>
+                  </td>
+                  <td style="color: var(--mute);">2 minutes ago</td>
+                  <td>
+                    <button class="btn btn-outline" style="padding: var(--space-1) var(--space-2);">
+                      <i class="fa-solid fa-ellipsis"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="device-type">
+                      <div class="device-icon">
+                        <i class="fa-solid fa-video"></i>
+                      </div>
+                      <div>
+                        <div style="font-weight: 600;">Warehouse Aisle</div>
+                        <div style="color: var(--mute); font-size: 0.9rem;">Serial: ORB-2024-002</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Camera</td>
+                  <td>
+                    <span class="status-badge online" style="display: inline-flex; align-items: center; gap: var(--space-1); padding: var(--space-1) var(--space-2); border-radius: 999px; font-size: 0.875rem;">
+                      <i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Online
+                    </span>
+                  </td>
+                  <td>
+                    <span class="firmware-badge update">v2.1.4 → v2.2.0</span>
+                  </td>
+                  <td style="color: var(--mute);">15 minutes ago</td>
+                  <td>
+                    <button class="btn btn-outline" style="padding: var(--space-1) var(--space-2);">
+                      <i class="fa-solid fa-ellipsis"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="device-type">
+                      <div class="device-icon">
+                        <i class="fa-solid fa-video"></i>
+                      </div>
+                      <div>
+                        <div style="font-weight: 600;">Loading Dock</div>
+                        <div style="color: var(--mute); font-size: 0.9rem;">Serial: ORB-2024-003</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Camera</td>
+                  <td>
+                    <span class="status-badge online" style="display: inline-flex; align-items: center; gap: var(--space-1); padding: var(--space-1) var(--space-2); border-radius: 999px; font-size: 0.875rem;">
+                      <i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Online
+                    </span>
+                  </td>
+                  <td>
+                    <span class="firmware-badge current">v2.1.4</span>
+                  </td>
+                  <td style="color: var(--mute);">1 hour ago</td>
+                  <td>
+                    <button class="btn btn-outline" style="padding: var(--space-1) var(--space-2);">
+                      <i class="fa-solid fa-ellipsis"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" style="padding: clamp(16px, 2vw, 20px); margin-top: clamp(24px, 3vw, 32px);">
+          <h3 style="margin-bottom: var(--space-4);">Device Groups</h3>
+          <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-4);">
+            Organize devices into groups for easier management and bulk operations.
+          </p>
+          <div style="display: grid; gap: var(--space-3);">
+            <div style="padding: var(--space-3); background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-lg);">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-weight: 600; margin-bottom: var(--space-1);">Main Building</div>
+                  <div style="color: var(--mute); font-size: 0.9rem;">3 devices</div>
+                </div>
+                <button class="btn btn-outline">
+                  <i class="fa-solid fa-edit"></i> Manage
+                </button>
+              </div>
+            </div>
+            <div style="padding: var(--space-3); background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-lg);">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-weight: 600; margin-bottom: var(--space-1);">Warehouse</div>
+                  <div style="color: var(--mute); font-size: 0.9rem;">2 devices</div>
+                </div>
+                <button class="btn btn-outline">
+                  <i class="fa-solid fa-edit"></i> Manage
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="../_footer.html"></footer>
+
+  <script src="../js/global.js"></script>
+  <script src="../js/forms.js"></script>
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/index.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" data-require-dev>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Contact Requests - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="../Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/shared-vars.css">
+  <link rel="stylesheet" href="../css/privacy.css">
+  <link rel="stylesheet" href="../css/index.css">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/admin-management.css">
+</head>
+<body class="admin-body">
+  <header class="site-header" data-include="../_header.html"></header>
+
+  <main class="admin-main">
+    <section class="admin-hero hero-gradient">
+      <div class="wrap">
+        <p class="hero-eyebrow">Developer Console</p>
+        <h1>Contact Requests</h1>
+        <p class="hero-copy">Review and manage contact form submissions from potential customers.</p>
+      </div>
+    </section>
+
+    <section class="admin-sections">
+      <div class="wrap">
+        <div class="search-filter">
+          <input type="search" id="contact-search" placeholder="Search by name or email..." autocomplete="off">
+          <button type="button" class="btn btn-secondary" id="export-csv">
+            <i class="fa-solid fa-file-export"></i> Export CSV
+          </button>
+          <button type="button" class="btn btn-outline" id="export-json">
+            <i class="fa-solid fa-file-code"></i> Export JSON
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="table-scroll">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Message</th>
+                  <th scope="col">Created</th>
+                </tr>
+              </thead>
+              <tbody id="contacts-body">
+                <tr>
+                  <td colspan="5" class="empty-state">
+                    <div class="loading-indicator">
+                      <div class="loading-spinner"></div>
+                      <span>Loading contact requests...</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p id="contacts-count" class="data-count"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="../_footer.html"></footer>
+
+  <script src="../js/global.js"></script>
+  <script src="../js/forms.js"></script>
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/admin-api.js"></script>
+  <script src="../js/index.js"></script>
+  <script>
+    (function() {
+      let allContacts = [];
+      let filteredContacts = [];
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AuthGuard) {
+          const hasDev = await window.AuthGuard.ensureDevRole();
+          if (!hasDev) return;
+        }
+
+        await loadContacts();
+        bindEvents();
+      });
+
+      async function loadContacts() {
+        const contactsBody = document.getElementById('contacts-body');
+        const contactsCount = document.getElementById('contacts-count');
+        
+        if (!contactsBody) return;
+
+        try {
+          const data = await window.AdminAPI.getContacts();
+          allContacts = data?.items || [];
+          filteredContacts = [...allContacts];
+
+          renderContacts();
+          
+          if (contactsCount) {
+            contactsCount.textContent = `Total: ${allContacts.length} request${allContacts.length !== 1 ? 's' : ''}`;
+          }
+        } catch (error) {
+          console.error('Unable to load contacts', error);
+          window.AuthGuard?.handleAuthError(error);
+          contactsBody.innerHTML = '<tr><td colspan="5" class="empty-state">Unable to load contact requests. Please check your connection.</td></tr>';
+        }
+      }
+
+      function renderContacts() {
+        const contactsBody = document.getElementById('contacts-body');
+        if (!contactsBody) return;
+
+        if (filteredContacts.length === 0) {
+          contactsBody.innerHTML = '<tr><td colspan="5" class="empty-state">No contact requests found.</td></tr>';
+          return;
+        }
+
+        contactsBody.innerHTML = filteredContacts.map((contact, index) => {
+          const messagePreview = contact.message.length > 100 
+            ? contact.message.substring(0, 100) + '...' 
+            : contact.message;
+          
+          return `
+            <tr>
+              <td>${contact.id}</td>
+              <td>${escapeHtml(contact.name)}</td>
+              <td>${escapeHtml(contact.email)}</td>
+              <td>
+                <div class="message-preview" id="msg-preview-${index}">${escapeHtml(messagePreview)}</div>
+                <div class="message-full" id="msg-full-${index}">${escapeHtml(contact.message)}</div>
+                ${contact.message.length > 100 ? `<span class="view-message" data-toggle-msg="${index}">View full</span>` : ''}
+              </td>
+              <td>${window.AdminAPI.formatDate(contact.created_at)}</td>
+            </tr>
+          `;
+        }).join('');
+
+        // Bind toggle events
+        document.querySelectorAll('[data-toggle-msg]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const index = btn.dataset.toggleMsg;
+            const preview = document.getElementById(`msg-preview-${index}`);
+            const full = document.getElementById(`msg-full-${index}`);
+            
+            if (full.classList.contains('show')) {
+              full.classList.remove('show');
+              preview.style.display = 'block';
+              btn.textContent = 'View full';
+            } else {
+              full.classList.add('show');
+              preview.style.display = 'none';
+              btn.textContent = 'Hide';
+            }
+          });
+        });
+      }
+
+      function bindEvents() {
+        const searchInput = document.getElementById('contact-search');
+        const exportCsvBtn = document.getElementById('export-csv');
+        const exportJsonBtn = document.getElementById('export-json');
+
+        if (searchInput) {
+          searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (!query) {
+              filteredContacts = [...allContacts];
+            } else {
+              filteredContacts = allContacts.filter(contact => 
+                contact.name.toLowerCase().includes(query) ||
+                contact.email.toLowerCase().includes(query) ||
+                contact.message.toLowerCase().includes(query)
+              );
+            }
+            renderContacts();
+          });
+        }
+
+        if (exportCsvBtn) {
+          exportCsvBtn.addEventListener('click', () => {
+            window.AdminAPI.exportToCSV(filteredContacts, 'contacts');
+          });
+        }
+
+        if (exportJsonBtn) {
+          exportJsonBtn.addEventListener('click', () => {
+            window.AdminAPI.exportToJSON(filteredContacts, 'contacts');
+          });
+        }
+      }
+
+      function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+

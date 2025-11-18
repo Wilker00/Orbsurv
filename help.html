@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help & Support - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/shared-vars.css">
+  <link rel="stylesheet" href="css/privacy.css">
+  <link rel="stylesheet" href="css/index.css">
+  <style>
+    .help-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-5);
+    }
+
+    .help-card {
+      padding: var(--space-5);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      gap: var(--space-3);
+    }
+
+    .help-card-icon {
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+      margin-bottom: var(--space-2);
+      flex-shrink: 0;
+    }
+
+    .help-card-icon i {
+      font-size: 2rem;
+      color: var(--accent-color);
+    }
+
+    .help-card h3 {
+      margin-bottom: var(--space-3);
+      font-size: 1.25rem;
+      line-height: 1.3;
+    }
+
+    .help-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .help-card ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-2);
+      color: var(--mute);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .help-card ul li::before {
+      content: '→';
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    .guide-section {
+      margin-top: var(--space-7);
+    }
+
+    .guide-steps {
+      display: grid;
+      gap: var(--space-4);
+      margin-top: var(--space-5);
+    }
+
+    .guide-step {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: var(--space-4);
+      padding: var(--space-4);
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+    }
+
+    .guide-step-number {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+      color: var(--accent-color);
+      font-weight: 700;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-5);
+    }
+
+    .video-card {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .video-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .video-thumbnail {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: color-mix(in srgb, var(--accent-color) 10%, var(--card-bg));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .video-thumbnail i {
+      font-size: 3rem;
+      color: var(--accent-color);
+    }
+
+    .video-card-content {
+      padding: var(--space-4);
+    }
+
+    .video-card h3 {
+      margin-bottom: var(--space-2);
+      font-size: 1.125rem;
+    }
+
+    .video-card p {
+      color: var(--mute);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .support-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-5);
+    }
+
+    .support-option {
+      padding: var(--space-5);
+      text-align: center;
+    }
+
+    .support-option-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto var(--space-4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+    }
+
+    .support-option-icon i {
+      font-size: 2.5rem;
+      color: var(--accent-color);
+    }
+
+    @media (max-width: 768px) {
+      .guide-step {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .guide-step-number {
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-include="_header.html"></header>
+
+  <main>
+    <section class="hero-gradient hero-padding">
+      <div class="wrap">
+        <div class="section-header-center">
+          <p class="section-eyebrow">Support</p>
+          <h1 class="section-title">Help & Support Center</h1>
+          <p class="section-description">
+            Everything you need to get started, troubleshoot issues, and get the most out of your Orbsurv system.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="help-grid">
+          <div class="card help-card">
+            <div class="help-card-icon">
+              <i class="fa-solid fa-rocket"></i>
+            </div>
+            <h3>Getting Started</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-3);">
+              New to Orbsurv? Start here with installation guides, setup tutorials, and first steps.
+            </p>
+            <ul>
+              <li><a href="#getting-started">Installation Guide</a></li>
+              <li><a href="#getting-started">Initial Setup</a></li>
+              <li><a href="#getting-started">First Configuration</a></li>
+              <li><a href="installation.html">Complete Installation Walkthrough</a></li>
+            </ul>
+          </div>
+
+          <div class="card help-card">
+            <div class="help-card-icon">
+              <i class="fa-solid fa-wrench"></i>
+            </div>
+            <h3>Troubleshooting</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-3);">
+              Common issues and solutions to help you resolve problems quickly.
+            </p>
+            <ul>
+              <li><a href="#troubleshooting">Connection Issues</a></li>
+              <li><a href="#troubleshooting">False Alarms</a></li>
+              <li><a href="#troubleshooting">Rail Movement Problems</a></li>
+              <li><a href="faq.html#troubleshooting">More Troubleshooting</a></li>
+            </ul>
+          </div>
+
+          <div class="card help-card">
+            <div class="help-card-icon">
+              <i class="fa-solid fa-video"></i>
+            </div>
+            <h3>Video Tutorials</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-3);">
+              Watch step-by-step video guides covering installation, configuration, and advanced features.
+            </p>
+            <ul>
+              <li><a href="#videos">Installation Videos</a></li>
+              <li><a href="#videos">Configuration Tutorials</a></li>
+              <li><a href="#videos">App Walkthrough</a></li>
+              <li><a href="#videos">Advanced Features</a></li>
+            </ul>
+          </div>
+
+          <div class="card help-card">
+            <div class="help-card-icon">
+              <i class="fa-solid fa-book"></i>
+            </div>
+            <h3>Knowledge Base</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-3);">
+              Comprehensive guides and articles covering all aspects of Orbsurv.
+            </p>
+            <ul>
+              <li><a href="#knowledge-base">Configuration Guides</a></li>
+              <li><a href="#knowledge-base">Best Practices</a></li>
+              <li><a href="#knowledge-base">Integration Guides</a></li>
+              <li><a href="docs.html">Developer Documentation</a></li>
+            </ul>
+          </div>
+
+          <div class="card help-card">
+            <div class="help-card-icon">
+              <i class="fa-solid fa-headset"></i>
+            </div>
+            <h3>Contact Support</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-3);">
+              Need personalized help? Our support team is ready to assist you.
+            </p>
+            <ul>
+              <li><a href="contact.html">Submit Support Ticket</a></li>
+              <li><a href="contact.html">Email Support</a></li>
+              <li><a href="#support">Live Chat</a></li>
+              <li><a href="contact.html">Emergency Support</a></li>
+            </ul>
+          </div>
+
+          <div class="card help-card">
+            <div class="help-card-icon">
+              <i class="fa-solid fa-question-circle"></i>
+            </div>
+            <h3>FAQ</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-3);">
+              Quick answers to frequently asked questions about Orbsurv.
+            </p>
+            <ul>
+              <li><a href="faq.html">General Questions</a></li>
+              <li><a href="faq.html#installation">Installation FAQ</a></li>
+              <li><a href="faq.html#pricing">Pricing Questions</a></li>
+              <li><a href="faq.html">View All FAQs</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Getting Started Section -->
+    <section class="section-alt guide-section" id="getting-started">
+      <div class="wrap">
+        <div style="text-align: center; margin-bottom: clamp(var(--space-5), 8vw, var(--space-7));">
+          <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Quick Start</p>
+          <h2>Getting Started Guide</h2>
+          <p style="max-width: 60ch; margin: 0 auto; color: var(--mute); font-size: 1.125rem; line-height: 1.7; margin-top: var(--space-3);">
+            Follow these steps to get your Orbsurv system up and running.
+          </p>
+        </div>
+
+        <div class="guide-steps">
+          <div class="guide-step">
+            <div class="guide-step-number">1</div>
+            <div>
+              <h3 style="margin-bottom: var(--space-2); font-size: 1.25rem;">Unbox and Inspect</h3>
+              <p style="color: var(--mute); line-height: 1.7;">
+                Unbox your Orbsurv Patrol Module and rail segments. Verify all components are present: module, rail segments, mounting brackets, power supply, and installation hardware. Check for any damage and contact support if anything is missing.
+              </p>
+            </div>
+          </div>
+
+          <div class="guide-step">
+            <div class="guide-step-number">2</div>
+            <div>
+              <h3 style="margin-bottom: var(--space-2); font-size: 1.25rem;">Plan Your Installation</h3>
+              <p style="color: var(--mute); line-height: 1.7;">
+                Determine the best location for your rail system. Consider coverage area, mounting surface, power availability, and network connectivity. Use the Orbsurv app's planning tool to visualize coverage before installation.
+              </p>
+            </div>
+          </div>
+
+          <div class="guide-step">
+            <div class="guide-step-number">3</div>
+            <div>
+              <h3 style="margin-bottom: var(--space-2); font-size: 1.25rem;">Install Rail System</h3>
+              <p style="color: var(--mute); line-height: 1.7;">
+                Mount the rail segments using the snap-fit brackets. Ensure the rail is level and securely fastened. Connect rail segments together, making sure connections are secure. Route cables through the hidden cable channel.
+              </p>
+            </div>
+          </div>
+
+          <div class="guide-step">
+            <div class="guide-step-number">4</div>
+            <div>
+              <h3 style="margin-bottom: var(--space-2); font-size: 1.25rem;">Mount and Connect Module</h3>
+              <p style="color: var(--mute); line-height: 1.7;">
+                Attach the Patrol Module to the rail. Connect PoE++ power and network cable, or configure Wi-Fi/5G connectivity. Ensure the module moves smoothly along the rail. Power on and wait for initialization.
+              </p>
+            </div>
+          </div>
+
+          <div class="guide-step">
+            <div class="guide-step-number">5</div>
+            <div>
+              <h3 style="margin-bottom: var(--space-2); font-size: 1.25rem;">Download and Setup App</h3>
+              <p style="color: var(--mute); line-height: 1.7;">
+                Download the Orbsurv app from the App Store or Google Play. Create an account or sign in. Follow the in-app setup wizard to connect your module, configure network settings, and complete initial calibration.
+              </p>
+            </div>
+          </div>
+
+          <div class="guide-step">
+            <div class="guide-step-number">6</div>
+            <div>
+              <h3 style="margin-bottom: var(--space-2); font-size: 1.25rem;">Calibrate and Configure</h3>
+              <p style="color: var(--mute); line-height: 1.7;">
+                Run the automatic calibration process. The system will map your space and learn optimal patrol routes. Configure detection zones, privacy settings, and alert preferences. Set up patrol schedules for different times of day.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: var(--space-6);">
+          <a href="installation.html" class="btn btn-primary">View Complete Installation Guide</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Video Tutorials Section -->
+    <section class="section" id="videos">
+      <div class="wrap">
+        <div style="text-align: center; margin-bottom: clamp(var(--space-5), 8vw, var(--space-7));">
+          <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Tutorials</p>
+          <h2>Video Tutorials</h2>
+          <p style="max-width: 60ch; margin: 0 auto; color: var(--mute); font-size: 1.125rem; line-height: 1.7; margin-top: var(--space-3);">
+            Watch step-by-step video guides to master your Orbsurv system.
+          </p>
+        </div>
+
+        <div class="video-grid">
+          <div class="video-card">
+            <div class="video-thumbnail">
+              <i class="fa-solid fa-play-circle"></i>
+            </div>
+            <div class="video-card-content">
+              <h3>Complete Installation Guide</h3>
+              <p>Follow along as we install an Orbsurv system from unboxing to first calibration. Covers rail mounting, module installation, and initial setup.</p>
+              <p style="margin-top: var(--space-2); font-size: 0.875rem; color: var(--mute);">Duration: 15 min</p>
+            </div>
+          </div>
+
+          <div class="video-card">
+            <div class="video-thumbnail">
+              <i class="fa-solid fa-play-circle"></i>
+            </div>
+            <div class="video-card-content">
+              <h3>App Setup and Configuration</h3>
+              <p>Learn how to set up the Orbsurv mobile app, connect your module, configure patrol routes, and customize detection zones.</p>
+              <p style="margin-top: var(--space-2); font-size: 0.875rem; color: var(--mute);">Duration: 10 min</p>
+            </div>
+          </div>
+
+          <div class="video-card">
+            <div class="video-thumbnail">
+              <i class="fa-solid fa-play-circle"></i>
+            </div>
+            <div class="video-card-content">
+              <h3>Advanced Features and Tips</h3>
+              <p>Explore advanced features like custom patrol schedules, privacy zones, AI tuning, and integration with other systems.</p>
+              <p style="margin-top: var(--space-2); font-size: 0.875rem; color: var(--mute);">Duration: 20 min</p>
+            </div>
+          </div>
+
+          <div class="video-card">
+            <div class="video-thumbnail">
+              <i class="fa-solid fa-play-circle"></i>
+            </div>
+            <div class="video-card-content">
+              <h3>Troubleshooting Common Issues</h3>
+              <p>Solutions for common problems including connectivity issues, false alarms, calibration problems, and rail movement issues.</p>
+              <p style="margin-top: var(--space-2); font-size: 0.875rem; color: var(--mute);">Duration: 12 min</p>
+            </div>
+          </div>
+
+          <div class="video-card">
+            <div class="video-thumbnail">
+              <i class="fa-solid fa-play-circle"></i>
+            </div>
+            <div class="video-card-content">
+              <h3>Privacy and Security Settings</h3>
+              <p>Configure privacy zones, understand data processing, set up redaction policies, and manage access controls for your deployment.</p>
+              <p style="margin-top: var(--space-2); font-size: 0.875rem; color: var(--mute);">Duration: 8 min</p>
+            </div>
+          </div>
+
+          <div class="video-card">
+            <div class="video-thumbnail">
+              <i class="fa-solid fa-play-circle"></i>
+            </div>
+            <div class="video-card-content">
+              <h3>Integration with Existing Systems</h3>
+              <p>Learn how to integrate Orbsurv with access control systems, building management platforms, and other security infrastructure.</p>
+              <p style="margin-top: var(--space-2); font-size: 0.875rem; color: var(--mute);">Duration: 18 min</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Troubleshooting Quick Links -->
+    <section class="section-alt" id="troubleshooting">
+      <div class="wrap">
+        <div style="text-align: center; margin-bottom: clamp(var(--space-5), 8vw, var(--space-7));">
+          <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Solutions</p>
+          <h2>Common Issues & Solutions</h2>
+          <p style="max-width: 60ch; margin: 0 auto; color: var(--mute); font-size: 1.125rem; line-height: 1.7; margin-top: var(--space-3);">
+            Quick fixes for the most common problems
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="card" style="padding: var(--space-5);">
+            <h3 style="margin-bottom: var(--space-2); font-size: 1.25rem;">Connection Issues</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-3);">
+              Can't connect to your module?
+            </p>
+            <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-2);">
+              <li style="display: flex; align-items: flex-start; gap: var(--space-2);">
+                <i class="fa-solid fa-check" style="color: var(--accent-color); margin-top: 4px; flex-shrink: 0;"></i>
+                <span style="color: var(--mute); font-size: 0.95rem;">Verify PoE++ power supply is connected and working</span>
+              </li>
+              <li style="display: flex; align-items: flex-start; gap: var(--space-2);">
+                <i class="fa-solid fa-check" style="color: var(--accent-color); margin-top: 4px; flex-shrink: 0;"></i>
+                <span style="color: var(--mute); font-size: 0.95rem;">Check network cable connection and Wi-Fi signal strength</span>
+              </li>
+              <li style="display: flex; align-items: flex-start; gap: var(--space-2);">
+                <i class="fa-solid fa-check" style="color: var(--accent-color); margin-top: 4px; flex-shrink: 0;"></i>
+                <span style="color: var(--mute); font-size: 0.95rem;">Restart the module through the app or power cycle</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card" style="padding: var(--space-5);">
+            <h3 style="margin-bottom: var(--space-2); font-size: 1.25rem;">False Alarms</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-3);">
+              Getting too many false alerts?
+            </p>
+            <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-2);">
+              <li style="display: flex; align-items: flex-start; gap: var(--space-2);">
+                <i class="fa-solid fa-check" style="color: var(--accent-color); margin-top: 4px; flex-shrink: 0;"></i>
+                <span style="color: var(--mute); font-size: 0.95rem;">Adjust detection sensitivity in app settings</span>
+              </li>
+              <li style="display: flex; align-items: flex-start; gap: var(--space-2);">
+                <i class="fa-solid fa-check" style="color: var(--accent-color); margin-top: 4px; flex-shrink: 0;"></i>
+                <span style="color: var(--mute); font-size: 0.95rem;">Create exclusion zones for pets or moving objects</span>
+              </li>
+              <li style="display: flex; align-items: flex-start; gap: var(--space-2);">
+                <i class="fa-solid fa-check" style="color: var(--accent-color); margin-top: 4px; flex-shrink: 0;"></i>
+                <span style="color: var(--mute); font-size: 0.95rem;">Let AI learn your space for 2-3 days to improve accuracy</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card" style="padding: var(--space-5);">
+            <h3 style="margin-bottom: var(--space-2); font-size: 1.25rem;">Rail Movement Issues</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-3);">
+              Camera not moving smoothly?
+            </p>
+            <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-2);">
+              <li style="display: flex; align-items: flex-start; gap: var(--space-2);">
+                <i class="fa-solid fa-check" style="color: var(--accent-color); margin-top: 4px; flex-shrink: 0;"></i>
+                <span style="color: var(--mute); font-size: 0.95rem;">Check rail alignment and ensure it's level</span>
+              </li>
+              <li style="display: flex; align-items: flex-start; gap: var(--space-2);">
+                <i class="fa-solid fa-check" style="color: var(--accent-color); margin-top: 4px; flex-shrink: 0;"></i>
+                <span style="color: var(--mute); font-size: 0.95rem;">Clean rail surface and remove any obstructions</span>
+              </li>
+              <li style="display: flex; align-items: flex-start; gap: var(--space-2);">
+                <i class="fa-solid fa-check" style="color: var(--accent-color); margin-top: 4px; flex-shrink: 0;"></i>
+                <span style="color: var(--mute); font-size: 0.95rem;">Recalibrate the system through the app</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: var(--space-6);">
+          <a href="faq.html#troubleshooting" class="btn btn-secondary">View More Troubleshooting</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Support Options -->
+    <section class="section" id="support">
+      <div class="wrap">
+        <div style="text-align: center; margin-bottom: clamp(var(--space-5), 8vw, var(--space-7));">
+          <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Get Help</p>
+          <h2>Contact Support</h2>
+          <p style="max-width: 60ch; margin: 0 auto; color: var(--mute); font-size: 1.125rem; line-height: 1.7; margin-top: var(--space-3);">
+            Multiple ways to get the help you need
+          </p>
+        </div>
+
+        <div class="support-options">
+          <div class="card support-option">
+            <div class="support-option-icon">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+            <h3 style="margin-bottom: var(--space-2); font-size: 1.25rem;">Email Support</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-3);">
+              Get help via email. Response within 24 hours.
+            </p>
+            <a href="mailto:support@orbsurv.com" class="btn btn-outline">support@orbsurv.com</a>
+          </div>
+
+          <div class="card support-option">
+            <div class="support-option-icon">
+              <i class="fa-solid fa-comments"></i>
+            </div>
+            <h3 style="margin-bottom: var(--space-2); font-size: 1.25rem;">Support Form</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-3);">
+              Submit a detailed support ticket with your issue.
+            </p>
+            <a href="contact.html" class="btn btn-outline">Submit Ticket</a>
+          </div>
+
+          <div class="card support-option">
+            <div class="support-option-icon">
+              <i class="fa-solid fa-phone"></i>
+            </div>
+            <h3 style="margin-bottom: var(--space-2); font-size: 1.25rem;">Emergency Support</h3>
+            <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-3);">
+              Pilot users have access to 24/7 emergency support for critical issues.
+            </p>
+            <a href="contact.html" class="btn btn-outline">Contact Emergency</a>
+          </div>
+        </div>
+
+        <div class="card" style="text-align: center; padding: var(--space-5); margin-top: var(--space-6); background: color-mix(in srgb, var(--accent-color) 5%, var(--card-bg)); border: 1px solid color-mix(in srgb, var(--accent-color) 20%, transparent);">
+          <h3 style="margin-bottom: var(--space-2); font-size: 1.5rem;">Support Hours</h3>
+          <p style="color: var(--mute); line-height: 1.7; margin-bottom: var(--space-2);">
+            Monday–Friday: 8:00 AM – 7:00 PM CT<br>
+            Emergency pilot support: Monitored 24/7
+          </p>
+          <p style="color: var(--mute); font-size: 0.95rem;">
+            For general inquiries, email support@orbsurv.com. Pilot program participants receive priority support with faster response times.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="_footer.html"></footer>
+
+  <script src="js/global.js"></script>
+  <script src="js/forms.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

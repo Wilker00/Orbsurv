@@ -1,0 +1,144 @@
+.logs-summary {
+  display: grid;
+  gap: clamp(16px, 2vw, 24px);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  padding: clamp(24px, 3vw, 32px) 0;
+}
+
+.log-summary-card {
+  display: grid;
+  gap: 8px;
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background: var(--bg);
+}
+
+.log-summary-card__label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mute);
+}
+
+.log-summary-card__value {
+  font-size: clamp(1.6rem, 3.5vw, 2rem);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.log-summary-card__meta {
+  font-size: 0.95rem;
+  color: var(--mute);
+}
+
+.log-summary-card__meta a {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.logs-layout {
+  display: grid;
+  gap: clamp(16px, 2vw, 24px);
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  padding-bottom: clamp(24px, 3vw, 32px);
+}
+
+.log-panel {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background: var(--bg);
+}
+
+.log-panel__header {
+  display: grid;
+  gap: 8px;
+}
+
+.log-panel__header h2 {
+  margin: 0;
+}
+
+.log-panel__header p {
+  margin: 0;
+  color: var(--mute);
+  font-size: 0.95rem;
+}
+
+.log-panel--table .table-scroll {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.log-panel--table .admin-table th,
+.log-panel--table .admin-table td {
+  padding: 12px 16px;
+}
+
+.log-panel--table .admin-table th {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mute);
+}
+
+.log-checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.log-checklist__item {
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  display: grid;
+  gap: 6px;
+  background: var(--bg);
+  color: var(--mute);
+  font-size: 0.95rem;
+}
+
+.log-checklist__item strong {
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.log-checklist__item.is-ready {
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.log-panel__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.log-panel__footer .btn {
+  flex-shrink: 0;
+}
+
+.log-link {
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+@media (max-width: 768px) {
+  .log-panel__footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .log-panel__footer .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

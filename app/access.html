@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" data-require-auth>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Access Control - Orbsurv</title>
+  <link rel="icon" type="image/x-icon" href="../Image/Group 213.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/shared-vars.css">
+  <link rel="stylesheet" href="../css/privacy.css">
+  <link rel="stylesheet" href="../css/index.css">
+  <style>
+    .access-tabs {
+      display: flex;
+      gap: var(--space-2);
+      border-bottom: 2px solid var(--line);
+      margin-bottom: var(--space-5);
+    }
+
+    .access-tab {
+      padding: var(--space-3) var(--space-4);
+      border: none;
+      background: transparent;
+      color: var(--mute);
+      cursor: pointer;
+      font-weight: 500;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s ease;
+    }
+
+    .access-tab.active {
+      color: var(--accent-color);
+      border-bottom-color: var(--accent-color);
+    }
+
+    .access-tab-content {
+      display: none;
+    }
+
+    .access-tab-content.active {
+      display: block;
+    }
+
+    .permission-matrix {
+      overflow-x: auto;
+    }
+
+    .permission-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: var(--space-4);
+    }
+
+    .permission-table th,
+    .permission-table td {
+      padding: var(--space-3);
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .permission-table th {
+      background: var(--card-bg);
+      font-weight: 600;
+      color: var(--ink);
+      position: sticky;
+      top: 0;
+    }
+
+    .permission-checkbox {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      accent-color: var(--accent-color);
+    }
+
+    .user-card {
+      padding: var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+
+    .user-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent-color) 20%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: var(--accent-color);
+      flex-shrink: 0;
+    }
+
+    .user-info {
+      flex: 1;
+    }
+
+    .user-name {
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: var(--space-1);
+    }
+
+    .user-email {
+      color: var(--mute);
+      font-size: 0.9rem;
+    }
+
+    .user-role {
+      padding: var(--space-1) var(--space-2);
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+      color: var(--accent-color);
+    }
+
+    .invite-form {
+      padding: var(--space-4);
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-5);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 200px;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-include="../_header.html"></header>
+
+  <main>
+    <section style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
+      <div class="wrap">
+        <div style="padding: clamp(24px, 3vw, 32px) 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-4);">
+            <div>
+              <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Security</p>
+              <h1>Access Control</h1>
+              <p style="color: var(--mute); font-size: 1.05rem;">Manage who can view and control your cameras</p>
+            </div>
+            <a href="roles.html" class="btn btn-secondary">
+              <i class="fa-solid fa-users-gear"></i> Manage Roles
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="access-tabs">
+          <button class="access-tab active" data-tab="users">Users</button>
+          <button class="access-tab" data-tab="cameras">Camera Permissions</button>
+          <button class="access-tab" data-tab="groups">Feed Groups</button>
+          <button class="access-tab" data-tab="shares">Shared Links</button>
+        </div>
+
+        <!-- Users Tab -->
+        <div class="access-tab-content active" data-content="users">
+          <div class="invite-form">
+            <h3 style="margin-bottom: var(--space-4);">Invite User</h3>
+            <form id="invite-form"
+                  data-endpoint="/app/access/invite"
+                  data-method="POST"
+                  data-auth="true"
+                  data-success-message="Invitation sent successfully."
+                  data-message-target="invite-message">
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="invite-email">Email Address</label>
+                  <input type="email" id="invite-email" name="email" placeholder="user@example.com" required>
+                </div>
+                <div class="form-field">
+                  <label for="invite-role">Role</label>
+                  <select id="invite-role" name="role" required>
+                    <option value="viewer">Viewer</option>
+                    <option value="operator">Operator</option>
+                    <option value="admin">Administrator</option>
+                  </select>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-paper-plane"></i> Send Invitation
+              </button>
+              <p id="invite-message" class="form-message" aria-live="polite"></p>
+            </form>
+          </div>
+
+          <div class="card" style="padding: clamp(16px, 2vw, 20px);">
+            <h3 style="margin-bottom: var(--space-4);">Users with Access</h3>
+            <div class="user-card">
+              <div class="user-avatar">JR</div>
+              <div class="user-info">
+                <div class="user-name">Jordan Rivers</div>
+                <div class="user-email">jordan@example.com</div>
+              </div>
+              <div class="user-role">Administrator</div>
+              <button class="btn btn-outline" style="margin-left: var(--space-3);">
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+            </div>
+            <div class="user-card">
+              <div class="user-avatar">SM</div>
+              <div class="user-info">
+                <div class="user-name">Sarah Martinez</div>
+                <div class="user-email">sarah@example.com</div>
+              </div>
+              <div class="user-role">Operator</div>
+              <button class="btn btn-outline" style="margin-left: var(--space-3);">
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+            </div>
+            <div class="user-card">
+              <div class="user-avatar">JD</div>
+              <div class="user-info">
+                <div class="user-name">John Doe</div>
+                <div class="user-email">john@example.com</div>
+              </div>
+              <div class="user-role">Viewer</div>
+              <button class="btn btn-outline" style="margin-left: var(--space-3);">
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Camera Permissions Tab -->
+        <div class="access-tab-content" data-content="cameras">
+          <div class="card" style="padding: clamp(16px, 2vw, 20px);">
+            <h3 style="margin-bottom: var(--space-4);">Camera Access Permissions</h3>
+            <p style="color: var(--mute); margin-bottom: var(--space-4);">
+              Control which users can view and control each camera.
+            </p>
+            <div class="permission-matrix">
+              <table class="permission-table">
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Front Entrance</th>
+                    <th>Warehouse Aisle</th>
+                    <th>Loading Dock</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div style="font-weight: 600;">Jordan Rivers</div>
+                      <div style="color: var(--mute); font-size: 0.875rem;">Admin</div>
+                    </td>
+                    <td>
+                      <input type="checkbox" class="permission-checkbox" checked disabled>
+                      <span style="color: var(--mute); font-size: 0.875rem; margin-left: var(--space-2);">Full Access</span>
+                    </td>
+                    <td>
+                      <input type="checkbox" class="permission-checkbox" checked disabled>
+                      <span style="color: var(--mute); font-size: 0.875rem; margin-left: var(--space-2);">Full Access</span>
+                    </td>
+                    <td>
+                      <input type="checkbox" class="permission-checkbox" checked disabled>
+                      <span style="color: var(--mute); font-size: 0.875rem; margin-left: var(--space-2);">Full Access</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="font-weight: 600;">Sarah Martinez</div>
+                      <div style="color: var(--mute); font-size: 0.875rem;">Operator</div>
+                    </td>
+                    <td>
+                      <input type="checkbox" class="permission-checkbox" checked>
+                    </td>
+                    <td>
+                      <input type="checkbox" class="permission-checkbox" checked>
+                    </td>
+                    <td>
+                      <input type="checkbox" class="permission-checkbox">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="font-weight: 600;">John Doe</div>
+                      <div style="color: var(--mute); font-size: 0.875rem;">Viewer</div>
+                    </td>
+                    <td>
+                      <input type="checkbox" class="permission-checkbox" checked>
+                    </td>
+                    <td>
+                      <input type="checkbox" class="permission-checkbox">
+                    </td>
+                    <td>
+                      <input type="checkbox" class="permission-checkbox">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="margin-top: var(--space-4);">
+              <button class="btn btn-primary">
+                <i class="fa-solid fa-save"></i> Save Permissions
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feed Groups Tab -->
+        <div class="access-tab-content" data-content="groups">
+          <div class="card" style="padding: clamp(16px, 2vw, 20px);">
+            <h3 style="margin-bottom: var(--space-4);">Feed Group Permissions</h3>
+            <p style="color: var(--mute); margin-bottom: var(--space-4);">
+              Manage access to feed groups. Users with group access can view all cameras in that group.
+            </p>
+            <div style="display: grid; gap: var(--space-4);">
+              <div style="padding: var(--space-4); background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-lg);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3);">
+                  <div>
+                    <h4 style="margin-bottom: var(--space-1);">Main Building</h4>
+                    <p style="color: var(--mute); font-size: 0.9rem;">3 cameras</p>
+                  </div>
+                  <a href="feeds/groups.html" class="btn btn-outline">Manage</a>
+                </div>
+                <div style="display: flex; gap: var(--space-2); flex-wrap: wrap;">
+                  <span class="user-role">Jordan Rivers</span>
+                  <span class="user-role">Sarah Martinez</span>
+                </div>
+              </div>
+              <div style="padding: var(--space-4); background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-lg);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3);">
+                  <div>
+                    <h4 style="margin-bottom: var(--space-1);">Warehouse</h4>
+                    <p style="color: var(--mute); font-size: 0.9rem;">2 cameras</p>
+                  </div>
+                  <a href="feeds/groups.html" class="btn btn-outline">Manage</a>
+                </div>
+                <div style="display: flex; gap: var(--space-2); flex-wrap: wrap;">
+                  <span class="user-role">Jordan Rivers</span>
+                  <span class="user-role">John Doe</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shared Links Tab -->
+        <div class="access-tab-content" data-content="shares">
+          <div class="card" style="padding: clamp(16px, 2vw, 20px);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4);">
+              <h3>Shared Links</h3>
+              <button class="btn btn-primary" id="create-share-link">
+                <i class="fa-solid fa-plus"></i> Create Share Link
+              </button>
+            </div>
+            <p style="color: var(--mute); margin-bottom: var(--space-4);">
+              Share camera feeds with external users using time-limited access links.
+            </p>
+            <div style="display: grid; gap: var(--space-3);">
+              <div style="padding: var(--space-4); background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-lg);">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-2);">
+                  <div>
+                    <div style="font-weight: 600; margin-bottom: var(--space-1);">Front Entrance - View Only</div>
+                    <div style="color: var(--mute); font-size: 0.9rem; font-family: monospace; margin-bottom: var(--space-2);">
+                      https://orbsurv.com/share/abc123xyz
+                    </div>
+                    <div style="color: var(--mute); font-size: 0.875rem;">
+                      Expires: Nov 13, 2024 • 5 views remaining
+                    </div>
+                  </div>
+                  <button class="btn btn-outline" style="color: #f87171;">
+                    <i class="fa-solid fa-trash"></i> Revoke
+                  </button>
+                </div>
+              </div>
+              <div style="padding: var(--space-4); background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-lg);">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-2);">
+                  <div>
+                    <div style="font-weight: 600; margin-bottom: var(--space-1);">Warehouse Aisle - Full Access</div>
+                    <div style="color: var(--mute); font-size: 0.9rem; font-family: monospace; margin-bottom: var(--space-2);">
+                      https://orbsurv.com/share/def456uvw
+                    </div>
+                    <div style="color: var(--mute); font-size: 0.875rem;">
+                      Expires: Nov 20, 2024 • Unlimited views
+                    </div>
+                  </div>
+                  <button class="btn btn-outline" style="color: #f87171;">
+                    <i class="fa-solid fa-trash"></i> Revoke
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-include="../_footer.html"></footer>
+
+  <script src="../js/global.js"></script>
+  <script src="../js/forms.js"></script>
+  <script src="../js/index.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabs = document.querySelectorAll('.access-tab');
+      const contents = document.querySelectorAll('.access-tab-content');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          const targetTab = this.dataset.tab;
+          
+          tabs.forEach(t => t.classList.remove('active'));
+          contents.forEach(c => c.classList.remove('active'));
+          
+          this.classList.add('active');
+          document.querySelector(`[data-content="${targetTab}"]`).classList.add('active');
+        });
+      });
+    });
+  </script>
+  <script src="../js/global.js"></script>
+  <script src="../js/forms.js"></script>
+  <script src="../js/auth-guard.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
