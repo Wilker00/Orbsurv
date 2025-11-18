@@ -170,7 +170,7 @@
   <main>
     <section style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
       <div class="wrap">
-        <div style="padding: clamp(var(--space-5), 8vw, var(--space-7)) 0;">
+        <div style="padding: clamp(24px, 3vw, 32px) 0;">
           <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Setup</p>
           <h1>Add Camera</h1>
           <p style="color: var(--mute); font-size: 1.05rem; margin-bottom: var(--space-4);">Follow these steps to add a new camera to your system</p>
@@ -204,7 +204,7 @@
           <div class="wizard-content">
             <!-- Step 1: Device Discovery -->
             <div class="wizard-step-panel active" data-panel="1">
-              <div class="card" style="padding: var(--space-5);">
+              <div class="card" style="padding: clamp(16px, 2vw, 20px);">
                 <h2 style="margin-bottom: var(--space-3);">Step 1: Discover Device</h2>
                 <p style="color: var(--mute); margin-bottom: var(--space-4); line-height: 1.7;">
                   Scan your network for available Orbsurv cameras or enter device information manually.
@@ -212,7 +212,7 @@
                 <div style="margin-bottom: var(--space-4);">
                   <img src="../../../Image/mid.jpg" alt="Camera setup example" class="camera-gallery-item" style="max-width: 100%; border-radius: var(--radius-lg);" loading="lazy">
                 </div>
-                <div style="display: flex; gap: var(--space-3); margin-bottom: var(--space-5);">
+                <div style="display: flex; gap: clamp(12px, 1.5vw, 16px); margin-bottom: clamp(16px, 2vw, 20px);">
                   <button class="btn btn-primary" id="scan-network">
                     <i class="fa-solid fa-radar"></i> Scan Network
                   </button>
@@ -250,7 +250,7 @@
 
             <!-- Step 2: Configuration -->
             <div class="wizard-step-panel" data-panel="2">
-              <div class="card" style="padding: var(--space-5);">
+              <div class="card" style="padding: clamp(16px, 2vw, 20px);">
                 <h2 style="margin-bottom: var(--space-3);">Step 2: Configure Camera</h2>
                 <p style="color: var(--mute); margin-bottom: var(--space-4); line-height: 1.7;">
                   Set up your camera name, location, and network settings.
@@ -291,7 +291,7 @@
 
             <!-- Step 3: Calibration -->
             <div class="wizard-step-panel" data-panel="3">
-              <div class="card" style="padding: var(--space-5);">
+              <div class="card" style="padding: clamp(16px, 2vw, 20px);">
                 <h2 style="margin-bottom: var(--space-3);">Step 3: Initial Calibration</h2>
                 <p style="color: var(--mute); margin-bottom: var(--space-4); line-height: 1.7;">
                   Calibrate the camera's rail system and detection zones. This will take approximately 15-30 minutes.
@@ -340,12 +340,12 @@
 
             <!-- Step 4: Complete -->
             <div class="wizard-step-panel" data-panel="4">
-              <div class="card" style="padding: var(--space-5); text-align: center;">
+              <div class="card" style="padding: clamp(16px, 2vw, 20px); text-align: center;">
                 <div style="width: 80px; height: 80px; margin: 0 auto var(--space-4); display: flex; align-items: center; justify-content: center; border-radius: 50%; background: color-mix(in srgb, #34d399 20%, transparent);">
                   <i class="fa-solid fa-check" style="font-size: 2.5rem; color: #34d399;"></i>
                 </div>
                 <h2 style="margin-bottom: var(--space-3);">Camera Added Successfully!</h2>
-                <p style="color: var(--mute); margin-bottom: var(--space-5); line-height: 1.7; max-width: 60ch; margin-left: auto; margin-right: auto;">
+                <p style="color: var(--mute); margin-bottom: clamp(16px, 2vw, 20px); line-height: 1.7; max-width: 60ch; margin-left: auto; margin-right: auto;">
                   Your camera has been added and is ready to use. You can now view live feeds, configure settings, and manage access.
                 </p>
                 <div style="display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;">

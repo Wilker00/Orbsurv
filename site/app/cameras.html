@@ -113,10 +113,7 @@
     }
 
     .camera-card-content {
-      padding: var(--space-5);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
+      padding: var(--space-4);
     }
 
     .camera-name {
@@ -124,17 +121,15 @@
       font-size: 1.125rem;
       color: var(--ink);
       margin-bottom: var(--space-2);
-      line-height: 1.3;
     }
 
     .camera-location {
       color: var(--mute);
       font-size: 0.9rem;
-      margin-bottom: var(--space-2);
+      margin-bottom: var(--space-3);
       display: flex;
       align-items: center;
       gap: var(--space-1);
-      line-height: 1.6;
     }
 
     .camera-meta {
@@ -185,13 +180,6 @@
       opacity: 0.5;
     }
 
-    .camera-thumbnail img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
     @media (max-width: 768px) {
       .cameras-grid {
         grid-template-columns: 1fr;
@@ -203,17 +191,19 @@
   <header class="site-header" data-include="../_header.html"></header>
 
   <main>
-    <section class="hero-gradient hero-padding">
+    <section style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
       <div class="wrap">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: var(--space-4);">
-          <div>
-            <p class="hero-eyebrow">Management</p>
-            <h1>Cameras</h1>
-            <p class="hero-description" style="max-width: 60ch;">Manage and monitor all your Orbsurv cameras</p>
+        <div style="padding: clamp(var(--space-5), 8vw, var(--space-7)) 0;">
+          <div class="cameras-header">
+            <div>
+              <p style="font-size: 0.875rem; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2);">Management</p>
+              <h1 style="margin-bottom: var(--space-2);">Cameras</h1>
+              <p style="color: var(--mute); font-size: 1.05rem;">Manage and monitor all your Orbsurv cameras</p>
+            </div>
+            <a href="cameras/add.html" class="btn btn-primary">
+              <i class="fa-solid fa-plus"></i> Add Camera
+            </a>
           </div>
-          <a href="cameras/add.html" class="btn btn-primary">
-            <i class="fa-solid fa-plus"></i> Add Camera
-          </a>
         </div>
       </div>
     </section>
@@ -229,20 +219,10 @@
           <input type="search" placeholder="Search cameras..." style="padding: var(--space-2) var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--bg); color: var(--ink); min-width: 200px;">
         </div>
 
-        <!-- Empty State (shown when no cameras exist) -->
-        <div class="camera-empty-state" id="empty-state" style="display: none;">
-          <img src="../../Image/camera_image.png" alt="Orbsurv camera" loading="lazy">
-          <h3 style="margin-bottom: var(--space-2); color: var(--ink);">No cameras configured</h3>
-          <p style="margin-bottom: var(--space-4); color: var(--mute);">Get started by adding your first camera to begin monitoring your space.</p>
-          <a href="cameras/add.html" class="btn btn-primary">
-            <i class="fa-solid fa-plus"></i> Add Your First Camera
-          </a>
-        </div>
-
         <div class="cameras-grid" id="cameras-grid">
           <div class="card camera-card" data-status="online">
             <div class="camera-thumbnail">
-              <img src="../../Image/camera_image.png" alt="Front Entrance camera" loading="lazy">
+              <i class="fa-solid fa-video"></i>
               <span class="camera-status-overlay online">Online</span>
             </div>
             <div class="camera-card-content">
@@ -269,7 +249,7 @@
 
           <div class="card camera-card" data-status="online">
             <div class="camera-thumbnail">
-              <img src="../../Image/mid.jpg" alt="Warehouse Aisle camera view" loading="lazy">
+              <i class="fa-solid fa-video"></i>
               <span class="camera-status-overlay online">Online</span>
             </div>
             <div class="camera-card-content">
@@ -296,7 +276,7 @@
 
           <div class="card camera-card" data-status="online">
             <div class="camera-thumbnail">
-              <img src="../../Image/right.jpg" alt="Loading Dock camera view" loading="lazy">
+              <i class="fa-solid fa-video"></i>
               <span class="camera-status-overlay online">Online</span>
             </div>
             <div class="camera-card-content">

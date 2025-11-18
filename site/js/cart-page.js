@@ -171,14 +171,14 @@
         // Success - clear cart and show message
         window.OrbsurvCart.clearCart();
         showMessage(
-          `Purchase successful! Check your email (${email}) for registration links to create your account.`,
+          `Purchase successful! We've sent an order confirmation and account registration link to ${email}. Check your inbox (and spam folder) to complete your account setup and access your order details.`,
           'success'
         );
 
         // Redirect after delay
         setTimeout(() => {
           window.location.href = 'index.html';
-        }, 3000);
+        }, 5000);
 
       } catch (error) {
         console.error('Checkout error:', error);
