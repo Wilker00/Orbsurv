@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="../css/app.css">
 </head>
 <body class="admin-body">
-  <header class="site-header" data-include="../_header.html"></header>
+  <header class="site-header" data-include="../header.html"></header>
 
   <main class="admin-main">
     <section class="admin-hero hero-gradient">
@@ -34,7 +34,7 @@
       <article class="card" id="metrics-card">
         <h2>Key metrics</h2>
         <ul id="metrics-list" style="list-style:none;padding-left:0;display:grid;gap:8px;">
-          <li>Loading metrics…</li>
+          <li>Loading metricsï¿½</li>
         </ul>
       </article>
 
@@ -49,7 +49,7 @@
     </section>
   </main>
 
-  <footer class="site-footer" data-include="../_footer.html"></footer>
+  <footer class="site-footer" data-include="../footer.html"></footer>
 
   <script src="../js/global.js"></script>
   <script src="../js/forms.js"></script>
@@ -85,7 +85,7 @@
         } else {
           items.forEach((m) => {
             const li = document.createElement('li');
-            li.innerHTML = `<strong>${m.label}</strong> — ${m.value}`;
+            li.innerHTML = `<strong>${m.label}</strong> ï¿½ ${m.value}`;
             list.appendChild(li);
           });
         }

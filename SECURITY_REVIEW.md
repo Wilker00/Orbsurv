@@ -260,7 +260,7 @@ All authenticated actions are logged:
 
 ### Modified Files
 - All protected pages: Added `data-require-auth` and `auth-guard.js`
-- `site/_footer.html` - Removed private pages, organized public pages
+- `site/footer.html` - Removed private pages, organized public pages
 - `site/js/forms.js` - Enhanced error handling with AuthGuard integration
 - `site/account.html` - Added auth guard
 

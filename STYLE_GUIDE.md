@@ -581,7 +581,7 @@ padding: clamp(var(--space-5), 8vw, var(--space-7)) 0;
 
 #### Header Navigation
 ```html
-<header class="site-header" data-include="_header.html"></header>
+<header class="site-header" data-include="header.html"></header>
 ```
 
 #### Navigation Links
@@ -1075,7 +1075,7 @@ Supports high contrast mode:
   <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-  <header class="site-header" data-include="_header.html"></header>
+  <header class="site-header" data-include="header.html"></header>
 
   <main>
     <section style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.05)); border-bottom: 1px solid var(--line);">
@@ -1108,7 +1108,7 @@ Supports high contrast mode:
     </section>
   </main>
 
-  <footer class="site-footer" data-include="_footer.html"></footer>
+  <footer class="site-footer" data-include="footer.html"></footer>
 
   <script src="js/global.js"></script>
   <script src="js/forms.js"></script>
@@ -1317,7 +1317,7 @@ line-height: 1.7;
 - **CSS Variables**: `site/css/shared-vars.css`
 - **Global Styles**: `site/css/global.css`
 - **Example Pages**: `site/index.html`, `site/product.html`
-- **Shared Components**: `site/_header.html`, `site/_footer.html`
+- **Shared Components**: `site/header.html`, `site/footer.html`
 
 ---
 
